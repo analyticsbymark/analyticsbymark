@@ -5,4 +5,4 @@ theme:
 
 nav:
   - Home: index.md
-  - About: index.md
+  - Hello: hello.md
