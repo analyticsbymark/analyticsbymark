@@ -1,0 +1,21 @@
+name: Deploy to Production
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  deploy:
+    runs-on:
+      - self-hosted
+      - production
+    env:
+      ENVIRONMENT: production
+      DOMAIN: https://analyticsbymark.co.uk
+      STACK_NAME: analyticsbymark
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - run: docker compose -f docker-compose.yml --project-name analyticsbymark build
+      - run: docker compose -f docker-compose.yml --project-name analyticsbymark up -d
