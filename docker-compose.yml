@@ -1,7 +1,7 @@
 version: '3'
 services:
   mkdocs:
-    image: squidfunk/mkdocs-material
+    image: ghcr.io/analyticsbymark/mkdocs-material-insiders
     ports:
       - "8005:8000"
     volumes:
