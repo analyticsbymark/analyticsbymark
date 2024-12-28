@@ -1,10 +1,21 @@
 version: '3'
 services:
-  mkdocs:
+  mkdocs-dev:
     image: ghcr.io/analyticsbymark/mkdocs-material-insiders
     ports:
       - "8005:8000"
     volumes:
-      - ./:/docs
+      - ./:/docs  # Mount dev site folder
+      - ./dev_site/mkdocs.yml:/docs/mkdocs.yml  # Override mkdocs.yml
+    stdin_open: true
+    tty: true
+
+  mkdocs-blog:
+    image: ghcr.io/analyticsbymark/mkdocs-material-insiders
+    ports:
+      - "8006:8000"
+    volumes:
+      - ./blog_site:/docs  # Mount blog site folder
+      - ./blog_site/mkdocs.yml:/docs/mkdocs.yml  # Override mkdocs.yml
     stdin_open: true
     tty: true

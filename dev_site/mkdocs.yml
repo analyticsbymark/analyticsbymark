@@ -1,4 +1,5 @@
 site_name: My Site
+docs_dir: dev_site/docs
 
 theme:
   name: material
@@ -16,6 +17,7 @@ nav:
 
 plugins:
   - typeset
+  - search
 
 markdown_extensions:
   # Built-in Markdown extensions

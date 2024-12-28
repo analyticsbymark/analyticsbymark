@@ -22,6 +22,7 @@ First, import `BackgroundTasks` and define a parameter in your *path operation f
 ```Python hl_lines="1 3 5"
 --8<-- "bar_chart/tutorial_001.py:1:10"
 ```
+
 ////
 
 ///
@@ -48,7 +49,7 @@ And as the write operation doesn't use `async` and `await`, we define the functi
 
 Inside of your *path operation function*, pass your task function to the *background tasks* object with the method `.add_task()`:
 
-{* ../../docs_src/bar_chart/tutorial001.py hl[13,18] *}
+{* ../../../../docs_src/bar_chart/tutorial001.py hl[13,18] *}
 
 `.add_task()` receives as arguments:
 
@@ -63,7 +64,7 @@ Using `BackgroundTasks` also works with the dependency injection system, you can
 **FastAPI** knows what to do in each case and how to reuse the same object, so that all the background tasks are merged together and are run in the background afterwards:
 
 
-{* ../../docs_src/background_tasks/tutorial002_an_py310.py hl[13,15,22] *}
+{* ../../../../docs_src/background_tasks/tutorial002_an_py310.py hl[13,15,22] *}
 
 
 In this example, the messages will be written to the `log.txt` file *after* the response is sent.
