@@ -15,8 +15,11 @@ jobs:
       ENVIRONMENT: production
       DOMAIN: https://analyticsbymark.co.uk
       STACK_NAME: analyticsbymark
+      INSIDERS_LOGIN: ${{ secrets.INSIDERS_LOGIN }}
+      INSIDERS_TOKEN: ${{ secrets.INSIDERS_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - run: docker login -u ${{ secrets.INSIDER_LOGIN }} -p ${{ secrets.INSIDER_TOKEN }} ghcr.io
       - run: docker compose -f docker-compose.yml --project-name analyticsbymark build
       - run: docker compose -f docker-compose.yml --project-name analyticsbymark up -d
