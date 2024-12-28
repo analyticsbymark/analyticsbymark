@@ -19,7 +19,7 @@ jobs:
       INSIDERS_TOKEN: ${{ secrets.INSIDERS_TOKEN }}
     steps:
       - name: Login to GitHub Container Registry
-      - run: echo ${{ secrets.INSIDERS_LOGIN }} | docker login ghcr.io -u ${{ secrets.INSIDERS_TOKEN }} --password-stdin
+        run: echo ${{ secrets.INSIDERS_LOGIN }} | docker login ghcr.io -u ${{ secrets.INSIDERS_TOKEN }} --password-stdin
       - name: Checkout
         uses: actions/checkout@v4
       - run: docker compose -f docker-compose.yml --project-name analyticsbymark build
