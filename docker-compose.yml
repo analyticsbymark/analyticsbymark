@@ -22,7 +22,8 @@ services:
   frontend:
     image: 'plotly:${TAG-latest}'
     ports:
-      - 8050:8050
+      - "8056:8056"
+      - "8050:8050"
     restart: on-failure
     networks:
       - default
