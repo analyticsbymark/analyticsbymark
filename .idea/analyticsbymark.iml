@@ -5,4 +5,7 @@
     <orderEntry type="jdk" jdkName="Python 3.10.12 WSL (Ubuntu): (/home/cooperm/.virtualenvs/analyticsbymark/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
+  </component>
 </module>
