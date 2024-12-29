@@ -1,7 +1,13 @@
 version: '3'
 services:
+  nginx:
+    image: nginx
+    networks:
+      - analytics_network
   mkdocs-dev:
     image: ghcr.io/analyticsbymark/mkdocs-material-insiders
+    networks:
+      - analytics_network
     ports:
       - "8005:8000"
     volumes:
@@ -12,6 +18,8 @@ services:
 
   mkdocs-blog:
     image: ghcr.io/analyticsbymark/mkdocs-material-insiders
+    networks:
+      - analytics_network
     ports:
       - "8006:8000"
     volumes:
@@ -20,12 +28,15 @@ services:
     stdin_open: true
     tty: true
   frontend:
-    image: 'plotly:${TAG-latest}'
+    image: 'plotly:${TAG-latest}'#
+    networks:
+      - analytics_network
     ports:
       - "8056:8056"
       - "8050:8050"
     restart: on-failure
-    networks:
-      - default
     build:
       context: .
+
+networks:
+  analytics_network:
