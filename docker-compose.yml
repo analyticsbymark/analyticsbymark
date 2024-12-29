@@ -6,8 +6,6 @@ services:
       - analytics_network
   mkdocs-dev:
     image: ghcr.io/analyticsbymark/mkdocs-material-insiders
-    networks:
-      - analytics_network
     ports:
       - "8005:8000"
     volumes:
@@ -18,8 +16,6 @@ services:
 
   mkdocs-blog:
     image: ghcr.io/analyticsbymark/mkdocs-material-insiders
-    networks:
-      - analytics_network
     ports:
       - "8006:8000"
     volumes:
