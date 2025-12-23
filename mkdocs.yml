@@ -1,6 +1,23 @@
-# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+# Project information
+site_name: AnalyticsByMark
+site_author: Mark Cooper
+site_description: >-
+  This is my collection of development / blog articles about all things data engineering
+  and analytics in insurance.
 
-site_name: My site
-site_url: https://mydomain.org/mysite
+# Copyright
+copyright: Copyright &copy; 2005 Mark Cooper
+
+# Theme
 theme:
   name: material
+
+# Plugins
+plugins:
+  - projects:
+      projects_dir: projects
+      projects_config_files: "**/mkdocs.yml"
+#      projects_config_transform: !!python/name:projects.transform
+      #log_level: info
+
+

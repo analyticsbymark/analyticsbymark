@@ -1,0 +1,97 @@
+site_name: ABM - Code Base
+site_description: My dev site explaining datasets and analytics that deliver actionable results in insurance.
+
+# Copyright
+copyright: > 
+  Copyright &copy; 2024 - 2025 Mark Cooper <br>
+  <a href="#__consent">Change cookie settings</a>
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  font:
+    text: Roboto
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/
+    - navigation.instant # internal links without reload
+#    - navigation.instant # :todo enable this when ready to add links (https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-previews)
+    - navigation.instant.prefetch # hover over links to get preload
+    - navigation.instant.progress # progress indicator if page loads slowly
+    - navigation.tracking # add tracking to the url for more precise links
+    - navigation.tabs # adds menu to the header above certain screen size
+    - navigation.tabs.sticky # when header tabs shown keeps them at top after scrolling
+#    - navigation.expand # left sidebar will expand all collapsible subsections :todo test this one when more items in sidebar
+    - navigation.path # adds breadcrumb navigation to the top of the page
+    - navigation.top # show back to top button after scrolling on a page
+    - toc.follow # shows the active anchor in the table of contents
+    - search.suggest # display the likeliest completion when searching
+    - search.share # deep link search query + result to share
+    - content.code.annotate
+
+
+markdown_extensions:
+  - admonition # highlighting sections of the page
+  - attr_list # used by various extensions
+  - md_in_html # used by various extensions
+  - pymdownx.highlight: # syntax highlighting
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite # syntax highlighting
+  - pymdownx.snippets # embedding code from source
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed: # create tabs
+      alternate_style: true
+  - pymdownx.superfences # for code highlighting and admonition boxes
+  - admonition # for admonition boxes
+  - pymdownx.details  # for admonition boxes
+#  - material.extensions.preview: todo enable this when ready to add links
+#      configurations:
+#        - targets:
+#            include:
+#              - changelog/index.md
+#              - customization.md
+#              - insiders/changelog/*
+#              - setup/extensions/*
+
+
+nav:
+  - Home: index.md
+  - Learn:
+    - tutorial/index.md
+    - tutorial/creating_policies.md
+    - tutorial/sandbox.md
+
+extra:
+  analytics:
+    provider: google
+    property: G-QGKGYMC3V5
+    consent:
+    title: Cookie consent
+    description: >- 
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
+extra_css:
+  - assets/extra.css
+
+extra_javascript:
+  # client key designed for where the key itself cannot be secret -> safe in repo (https://docs.statsig.com/sdk-keys/api-keys/)
+  - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
+  - "js/sidecar-activate.js"
+
