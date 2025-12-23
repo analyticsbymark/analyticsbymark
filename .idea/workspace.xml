@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="Build of dev / blog static sites" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="HTTP Request" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;analyticsbymark&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="dev_space_db" />
+                    <option name="lastUsedInstant" value="1763844265" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1763844264" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/analyticsbymark/analyticsbymark&quot;,
+    &quot;accountId&quot;: &quot;dd5a645e-9f66-4ec8-8649-61061062f293&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;analyticsbymark&quot;,
+    &quot;repository&quot;: &quot;analyticsbymark&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="321BcejEiAgd7YNUeGzc7qok21s" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;HTTP Request.space_dev_launches | #2.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.space_dev_launches | #3.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.space_dev_launches | Failures.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.space_dev_launches | GET request to example server.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.tutorial_001 (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.tutorial_001.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#2 on Rebasing pr__space__db&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;//wsl.localhost/Ubuntu/home/cooperm/analyticsbymark&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs_src\space_dev\database" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs\assets" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs\assets" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs\js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs_src\space_dev\database" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs\assets" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\docs\javascripts" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs_src\tutorial" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.tutorial_001 (1)">
+    <configuration name="space_dev_launches | Failures" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/projects/dev/docs_src/space_dev/database/space_dev_launches.http" executionIdentifier="Failures" index="4" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="space_dev_launches | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/projects/dev/docs_src/space_dev/database/space_dev_launches.http" executionIdentifier="#2" index="2" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="space_dev_launches | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/projects/dev/docs_src/space_dev/database/space_dev_launches.http" executionIdentifier="#3" index="3" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="tutorial_001 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="analyticsbymark" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/projects/dev/docs_src/space_dev/database" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/projects/dev/docs_src/space_dev/database/tutorial_001.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tutorial_001" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="analyticsbymark" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/projects/dev/docs_src/tutorial/bar_chart" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/projects/dev/docs_src/tutorial/bar_chart/tutorial_001.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.tutorial_001 (1)" />
+        <item itemvalue="HTTP Request.space_dev_launches | Failures" />
+        <item itemvalue="HTTP Request.space_dev_launches | #3" />
+        <item itemvalue="HTTP Request.space_dev_launches | #2" />
+        <item itemvalue="Python.tutorial_001" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-PY-252.28539.27" />
+        <option value="bundled-python-sdk-07523f343e4f-968fe969f28a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.28539.27" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="" />
+      <created>1756578279300</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1756578279300</updated>
+      <workItem from="1756578280438" duration="27877000" />
+      <workItem from="1756925603027" duration="768000" />
+      <workItem from="1756968517987" duration="2860000" />
+      <workItem from="1757062230851" duration="18665000" />
+      <workItem from="1757572979733" duration="13825000" />
+      <workItem from="1759564312441" duration="8767000" />
+      <workItem from="1759726010983" duration="2342000" />
+      <workItem from="1763153289810" duration="5998000" />
+      <workItem from="1763358789043" duration="9723000" />
+      <workItem from="1763841515643" duration="57000" />
+      <workItem from="1763842046333" duration="793000" />
+      <workItem from="1763843176497" duration="563000" />
+      <workItem from="1763843885735" duration="195000" />
+      <workItem from="1763844227711" duration="8466000" />
+      <workItem from="1764451238268" duration="1123000" />
+      <workItem from="1764452655674" duration="377000" />
+      <workItem from="1764453081462" duration="5971000" />
+      <workItem from="1766479544431" duration="574000" />
+      <workItem from="1766480257612" duration="4456000" />
+    </task>
+    <task id="LOCAL-00001" summary="Spacedevs DB commit">
+      <option name="closed" value="true" />
+      <created>1766481048245</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1766481048246</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Spacedevs DB commit">
+      <option name="closed" value="true" />
+      <created>1766481472476</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1766481472476</updated>
+    </task>
+    <task id="LOCAL-00003" summary="added blog template based on tutorial&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;mkdocs.yml">
+      <option name="closed" value="true" />
+      <created>1766482015207</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1766482015207</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added blog template based on tutorial&#10;&#10;# Conflicts:&#10;#&#9;.gitignore&#10;#&#9;mkdocs.yml">
+      <option name="closed" value="true" />
+      <created>1766482017545</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1766482017545</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Spacedevs DB commit">
+      <option name="closed" value="true" />
+      <created>1766482298870</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1766482298870</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766483190383</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1766483190383</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766483759087</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1766483759087</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Spacedevs DB commit" />
+    <MESSAGE value="Build of dev / blog static sites" />
+    <option name="LAST_COMMIT_MESSAGE" value="Build of dev / blog static sites" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/analyticsbymark$tutorial_001__1_.coverage" NAME="tutorial_001 (1) Coverage Results" MODIFIED="1764569886717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/dev/docs_src/space_dev/database" />
+    <SUITE FILE_PATH="coverage/analyticsbymark$tutorial_001.coverage" NAME="tutorial_001 Coverage Results" MODIFIED="1764452414450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/projects/dev/docs_src/space_dev/database" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
