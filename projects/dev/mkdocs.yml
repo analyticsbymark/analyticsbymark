@@ -93,5 +93,5 @@ extra_css:
 extra_javascript:
   # client key designed for where the key itself cannot be secret -> safe in repo (https://docs.statsig.com/sdk-keys/api-keys/)
   - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
-  - "js/sidecar-activate.js"
+  - "js/sidecar-bootstrap.js"
 

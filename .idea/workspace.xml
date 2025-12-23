@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/analyticsbymark.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/analyticsbymark.iml" afterDir="false" />
+    <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="Build of dev / blog static sites">
+      <change afterPath="$PROJECT_DIR$/projects/dev/docs/js/sidecar-bootstrap.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/dev/docs/assets/extra.css" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/assets/extra.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/dev/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/index.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/dev/docs/js/sidecar-activate.js" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/js/sidecar-activate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/dev/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/mkdocs.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +24,7 @@
         <option value="CSS File" />
         <option value="HTTP Request" />
         <option value="Python Script" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -292,7 +297,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766483759087</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766491018528</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1766491018528</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
