@@ -1,0 +1,6 @@
+--- 
+template: blog.html
+--- 
+
+# Blog
+

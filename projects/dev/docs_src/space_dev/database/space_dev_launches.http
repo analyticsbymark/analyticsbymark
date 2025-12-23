@@ -1,0 +1,11 @@
+### GET request to example server
+GET https://ll.thespacedevs.com/2.3.0/launches/?limit=50&window_start__gte=2025-10-04
+
+###
+GET https://ll.thespacedevs.com/2.3.0/agencies/?id=121&mode=detailed
+
+### All launches
+GET https://ll.thespacedevs.com/2.3.0/launches/?lsp__id=121&status__ids=3,4,7&ordering=-net
+
+### Failures
+GET https://ll.thespacedevs.com/2.3.0/launches/?lsp__id=121&status__ids=4,7&ordering=-net
