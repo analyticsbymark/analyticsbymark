@@ -11,18 +11,7 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 # Welcome
 
-<div id="hero" style="padding: 1rem; border: 1px solid #eee;">
-  <h2 id="hero-title">Learn Plotly Dash the Full-Stack Way</h2>
-  <p id="hero-sub">Hands-on tutorials for actuaries and insurance pros.</p>
-  <a
-    id="hero-cta-dev"
-    href="#start"
-    class="md-button md-button--primary ab-ready"
-    data-ab-hide
-  >
-    Start the dev tutorial
-  </a>
-</div>
+[Start the dev tutorial](#start){ #hero-cta-dev .md-button .md-button--primary data-ab-hide }
 
 
 
