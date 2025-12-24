@@ -30,7 +30,7 @@ theme:
 #    - navigation.instant # :todo enable this when ready to add links (https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-previews)
     - navigation.instant.prefetch # hover over links to get preload
     - navigation.instant.progress # progress indicator if page loads slowly
-    - navigation.tracking # add tracking to the url for more precise links
+#    - navigation.tracking # add tracking to the url for more precise links
     - navigation.tabs # adds menu to the header above certain screen size
     - navigation.tabs.sticky # when header tabs shown keeps them at top after scrolling
 #    - navigation.expand # left sidebar will expand all collapsible subsections :todo test this one when more items in sidebar
