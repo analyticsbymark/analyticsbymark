@@ -5,60 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="Build of dev / blog static sites">
-      <change afterPath="$PROJECT_DIR$/projects/blog/docs/js/sidecar-bootstrap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/javascripts/sidecar-activate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/blog/docs/blog/posts/drafts/draft.md" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/docs/blog/posts/drafts/draft.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/blog/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/docs/index.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/blog/docs/js/sidecar-activate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/blog/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/mkdocs.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/dev/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/index.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/dev/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/mkdocs.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.da.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.da.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.de.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.de.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.du.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.du.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.es.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.es.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.fi.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.fi.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.fr.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.fr.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.hu.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.hu.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.it.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.it.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.nl.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.nl.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.no.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.no.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.pt.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.pt.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ro.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ro.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ru.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ru.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.sv.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.sv.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.tr.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.tr.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/tinyseg.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/tinyseg.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/wordcut.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/lunr/wordcut.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/workers/search.26099bd0.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/site/assets/javascripts/workers/search.26099bd0.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/blog/2025/08/28/actuaries-are-data-engineers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/2025/08/28/actuaries-are-data-engineers/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/blog/archive/2025/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/archive/2025/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/blog/category/data-engineering/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/category/data-engineering/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/blog/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/blog/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/tags/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/feed_json_created.json" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/feed_json_created.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/feed_json_updated.json" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/feed_json_updated.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/feed_rss_created.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/feed_rss_created.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/feed_rss_updated.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/feed_rss_updated.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/search/search_index.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/sitemap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/sitemap.xml.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/blog/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/tags/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/dev/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/dev/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/dev/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/search/search_index.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/dev/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/sitemap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/dev/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/sitemap.xml.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/dev/tutorial/creating_policies/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/tutorial/creating_policies/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/dev/tutorial/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/tutorial/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/dev/tutorial/sandbox/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/tutorial/sandbox/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/site/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/site/sitemap.xml.gz" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,22 +62,22 @@
       </RecentBranches>
     </option>
   </component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/analyticsbymark/analyticsbymark&quot;,
-    &quot;accountId&quot;: &quot;dd5a645e-9f66-4ec8-8649-61061062f293&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:analyticsbymark/analyticsbymark.git",
+    "accountId": "dd5a645e-9f66-4ec8-8649-61061062f293"
   },
-  &quot;recentNewPullRequestHead&quot;: {
-    &quot;server&quot;: {
-      &quot;useHttp&quot;: false,
-      &quot;host&quot;: &quot;github.com&quot;,
-      &quot;port&quot;: null,
-      &quot;suffix&quot;: null
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
     },
-    &quot;owner&quot;: &quot;analyticsbymark&quot;,
-    &quot;repository&quot;: &quot;analyticsbymark&quot;
+    "owner": "analyticsbymark",
+    "repository": "analyticsbymark"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -154,7 +101,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "feature__statsig",
+    "git-widget-placeholder": "#6 on feature__statsig",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "//wsl.localhost/Ubuntu/home/cooperm/analyticsbymark/projects/blog/docs",
     "list.type.of.created.stylesheet": "CSS",
@@ -362,7 +309,23 @@
       <option name="project" value="LOCAL" />
       <updated>1766504655543</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766597748643</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1766597748643</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766603123576</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1766603123576</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
