@@ -1,8 +1,9 @@
+site_url: https://www.analyticsbymark.blog
 site_name: ABM - Blog
 site_description: My journey in building datasets and designing analytics that deliver actionable results in insurance.
 
-## Copyright
-#copyright: Copyright &copy; 2024 - 2025 Mark Cooper
+# Copyright
+copyright: Copyright &copy; 2024 - 2025 Mark Cooper
 
 theme:
   name: material
@@ -34,11 +35,11 @@ plugins:
         as_creation: date.created
         as_update: date.updated
 
-#extra:
-#  social:
-#    - icon: fontawesome/brands/linkedin
-#      name: Mark on Linkedin
-#      link: https://www.linkedin.com/in/mark-cooper-b8878686
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      name: Mark on Linkedin
+      link: https://www.linkedin.com/in/mark-cooper-b8878686
 
 hooks:
   - ../../hooks/socialmedia.py
@@ -63,7 +64,7 @@ nav:
 extra_css:
   - assets/extra.css
 
-extra_javascript:
-  # client key designed for where the key itself cannot be secret -> safe in repo (https://docs.statsig.com/sdk-keys/api-keys/)
-  - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
-  - "js/sidecar-activate.js"
+#extra_javascript:
+#  # client key designed for where the key itself cannot be secret -> safe in repo (https://docs.statsig.com/sdk-keys/api-keys/)
+#  - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
+#  - "js/sidecar-bootstrap.js"

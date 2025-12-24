@@ -13,10 +13,10 @@ to the _more_ section.
 Here is the rest of the blog post.
 
 ```py {.annotate}
---8<-- "dev/docs_src/tutorial/modelling/tutorial_002.py"
+--8<-- "dev/docs_src/space_dev/modelling/tutorial_002.py"
 ```
 
---8<-- "dev/docs_src/tutorial/modelling/annotations/tutorial_002.md"
+--8<-- "dev/docs_src/space_dev/modelling/annotations/tutorial_002.md"
 
 
 [//]: # (```py {.annotate})
