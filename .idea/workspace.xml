@@ -5,7 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="Build of dev / blog static sites">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/mkdocs.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/dev/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/2025/08/28/actuaries-are-data-engineers/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/2025/08/28/actuaries-are-data-engineers/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/archive/2025/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/archive/2025/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/category/data-engineering/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/category/data-engineering/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/blog/tags/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/feed_rss_created.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/feed_rss_created.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/feed_rss_updated.xml" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/feed_rss_updated.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/blog/tags/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/assets/extra.css" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/assets/extra.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/tutorial/creating_policies/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/tutorial/creating_policies/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/tutorial/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/tutorial/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/tutorial/sandbox/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/site/dev/tutorial/sandbox/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +121,7 @@
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
     "git-widget-placeholder": "#6 on feature__statsig",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "//wsl.localhost/Ubuntu/home/cooperm/analyticsbymark/projects/blog/docs",
+    "last_opened_file_path": "//wsl.localhost/Ubuntu/home/cooperm/analyticsbymark/projects/blog/overrides/partials",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -122,18 +140,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\overrides\partials" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs_src\space_dev\database" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs\assets" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs\assets" />
-      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs\overrides\partials\javascripts" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs_src\space_dev\database" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs\assets" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs" />
-      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\docs\javascripts" />
-      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs_src\tutorial" />
     </key>
   </component>
   <component name="RunManager" selected="Python.tutorial_001 (1)">
@@ -325,7 +343,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766603123576</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766603182719</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1766603182719</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
