@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="Build of dev / blog static sites" />
+    <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="Build of dev / blog static sites">
+      <change afterPath="$PROJECT_DIR$/projects/blog/overrides/partials/integrations/analytics.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/docs/index.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/docs/js/sidecar-bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/docs/js/sidecar-bootstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/site/feed_rss_created.xml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/site/feed_rss_created.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/site/feed_rss_updated.xml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/site/feed_rss_updated.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/dev/docs/assets/extra.css" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/assets/extra.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/dev/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/index.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/dev/docs/js/sidecar-bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/js/sidecar-bootstrap.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -99,9 +110,9 @@
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "#8 on feature__statsig",
+    "git-widget-placeholder": "feature__statsig",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "//wsl.localhost/Ubuntu/home/cooperm/analyticsbymark/projects/blog/overrides/partials",
+    "last_opened_file_path": "//wsl.localhost/Ubuntu/home/cooperm/analyticsbymark/projects/blog/overrides",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -120,18 +131,18 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\overrides" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\overrides\partials" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs_src\space_dev\database" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs\assets" />
-      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\overrides\partials\integrations" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\overrides\partials" />
+      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\overrides" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog" />
       <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs\overrides\partials\javascripts" />
-      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\dev\docs_src\space_dev\database" />
-      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs\assets" />
-      <recent name="\\wsl.localhost\Ubuntu\home\cooperm\analyticsbymark\projects\blog\docs" />
     </key>
   </component>
   <component name="RunManager" selected="Python.tutorial_001 (1)">
@@ -339,7 +350,31 @@
       <option name="project" value="LOCAL" />
       <updated>1766612861771</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766613200158</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1766613200158</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766613216180</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1766613216180</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766613297872</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1766613297872</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
