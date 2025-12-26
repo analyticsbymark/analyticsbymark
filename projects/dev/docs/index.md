@@ -11,7 +11,7 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 # Welcome
 
-[Start the dev tutorial](#start){ #hero-cta-dev .md-button .md-button--primary data-ab-hide }
+[Start the dev tutorial](#start){ #hero-cta-dev .md-button .md-button--primary }
 
 
 

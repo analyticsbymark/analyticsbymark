@@ -7,11 +7,12 @@ copyright: Copyright &copy; 2024 - 2025 Mark Cooper
 
 theme:
   name: material
+  custom_dir: overrides
   logo: assets/logo.png
   features:
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/
     - navigation.indexes
-    #    - navigation.instant # :todo enable this when ready to add links (https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-previews)
+        - navigation.instant # :todo enable this when ready to add links (https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-previews)
     - navigation.instant.prefetch # hover over links to get preload
     - navigation.tracking # add tracking to the url for more precise links
     - navigation.tabs # adds menu to the header above certain screen size
@@ -78,5 +79,5 @@ extra_css:
 
 extra_javascript:
   # client key designed for where the key itself cannot be secret -> safe in repo (https://docs.statsig.com/sdk-keys/api-keys/)
-  - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
+#  - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
   - "js/sidecar-bootstrap.js"
