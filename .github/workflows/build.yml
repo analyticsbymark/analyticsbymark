@@ -1,11 +1,14 @@
-name: Build MkDocs sites
+name: Build & Publish MkDocs Sites
 
 on:
   workflow_dispatch:
+  push:
+    branches: ["develop", "master"]
   pull_request:
     branches: ["develop"]
-  push:
-    branches: ["develop"]
+
+permissions:
+  contents: write   # required to push to gh-pages-* branches
 
 jobs:
   build:
@@ -13,30 +16,27 @@ jobs:
 
     steps:
       # ---------------------------
-      # Checkout
+      # Checkout source
       # ---------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
       # ---------------------------
-      # Python
+      # Python (MkDocs)
       # ---------------------------
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
 
-      # ---------------------------
-      # Install dependencies
-      # ---------------------------
       - name: Install dependencies
         run: |
+          pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ---------------------------------------
-      # Write experiment configs from secrets
-      # ---------------------------------------
+      # ---------------------------
+      # Write experiment configs
+      # ---------------------------
       - name: Write experiment configs
         env:
           EXPERIMENT_CONFIG_JSON_DEV: ${{ secrets.EXPERIMENT_CONFIG_JSON_DEV }}
@@ -46,61 +46,97 @@ jobs:
           const fs = require("fs");
           const path = require("path");
 
-          function writeConfig(outPath, json) {
-            if (!json || !json.trim()) {
-              console.log(`No config provided for ${outPath}, skipping`);
-              return;
-            }
-
-            JSON.parse(json); // validate JSON
-
+          function write(outPath, raw) {
+            if (!raw || !raw.trim()) return;
+            const obj = JSON.parse(raw);
             fs.mkdirSync(path.dirname(outPath), { recursive: true });
-            fs.writeFileSync(outPath, `window.EXPERIMENT_CONFIG = ${json};\n`);
-            console.log(`Wrote ${outPath}`);
+            fs.writeFileSync(
+              outPath,
+              `window.EXPERIMENT_CONFIG = ${JSON.stringify(obj)};\n`
+            );
+            console.log("Wrote", outPath);
           }
 
-          writeConfig(
+          write(
             "projects/dev/docs/js/experiments.config.js",
             process.env.EXPERIMENT_CONFIG_JSON_DEV
           );
 
-          writeConfig(
+          write(
             "projects/blog/docs/js/experiments.config.js",
             process.env.EXPERIMENT_CONFIG_JSON_BLOG
           );
           NODE
 
       # ---------------------------
-      # Build DEV site
+      # Build both sites
       # ---------------------------
-      - name: Build DEV site
+      - name: Build analyticsbymark.dev
         run: |
           mkdocs build \
             --strict \
             --config-file projects/dev/mkdocs.yml \
-            --site-dir projects/dev/site
+            --site-dir _build/analyticsbymark-dev
 
-      # ---------------------------
-      # Build BLOG site
-      # ---------------------------
-      - name: Build BLOG site
+      - name: Build analyticsbymark.blog
         run: |
           mkdocs build \
             --strict \
             --config-file projects/blog/mkdocs.yml \
-            --site-dir projects/blog/site
+            --site-dir _build/analyticsbymark-blog
 
       # ---------------------------
-      # Upload artifacts (optional)
+      # Decide deploy branch
       # ---------------------------
-      - name: Upload DEV site artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: site-dev
-          path: projects/dev/site
+      - name: Select deploy branch
+        id: deploy
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "develop" ]; then
+            echo "branch=gh-pages-uat" >> $GITHUB_OUTPUT
+          elif [ "${GITHUB_REF_NAME}" = "master" ]; then
+            echo "branch=gh-pages-prod" >> $GITHUB_OUTPUT
+          else
+            echo "branch=" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Upload BLOG site artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: site-blog
-          path: projects/blog/site
+      # ---------------------------
+      # Publish to gh-pages-*
+      # ---------------------------
+      - name: Publish built sites
+        if: steps.deploy.outputs.branch != ''
+        run: |
+          set -e
+
+          DEPLOY_BRANCH="${{ steps.deploy.outputs.branch }}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Prepare clean deploy branch
+          git fetch origin $DEPLOY_BRANCH || true
+
+          if git show-ref --quiet refs/remotes/origin/$DEPLOY_BRANCH; then
+            git checkout $DEPLOY_BRANCH
+            git rm -rf .
+          else
+            git checkout --orphan $DEPLOY_BRANCH
+            git rm -rf .
+          fi
+
+          # Copy ONLY built output
+          cp -r _build/analyticsbymark-dev .
+          cp -r _build/analyticsbymark-blog .
+
+          # Prevent GitHub Pages Jekyll processing (harmless elsewhere)
+          touch .nojekyll
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes to deploy"
+            exit 0
+          fi
+
+          git commit -m "Deploy ${GITHUB_REF_NAME} → ${DEPLOY_BRANCH} (${GITHUB_SHA})"
+          git push origin $DEPLOY_BRANCH
+
