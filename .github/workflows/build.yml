@@ -15,20 +15,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python (for MkDocs)
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
 
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Write experiment configs from secrets
+      - name: Write experiment configs
         env:
           EXPERIMENT_CONFIG_JSON_DEV: ${{ secrets.EXPERIMENT_CONFIG_JSON_DEV }}
           EXPERIMENT_CONFIG_JSON_BLOG: ${{ secrets.EXPERIMENT_CONFIG_JSON_BLOG }}
@@ -39,7 +40,7 @@ jobs:
 
           function write(outPath, raw) {
             if (!raw || !raw.trim()) return;
-            const obj = JSON.parse(raw); // validate
+            const obj = JSON.parse(raw);
             fs.mkdirSync(path.dirname(outPath), { recursive: true });
             fs.writeFileSync(outPath, `window.EXPERIMENT_CONFIG = ${JSON.stringify(obj)};\n`);
             console.log("Wrote", outPath);
@@ -66,18 +67,16 @@ jobs:
       - name: Select deploy branch
         id: deploy
         run: |
-          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
-            echo "branch=" >> "$GITHUB_OUTPUT"
-          elif [ "${GITHUB_REF_NAME}" = "develop" ]; then
-            echo "branch=gh-pages-uat" >> "$GITHUB_OUTPUT"
+          if [ "${GITHUB_REF_NAME}" = "develop" ]; then
+            echo "branch=gh-pages-uat" >> $GITHUB_OUTPUT
           elif [ "${GITHUB_REF_NAME}" = "master" ]; then
-            echo "branch=gh-pages-prod" >> "$GITHUB_OUTPUT"
+            echo "branch=gh-pages-prod" >> $GITHUB_OUTPUT
           else
-            echo "branch=" >> "$GITHUB_OUTPUT"
+            echo "branch=" >> $GITHUB_OUTPUT
           fi
 
       - name: Publish built sites
-        if: steps.deploy.outputs.branch != ''
+        if: steps.deploy.outputs.branch != '' && github.event_name != 'pull_request'
         env:
           DEPLOY_BRANCH: ${{ steps.deploy.outputs.branch }}
         run: |
@@ -85,22 +84,9 @@ jobs:
           cd "$GITHUB_WORKSPACE"
 
           echo "Deploying to: $DEPLOY_BRANCH"
-          echo "PWD: $(pwd)"
-          echo "Listing _build:"
-          ls -la "_build" || true
-          echo "Listing dev:"
-          ls -la "_build/analyticsbymark-dev" || true
-          echo "Listing blog:"
-          ls -la "_build/analyticsbymark-blog" || true
-
-          if [ ! -d "_build/analyticsbymark-dev" ]; then
-            echo "ERROR: Missing _build/analyticsbymark-dev"
-            exit 1
-          fi
-          if [ ! -d "_build/analyticsbymark-blog" ]; then
-            echo "ERROR: Missing _build/analyticsbymark-blog"
-            exit 1
-          fi
+          ls -la _build
+          test -d "_build/analyticsbymark-dev"
+          test -d "_build/analyticsbymark-blog"
 
           rm -rf _ghpages
           mkdir -p _ghpages
@@ -109,14 +95,11 @@ jobs:
           git init
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
-          if git fetch origin "${DEPLOY_BRANCH}" --depth=1; then
-            git checkout -b "${DEPLOY_BRANCH}" "origin/${DEPLOY_BRANCH}"
-          else
-            git checkout --orphan "${DEPLOY_BRANCH}"
-          fi
-
+          # Create/update branch from scratch
+          git checkout --orphan "$DEPLOY_BRANCH"
           rm -rf ./*
 
           cp -r ../_build/analyticsbymark-dev .
@@ -124,11 +107,5 @@ jobs:
           touch .nojekyll
 
           git add -A
-          if git diff --cached --quiet; then
-            echo "No changes to deploy"
-            exit 0
-          fi
-
-          git commit -m "Deploy ${GITHUB_REF_NAME} → ${DEPLOY_BRANCH} (${GITHUB_SHA})"
-          git push origin "${DEPLOY_BRANCH}"
-      
+          git commit -m "Deploy ${GITHUB_REF_NAME} → ${DEPLOY_BRANCH} (${GITHUB_SHA})" || true
+          git push -f origin "$DEPLOY_BRANCH"
