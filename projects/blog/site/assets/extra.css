@@ -1,8 +1,0 @@
-:root  > * {
-  --md-primary-fg-color:        #384D48;
-}
-
-/* Prevent experiment flicker */
-[data-statsig-hidden] {
-  visibility: hidden;
-}
