@@ -82,38 +82,45 @@ jobs:
           DEPLOY_BRANCH: ${{ steps.deploy.outputs.branch }}
         run: |
           set -euo pipefail
+          cd "$GITHUB_WORKSPACE"
 
           echo "Deploying to: $DEPLOY_BRANCH"
-          test -d "_build/analyticsbymark-dev"
-          test -d "_build/analyticsbymark-blog"
+          echo "PWD: $(pwd)"
+          echo "Listing _build:"
+          ls -la "_build" || true
+          echo "Listing dev:"
+          ls -la "_build/analyticsbymark-dev" || true
+          echo "Listing blog:"
+          ls -la "_build/analyticsbymark-blog" || true
 
-          # Create a clean publish workspace INSIDE the repo workspace
+          if [ ! -d "_build/analyticsbymark-dev" ]; then
+            echo "ERROR: Missing _build/analyticsbymark-dev"
+            exit 1
+          fi
+          if [ ! -d "_build/analyticsbymark-blog" ]; then
+            echo "ERROR: Missing _build/analyticsbymark-blog"
+            exit 1
+          fi
+
           rm -rf _ghpages
           mkdir -p _ghpages
           cd _ghpages
 
-          # Init a fresh git repo for publishing
           git init
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Authenticated remote using GITHUB_TOKEN
           git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
-          # If branch exists, check it out; otherwise create an orphan branch
           if git fetch origin "${DEPLOY_BRANCH}" --depth=1; then
             git checkout -b "${DEPLOY_BRANCH}" "origin/${DEPLOY_BRANCH}"
           else
             git checkout --orphan "${DEPLOY_BRANCH}"
           fi
 
-          # Clear branch contents
           rm -rf ./*
 
-          # Copy build output (keep just these two folders at branch root)
           cp -r ../_build/analyticsbymark-dev .
           cp -r ../_build/analyticsbymark-blog .
-
           touch .nojekyll
 
           git add -A
@@ -124,3 +131,4 @@ jobs:
 
           git commit -m "Deploy ${GITHUB_REF_NAME} → ${DEPLOY_BRANCH} (${GITHUB_SHA})"
           git push origin "${DEPLOY_BRANCH}"
+      
