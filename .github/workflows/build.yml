@@ -52,17 +52,20 @@ jobs:
 
       - name: Build analyticsbymark.dev
         run: |
+          mkdir -p "$GITHUB_WORKSPACE/_build"
           mkdocs build \
             --strict \
-            --config-file projects/dev/mkdocs.yml \
-            --site-dir _build/analyticsbymark-dev
+            --config-file "$GITHUB_WORKSPACE/projects/dev/mkdocs.yml" \
+            --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-dev"
 
       - name: Build analyticsbymark.blog
         run: |
+          mkdir -p "$GITHUB_WORKSPACE/_build"
           mkdocs build \
             --strict \
-            --config-file projects/blog/mkdocs.yml \
-            --site-dir _build/analyticsbymark-blog
+            --config-file "$GITHUB_WORKSPACE/projects/blog/mkdocs.yml" \
+            --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-blog"
+      
 
       - name: Select deploy branch
         id: deploy
@@ -81,7 +84,13 @@ jobs:
           DEPLOY_BRANCH: ${{ steps.deploy.outputs.branch }}
         run: |
           set -euo pipefail
+          
+          pwd
+          ls -la "$GITHUB_WORKSPACE"
+          ls -la "$GITHUB_WORKSPACE/_build" || true
+          
           cd "$GITHUB_WORKSPACE"
+
 
           echo "Deploying to: $DEPLOY_BRANCH"
           ls -la _build
