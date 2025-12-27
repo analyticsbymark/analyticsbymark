@@ -76,14 +76,15 @@ jobs:
           mkdocs build \
             --strict \
             --config-file projects/dev/mkdocs.yml \
-            --site-dir _build/analyticsbymark-dev
+            --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-dev"
 
       - name: Build analyticsbymark.blog
         run: |
           mkdocs build \
             --strict \
             --config-file projects/blog/mkdocs.yml \
-            --site-dir _build/analyticsbymark-blog
+            --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-blog"
+
 
       # ---------------------------
       # Decide deploy branch
@@ -98,6 +99,21 @@ jobs:
           else
             echo "branch=" >> $GITHUB_OUTPUT
           fi
+
+      # ---------------------------
+      # Verify build outputs (useful for debugging)
+      # ---------------------------
+
+      - name: Verify build output
+        run: |
+          echo "Workspace: $GITHUB_WORKSPACE"
+          echo "Listing _build:"
+          ls -la "$GITHUB_WORKSPACE/_build" || true
+          echo "Listing dev output:"
+          ls -la "$GITHUB_WORKSPACE/_build/analyticsbymark-dev" || true
+          echo "Listing blog output:"
+          ls -la "$GITHUB_WORKSPACE/_build/analyticsbymark-blog" || true
+
 
       # ---------------------------
       # Publish to gh-pages-*
@@ -115,8 +131,8 @@ jobs:
           # Move build output somewhere safe BEFORE checkout
           rm -rf /tmp/deploy
           mkdir -p /tmp/deploy
-          cp -r _build/analyticsbymark-dev /tmp/deploy/
-          cp -r _build/analyticsbymark-blog /tmp/deploy/
+          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-dev" /tmp/deploy/
+          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-blog" /tmp/deploy/
 
           # Fetch deploy branch
           git fetch origin $DEPLOY_BRANCH || true
