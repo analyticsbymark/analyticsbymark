@@ -5,31 +5,51 @@ on:
   pull_request:
     branches: ["develop"]
   push:
-    branches: ["develop", "master"]
+    branches: ["develop"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      # ---------------------------
+      # Checkout
+      # ---------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # MkDocs is a Python tool, so we need Python + pip install
+      # ---------------------------
+      # Python
+      # ---------------------------
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
-      - name: Install MkDocs + plugins
+      # ---------------------------
+      # Install uv
+      # ---------------------------
+      - name: Install uv
         run: |
           python -m pip install --upgrade pip
-          # Minimum needed for Material
-          pip install mkdocs mkdocs-material
+          pip install uv
 
-          # If you use extra plugins, add them here, e.g.:
-          # pip install mkdocs-blogging-plugin mkdocs-rss-plugin
+      # ---------------------------
+      # Build requirements.txt
+      # ---------------------------
+      - name: Generate requirements.txt
+        run: |
+          uv pip compile pyproject.toml -o requirements.txt
+          echo "Generated requirements.txt:"
+          cat requirements.txt
+
+      # ---------------------------
+      # Install dependencies
+      # ---------------------------
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
 
       # ---------------------------------------
       # Write experiment configs from secrets
@@ -49,22 +69,27 @@ jobs:
               return;
             }
 
-            // Validate JSON
-            JSON.parse(json);
+            JSON.parse(json); // validate JSON
 
             fs.mkdirSync(path.dirname(outPath), { recursive: true });
             fs.writeFileSync(outPath, `window.EXPERIMENT_CONFIG = ${json};\n`);
-
             console.log(`Wrote ${outPath}`);
           }
 
-          writeConfig("dev/docs/js/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_DEV);
-          writeConfig("projects/blog/docs/js/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_BLOG);
+          writeConfig(
+            "projects/dev/docs/js/experiments.config.js",
+            process.env.EXPERIMENT_CONFIG_JSON_DEV
+          );
+
+          writeConfig(
+            "projects/blog/docs/js/experiments.config.js",
+            process.env.EXPERIMENT_CONFIG_JSON_BLOG
+          );
           NODE
 
-      # ---------------------------------------
+      # ---------------------------
       # Build DEV site
-      # ---------------------------------------
+      # ---------------------------
       - name: Build DEV site
         run: |
           mkdocs build \
@@ -72,9 +97,9 @@ jobs:
             --config-file projects/dev/mkdocs.yml \
             --site-dir projects/dev/site
 
-      # ---------------------------------------
+      # ---------------------------
       # Build BLOG site
-      # ---------------------------------------
+      # ---------------------------
       - name: Build BLOG site
         run: |
           mkdocs build \
@@ -82,7 +107,9 @@ jobs:
             --config-file projects/blog/mkdocs.yml \
             --site-dir projects/blog/site
 
-      # Optional: upload artifacts so you can inspect the output from Actions
+      # ---------------------------
+      # Upload artifacts (optional)
+      # ---------------------------
       - name: Upload DEV site artifact
         uses: actions/upload-artifact@v4
         with:
