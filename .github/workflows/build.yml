@@ -69,8 +69,8 @@ jobs:
         run: |
           mkdocs build \
             --strict \
-            --config-file dev/mkdocs.yml \
-            --site-dir dev/site
+            --config-file projects/dev/mkdocs.yml \
+            --site-dir projects/dev/site
 
       # ---------------------------------------
       # Build BLOG site
@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: site-dev
-          path: dev/site
+          path: projects/dev/site
 
       - name: Upload BLOG site artifact
         uses: actions/upload-artifact@v4
