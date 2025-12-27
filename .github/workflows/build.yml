@@ -8,36 +8,27 @@ on:
     branches: ["develop"]
 
 permissions:
-  contents: write   # required to push to gh-pages-* branches
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # ---------------------------
-      # Checkout source
-      # ---------------------------
-      - name: Checkout repository
+      - name: Checkout source
         uses: actions/checkout@v4
 
-      # ---------------------------
-      # Python (MkDocs)
-      # ---------------------------
-      - name: Set up Python
+      - name: Set up Python (for MkDocs)
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ---------------------------
-      # Write experiment configs
-      # ---------------------------
-      - name: Write experiment configs
+      - name: Write experiment configs from secrets
         env:
           EXPERIMENT_CONFIG_JSON_DEV: ${{ secrets.EXPERIMENT_CONFIG_JSON_DEV }}
           EXPERIMENT_CONFIG_JSON_BLOG: ${{ secrets.EXPERIMENT_CONFIG_JSON_BLOG }}
@@ -48,107 +39,82 @@ jobs:
 
           function write(outPath, raw) {
             if (!raw || !raw.trim()) return;
-            const obj = JSON.parse(raw);
+            const obj = JSON.parse(raw); // validate
             fs.mkdirSync(path.dirname(outPath), { recursive: true });
-            fs.writeFileSync(
-              outPath,
-              `window.EXPERIMENT_CONFIG = ${JSON.stringify(obj)};\n`
-            );
+            fs.writeFileSync(outPath, `window.EXPERIMENT_CONFIG = ${JSON.stringify(obj)};\n`);
             console.log("Wrote", outPath);
           }
 
-          write(
-            "projects/dev/docs/js/experiments.config.js",
-            process.env.EXPERIMENT_CONFIG_JSON_DEV
-          );
-
-          write(
-            "projects/blog/docs/js/experiments.config.js",
-            process.env.EXPERIMENT_CONFIG_JSON_BLOG
-          );
+          write("projects/dev/docs/js/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_DEV);
+          write("projects/blog/docs/js/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_BLOG);
           NODE
 
-      # ---------------------------
-      # Build both sites
-      # ---------------------------
       - name: Build analyticsbymark.dev
         run: |
           mkdocs build \
             --strict \
             --config-file projects/dev/mkdocs.yml \
-            --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-dev"
+            --site-dir _build/analyticsbymark-dev
 
       - name: Build analyticsbymark.blog
         run: |
           mkdocs build \
             --strict \
             --config-file projects/blog/mkdocs.yml \
-            --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-blog"
+            --site-dir _build/analyticsbymark-blog
 
-
-      # ---------------------------
-      # Decide deploy branch
-      # ---------------------------
       - name: Select deploy branch
         id: deploy
         run: |
-          if [ "${GITHUB_REF_NAME}" = "develop" ]; then
-            echo "branch=gh-pages-uat" >> $GITHUB_OUTPUT
+          if [ "${GITHUB_EVENT_NAME}" = "pull_request" ]; then
+            echo "branch=" >> "$GITHUB_OUTPUT"
+          elif [ "${GITHUB_REF_NAME}" = "develop" ]; then
+            echo "branch=gh-pages-uat" >> "$GITHUB_OUTPUT"
           elif [ "${GITHUB_REF_NAME}" = "master" ]; then
-            echo "branch=gh-pages-prod" >> $GITHUB_OUTPUT
+            echo "branch=gh-pages-prod" >> "$GITHUB_OUTPUT"
           else
-            echo "branch=" >> $GITHUB_OUTPUT
+            echo "branch=" >> "$GITHUB_OUTPUT"
           fi
-
-      # ---------------------------
-      # Verify build outputs (useful for debugging)
-      # ---------------------------
-
-      - name: Verify build output
-        run: |
-          echo "Workspace: $GITHUB_WORKSPACE"
-          echo "Listing _build:"
-          ls -la "$GITHUB_WORKSPACE/_build" || true
-          echo "Listing dev output:"
-          ls -la "$GITHUB_WORKSPACE/_build/analyticsbymark-dev" || true
-          echo "Listing blog output:"
-          ls -la "$GITHUB_WORKSPACE/_build/analyticsbymark-blog" || true
-
-
-      # ---------------------------
-      # Publish to gh-pages-*
-      # ---------------------------
-
-      - name: Checkout deploy branch
-        if: steps.deploy.outputs.branch != ''
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ steps.deploy.outputs.branch }}
-          path: /tmp/ghpages
-          fetch-depth: 0
-
 
       - name: Publish built sites
         if: steps.deploy.outputs.branch != ''
+        env:
+          DEPLOY_BRANCH: ${{ steps.deploy.outputs.branch }}
         run: |
           set -euo pipefail
 
-          DEPLOY_DIR="/tmp/ghpages"
+          echo "Deploying to: $DEPLOY_BRANCH"
+          test -d "_build/analyticsbymark-dev"
+          test -d "_build/analyticsbymark-blog"
 
-          # Wipe deploy branch contents (keep .git)
-          rm -rf "${DEPLOY_DIR:?}/"*
-          rm -rf "${DEPLOY_DIR:?}/".[^.]*
-          rm -rf "${DEPLOY_DIR:?}/"..?* || true
+          # Create a clean publish workspace INSIDE the repo workspace
+          rm -rf _ghpages
+          mkdir -p _ghpages
+          cd _ghpages
 
-          # Copy built output
-          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-dev" "${DEPLOY_DIR}/"
-          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-blog" "${DEPLOY_DIR}/"
-          touch "${DEPLOY_DIR}/.nojekyll"
-
-          # Commit + push
-          cd "$DEPLOY_DIR"
+          # Init a fresh git repo for publishing
+          git init
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Authenticated remote using GITHUB_TOKEN
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          # If branch exists, check it out; otherwise create an orphan branch
+          if git fetch origin "${DEPLOY_BRANCH}" --depth=1; then
+            git checkout -b "${DEPLOY_BRANCH}" "origin/${DEPLOY_BRANCH}"
+          else
+            git checkout --orphan "${DEPLOY_BRANCH}"
+          fi
+
+          # Clear branch contents
+          rm -rf ./*
+
+          # Copy build output (keep just these two folders at branch root)
+          cp -r ../_build/analyticsbymark-dev .
+          cp -r ../_build/analyticsbymark-blog .
+
+          touch .nojekyll
 
           git add -A
           if git diff --cached --quiet; then
@@ -156,10 +122,5 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Deploy ${GITHUB_REF_NAME} → ${{ steps.deploy.outputs.branch }} (${GITHUB_SHA})"
-          git push origin HEAD:${{ steps.deploy.outputs.branch }}
-      
-
-      
-      
-
+          git commit -m "Deploy ${GITHUB_REF_NAME} → ${DEPLOY_BRANCH} (${GITHUB_SHA})"
+          git push origin "${DEPLOY_BRANCH}"
