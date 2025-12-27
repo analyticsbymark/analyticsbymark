@@ -118,51 +118,47 @@ jobs:
       # ---------------------------
       # Publish to gh-pages-*
       # ---------------------------
+
+      - name: Checkout deploy branch
+        if: steps.deploy.outputs.branch != ''
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.deploy.outputs.branch }}
+          path: /tmp/ghpages
+          fetch-depth: 0
+
+
       - name: Publish built sites
         if: steps.deploy.outputs.branch != ''
         run: |
           set -euo pipefail
 
-          DEPLOY_BRANCH="${{ steps.deploy.outputs.branch }}"
+          DEPLOY_DIR="/tmp/ghpages"
 
+          # Wipe deploy branch contents (keep .git)
+          rm -rf "${DEPLOY_DIR:?}/"*
+          rm -rf "${DEPLOY_DIR:?}/".[^.]*
+          rm -rf "${DEPLOY_DIR:?}/"..?* || true
+
+          # Copy built output
+          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-dev" "${DEPLOY_DIR}/"
+          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-blog" "${DEPLOY_DIR}/"
+          touch "${DEPLOY_DIR}/.nojekyll"
+
+          # Commit + push
+          cd "$DEPLOY_DIR"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Ensure we have the branch ref locally (or create it)
-          git fetch origin "${DEPLOY_BRANCH}" || true
-
-          # Create a separate working tree for the deploy branch
-          rm -rf /tmp/ghpages
-          mkdir -p /tmp/ghpages
-
-          if git show-ref --quiet "refs/remotes/origin/${DEPLOY_BRANCH}"; then
-            # Branch exists
-            git worktree add /tmp/ghpages "origin/${DEPLOY_BRANCH}"
-          else
-            # Branch does not exist yet -> create orphan branch in worktree
-            git worktree add --detach /tmp/ghpages
-            (cd /tmp/ghpages && git checkout --orphan "${DEPLOY_BRANCH}")
-          fi
-
-          # Clean deploy branch contents
-          rm -rf /tmp/ghpages/* /tmp/ghpages/.[!.]* /tmp/ghpages/..?* || true
-
-          # Copy ONLY built output into deploy worktree
-          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-dev" /tmp/ghpages/
-          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-blog" /tmp/ghpages/
-          touch /tmp/ghpages/.nojekyll
-
-          # Commit & push from deploy worktree
-          cd /tmp/ghpages
           git add -A
-
           if git diff --cached --quiet; then
             echo "No changes to deploy"
             exit 0
           fi
 
-          git commit -m "Deploy ${GITHUB_REF_NAME} → ${DEPLOY_BRANCH} (${GITHUB_SHA})"
-          git push origin HEAD:"${DEPLOY_BRANCH}"
+          git commit -m "Deploy ${GITHUB_REF_NAME} → ${{ steps.deploy.outputs.branch }} (${GITHUB_SHA})"
+          git push origin HEAD:${{ steps.deploy.outputs.branch }}
+      
 
       
       
