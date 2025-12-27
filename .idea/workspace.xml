@@ -4,7 +4,84 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="Added github actions" />
+    <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="Added github actions">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mkdocs.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/images/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/bundle.bb65021c.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ar.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.da.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.de.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.du.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.el.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.es.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.fi.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.fr.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.he.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.hi.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.hu.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.hy.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.it.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ja.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.jp.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.kn.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ko.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.multi.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.nl.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.no.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.pt.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ro.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ru.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.sa.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.stemmer.support.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.sv.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.ta.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.te.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.th.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.tr.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.vi.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/min/lunr.zh.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/tinyseg.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/lunr/wordcut.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/javascripts/workers/search.26099bd0.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/stylesheets/main.1caf78d2.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/assets/stylesheets/palette.ab4e12ef.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/assets/extra.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/2025/08/28/actuaries-are-data-engineers/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/archive/2025/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/category/data-engineering/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/blog/tags/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/feed_json_created.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/feed_json_updated.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/feed_rss_created.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/feed_rss_updated.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/js/sidecar-bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/search/search_index.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/sitemap.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/sitemap.xml.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/tags.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/blog/tags/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/assets/extra.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/js/sidecar-bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/search/search_index.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/sitemap.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/sitemap.xml.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/tutorial/creating_policies/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/tutorial/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/dev/tutorial/sandbox/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/sitemap.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/sitemap.xml.gz" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,20 +106,20 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "history": [
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
     {
-      "state": "OPEN",
-      "assignee": "analyticsbymark",
-      "reviewState": "NO_REVIEW"
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;assignee&quot;: &quot;analyticsbymark&quot;,
+      &quot;reviewState&quot;: &quot;NO_REVIEW&quot;
     }
   ],
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "analyticsbymark",
-    "reviewState": "NO_REVIEW"
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;analyticsbymark&quot;,
+    &quot;reviewState&quot;: &quot;NO_REVIEW&quot;
   }
-}]]></component>
+}</component>
   <component name="GitToolBoxStore">
     <option name="recentBranches">
       <RecentBranches>
@@ -94,6 +171,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "DefaultHtmlFileTemplate": "HTML File",
     "HTTP Request.space_dev_launches | #2.executor": "Run",
     "HTTP Request.space_dev_launches | #3.executor": "Run",
@@ -107,7 +185,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "#29 on feature__statsig",
+    "git-widget-placeholder": "project__cleanup",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "//wsl.localhost/Ubuntu/home/cooperm/analyticsbymark/projects/blog/overrides",
     "list.type.of.created.stylesheet": "CSS",
