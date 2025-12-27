@@ -104,33 +104,46 @@ jobs:
       # ---------------------------
       - name: Publish built sites
         if: steps.deploy.outputs.branch != ''
-        env:
-          DEPLOY_BRANCH: ${{ steps.deploy.outputs.branch }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_REF_NAME: ${{ github.ref_name }}
-          GITHUB_SHA: ${{ github.sha }}
         run: |
           set -e
 
-          rm -rf _publish
-          mkdir -p _publish
+          DEPLOY_BRANCH="${{ steps.deploy.outputs.branch }}"
 
-          cp -r _build/analyticsbymark-dev _publish/analyticsbymark-dev
-          cp -r _build/analyticsbymark-blog _publish/analyticsbymark-blog
-          touch _publish/.nojekyll
-
-          cd _publish
-
-          git init
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add -A
-          git commit -m "Deploy ${GITHUB_REF_NAME} → ${DEPLOY_BRANCH} (${GITHUB_SHA})"
+          # Move build output somewhere safe BEFORE checkout
+          rm -rf /tmp/deploy
+          mkdir -p /tmp/deploy
+          cp -r _build/analyticsbymark-dev /tmp/deploy/
+          cp -r _build/analyticsbymark-blog /tmp/deploy/
 
-          git branch -M "$DEPLOY_BRANCH"
-          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git push -f origin "$DEPLOY_BRANCH"
+          # Fetch deploy branch
+          git fetch origin $DEPLOY_BRANCH || true
+
+          if git show-ref --quiet refs/remotes/origin/$DEPLOY_BRANCH; then
+            git checkout $DEPLOY_BRANCH
+            git rm -rf .
+          else
+            git checkout --orphan $DEPLOY_BRANCH
+            git rm -rf .
+          fi
+
+          # Copy back built output
+          cp -r /tmp/deploy/analyticsbymark-dev .
+          cp -r /tmp/deploy/analyticsbymark-blog .
+
+          touch .nojekyll
+
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes to deploy"
+            exit 0
+          fi
+
+          git commit -m "Deploy ${GITHUB_REF_NAME} → ${DEPLOY_BRANCH} (${GITHUB_SHA})"
+          git push origin $DEPLOY_BRANCH
+      
       
 
