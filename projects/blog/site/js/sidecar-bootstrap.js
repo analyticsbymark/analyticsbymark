@@ -16,9 +16,13 @@
   }
 
   function apply(label) {
-    const el = document.getElementById(BUTTON_ID);
-    if (el) el.textContent = label;
+  const el = document.getElementById(BUTTON_ID);
+  if (!el) return;
+
+  el.textContent = label;
+  el.removeAttribute("data-statsig-hidden");
   }
+
 
   async function run() {
     apply(DEFAULT);
