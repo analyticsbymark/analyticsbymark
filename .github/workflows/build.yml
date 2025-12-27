@@ -121,36 +121,39 @@ jobs:
       - name: Publish built sites
         if: steps.deploy.outputs.branch != ''
         run: |
-          set -e
+          set -euo pipefail
 
           DEPLOY_BRANCH="${{ steps.deploy.outputs.branch }}"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Move build output somewhere safe BEFORE checkout
-          rm -rf /tmp/deploy
-          mkdir -p /tmp/deploy
-          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-dev" /tmp/deploy/
-          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-blog" /tmp/deploy/
+          # Ensure we have the branch ref locally (or create it)
+          git fetch origin "${DEPLOY_BRANCH}" || true
 
-          # Fetch deploy branch
-          git fetch origin $DEPLOY_BRANCH || true
+          # Create a separate working tree for the deploy branch
+          rm -rf /tmp/ghpages
+          mkdir -p /tmp/ghpages
 
-          if git show-ref --quiet refs/remotes/origin/$DEPLOY_BRANCH; then
-            git checkout $DEPLOY_BRANCH
-            git rm -rf .
+          if git show-ref --quiet "refs/remotes/origin/${DEPLOY_BRANCH}"; then
+            # Branch exists
+            git worktree add /tmp/ghpages "origin/${DEPLOY_BRANCH}"
           else
-            git checkout --orphan $DEPLOY_BRANCH
-            git rm -rf .
+            # Branch does not exist yet -> create orphan branch in worktree
+            git worktree add --detach /tmp/ghpages
+            (cd /tmp/ghpages && git checkout --orphan "${DEPLOY_BRANCH}")
           fi
 
-          # Copy back built output
-          cp -r /tmp/deploy/analyticsbymark-dev .
-          cp -r /tmp/deploy/analyticsbymark-blog .
+          # Clean deploy branch contents
+          rm -rf /tmp/ghpages/* /tmp/ghpages/.[!.]* /tmp/ghpages/..?* || true
 
-          touch .nojekyll
+          # Copy ONLY built output into deploy worktree
+          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-dev" /tmp/ghpages/
+          cp -r "$GITHUB_WORKSPACE/_build/analyticsbymark-blog" /tmp/ghpages/
+          touch /tmp/ghpages/.nojekyll
 
+          # Commit & push from deploy worktree
+          cd /tmp/ghpages
           git add -A
 
           if git diff --cached --quiet; then
@@ -159,7 +162,8 @@ jobs:
           fi
 
           git commit -m "Deploy ${GITHUB_REF_NAME} → ${DEPLOY_BRANCH} (${GITHUB_SHA})"
-          git push origin $DEPLOY_BRANCH
+          git push origin HEAD:"${DEPLOY_BRANCH}"
+
       
       
 
