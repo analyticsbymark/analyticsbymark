@@ -5,16 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c037f1b8-975b-4d59-a6ef-b816aa0aa90c" name="Changes" comment="Build of dev / blog static sites">
-      <change afterPath="$PROJECT_DIR$/projects/blog/overrides/partials/integrations/analytics.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projects/blog/docs/js/experiments.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projects/blog/docs/js/experiments.config.template.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projects/blog/scripts/experiments_to_json.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/docs/assets/extra.css" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/docs/assets/extra.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/blog/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/docs/index.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/blog/docs/js/sidecar-bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/docs/js/sidecar-bootstrap.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/blog/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/overrides/partials/integrations/analytics.html" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/overrides/partials/integrations/analytics.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/site/assets/extra.css" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/site/assets/extra.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/blog/site/feed_rss_created.xml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/site/feed_rss_created.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projects/blog/site/feed_rss_updated.xml" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/site/feed_rss_updated.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/dev/docs/assets/extra.css" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/assets/extra.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/dev/docs/index.md" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/index.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/dev/docs/js/sidecar-bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/projects/dev/docs/js/sidecar-bootstrap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/site/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projects/blog/site/js/sidecar-bootstrap.js" beforeDir="false" afterPath="$PROJECT_DIR$/projects/blog/site/js/sidecar-bootstrap.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +33,8 @@
         <option value="CSS File" />
         <option value="HTTP Request" />
         <option value="Python Script" />
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -374,7 +380,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766613297872</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Build of dev / blog static sites">
+      <option name="closed" value="true" />
+      <created>1766777169174</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1766777169174</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

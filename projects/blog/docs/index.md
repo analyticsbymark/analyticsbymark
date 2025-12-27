@@ -11,7 +11,7 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 # Welcome
 
-[Start the blog tutorial](#start){ #hero-cta-dev .md-button .md-button--primary }
+[Start the blog tutorial](#start){ #hero-cta-dev data-exp="hero_cta_label" .md-button .md-button--primary data-hidden }
 
 
 ## Project layout

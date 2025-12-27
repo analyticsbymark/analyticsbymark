@@ -1,0 +1,76 @@
+name: Build MkDocs sites
+
+on:
+  pull_request:
+    branches: ["develop"]
+  push:
+    branches: ["develop", "master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ---------------------------------------
+      # Write experiment configs from secrets
+      # ---------------------------------------
+      - name: Write experiment configs
+        env:
+          EXPERIMENT_CONFIG_JSON_DEV: ${{ secrets.EXPERIMENT_CONFIG_JSON_DEV }}
+          EXPERIMENT_CONFIG_JSON_BLOG: ${{ secrets.EXPERIMENT_CONFIG_JSON_BLOG }}
+        run: |
+          node - <<'NODE'
+          const fs = require("fs");
+          const path = require("path");
+
+          function writeConfig(outPath, json) {
+            if (!json) {
+              console.log(`No config provided for ${outPath}, skipping`);
+              return;
+            }
+
+            // Validate JSON
+            JSON.parse(json);
+
+            fs.mkdirSync(path.dirname(outPath), { recursive: true });
+            fs.writeFileSync(
+              outPath,
+              `window.EXPERIMENT_CONFIG = ${json};\n`
+            );
+
+            console.log(`Wrote ${outPath}`);
+          }
+
+          writeConfig(
+            "dev/docs/js/experiments.config.js",
+            process.env.EXPERIMENT_CONFIG_JSON_DEV
+          );
+
+          writeConfig(
+            "projects/blog/docs/js/experiments.config.js",
+            process.env.EXPERIMENT_CONFIG_JSON_BLOG
+          );
+          NODE
+
+      # ---------------------------------------
+      # Build DEV site
+      # ---------------------------------------
+      - name: Build DEV site
+        run: |
+          mkdocs build \
+            --strict \
+            --config-file dev/mkdocs.yml \
+            --site-dir dev/site
+
+      # ---------------------------------------
+      # Build BLOG site
+      # ---------------------------------------
+      - name: Build BLOG site
+        run: |
+          mkdocs build \
+            --strict \
+            --config-file projects/blog/mkdocs.yml \
+            --site-dir projects/blog/site
