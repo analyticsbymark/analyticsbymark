@@ -110,7 +110,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
-    "git-widget-placeholder": "#25 on feature__statsig",
+    "git-widget-placeholder": "#27 on feature__statsig",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "//wsl.localhost/Ubuntu/home/cooperm/analyticsbymark/projects/blog/overrides",
     "list.type.of.created.stylesheet": "CSS",
@@ -494,7 +494,23 @@
       <option name="project" value="LOCAL" />
       <updated>1766866630346</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Added github actions">
+      <option name="closed" value="true" />
+      <created>1766867102535</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1766867102535</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Added github actions">
+      <option name="closed" value="true" />
+      <created>1766867402347</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1766867402347</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
