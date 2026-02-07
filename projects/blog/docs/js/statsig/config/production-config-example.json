@@ -16,14 +16,12 @@
   "featureFlags": {},
   "experiments": {
     "cta": {
-      "hero_button_text": {
+      "exp_001": {
         "selector": "#hero-cta-dev",
-        "experiment": "abm_dev_landing_button_text",
-        "param": "button_label",
+        "experiment": "exp_2024_01_alpha",
+        "param": "text",
         "type": "text",
-        "category": "conversion",
-        "pages": ["index.html"],
-        "priority": "critical"
+        "pages": ["index.html"]
       }
     },
     "navigation": {},
@@ -32,8 +30,8 @@
     "content": {}
   },
   "tracking": {
-    "enableAutoClick": false,
-    "enableEngagement": false,
+    "enableAutoClick": true,
+    "enableEngagement": true,
     "clickSelectors": [
       "[data-track]",
       ".md-button",

@@ -79,3 +79,82 @@ This checks for:
 - Valid experiment structure
 - Type-specific requirements (attr/class bindings)
 - Valid priority and category values
+
+## Security & Open Source
+
+### Obfuscation Strategy
+
+When open sourcing this repo, use obfuscated experiment names to protect strategic information:
+
+**Public (in config):**
+```javascript
+experiments: {
+  cta: {
+    exp_001: {
+      selector: "#hero-cta-dev",
+      experiment: "exp_2024_01_alpha",  // Obfuscated Statsig name
+      param: "text",                     // Generic parameter name
+      type: "text",
+      pages: ["index.html"]
+      // NO category, priority, hypothesis, expectedLift
+    }
+  }
+}
+```
+
+**Private (in EXPERIMENT_MAPPING.md - NOT in repo):**
+```markdown
+### exp_001 (exp_2024_01_alpha)
+- Real Name: Hero CTA Button Text Optimization
+- Hypothesis: Action-oriented text increases CTR by 15-20%
+- Priority: Critical
+- Status: Active
+```
+
+### What's Hidden
+
+✅ Real experiment purposes
+✅ Business hypotheses
+✅ Expected results
+✅ Strategic priorities
+✅ What metrics matter most
+
+### What's Still Exposed
+
+⚠️ Which DOM elements are tested (selectors)
+⚠️ Number of active experiments
+⚠️ That A/B testing is being used
+⚠️ General tracking approach
+
+### Naming Convention
+
+**Format:** `exp_YYYY_MM_greek`
+- `exp_2024_01_alpha` - First experiment of Jan 2024
+- `exp_2024_01_beta` - Second experiment of Jan 2024
+- `exp_2024_02_gamma` - Third experiment (or first of Feb)
+
+**Greek sequence:** alpha, beta, gamma, delta, epsilon, zeta, eta, theta, iota, kappa
+
+### Best Practices
+
+1. **Use generic parameter names:** `text`, `enabled`, `value`, `count`
+2. **Avoid descriptive names:** NOT `conversion_optimized_cta_text`
+3. **Remove strategic metadata:** No `category`, `priority`, `hypothesis`
+4. **Keep mapping private:** Track real names in `EXPERIMENT_MAPPING.md` (gitignored)
+5. **Minimal comments:** Don't explain strategy in code comments
+
+### Before Open Sourcing
+
+1. Add to `.gitignore`:
+   ```
+   EXPERIMENT_MAPPING.md
+   ```
+
+2. Update all GitHub Secrets to use obfuscated names
+
+3. Rename experiments in Statsig Console to obfuscated names
+
+4. Review built site for leaked information
+
+5. Audit comments in code for strategic details
+

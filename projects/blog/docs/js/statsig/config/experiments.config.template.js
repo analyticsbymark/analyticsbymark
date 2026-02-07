@@ -1,13 +1,18 @@
 /**
  * Statsig Experiments Configuration Template
  *
- * This is a template file for local development.
- * In production, this is replaced by GitHub Actions with secrets.
+ * SECURITY: This config is exposed in the built site. Keep experiment names obfuscated.
  *
- * To use for local development:
+ * For local development:
  * 1. Copy this file to experiments.config.js
  * 2. Update the apiKey if needed (client keys are safe to expose)
  * 3. Enable/disable experiments as needed for testing
+ *
+ * For production:
+ * - This template is replaced by GitHub Actions with secrets
+ * - Use obfuscated experiment names (exp_001, exp_002, etc.)
+ * - Remove strategic metadata (category, priority, hypothesis)
+ * - Keep mapping of real names in EXPERIMENT_MAPPING.md (private, not in repo)
  */
 
 window.EXPERIMENT_CONFIG = {
@@ -23,81 +28,68 @@ window.EXPERIMENT_CONFIG = {
     apiKey: "client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6",
     options: {
       environment: { tier: "development" },
-      // Enable verbose logging in local dev
-      loggingLevel: "debug"
+      loggingLevel: "debug"  // Use "none" in production
     }
   },
 
   // Feature flags (gates) - not yet implemented
-  // These are for on/off toggles, not A/B tests
-  featureFlags: {
-    // Example:
-    // enable_new_feature: {
-    //   flagName: "blog_new_feature_enabled",
-    //   defaultValue: false
-    // }
-  },
+  featureFlags: {},
 
-  // Experiments organized by domain
+  // Experiments - organized by domain for internal organization only
+  // NOTE: Use obfuscated experiment names (exp_001, exp_002) in production
   experiments: {
-    // CTA (Call to Action) experiments
+    // Domain: CTA/Conversion elements
     cta: {
-      hero_button_text: {
+      // Internal reference: hero_cta_text
+      // Real experiment: Hero CTA button text optimization
+      exp_001: {
         selector: "#hero-cta-dev",
-        experiment: "abm_dev_landing_button_text",
-        param: "button_label",
+        experiment: "exp_2024_01_alpha",  // Obfuscated Statsig experiment name
+        param: "text",                     // Generic parameter name
         type: "text",
-        category: "conversion",
-        pages: ["index.html"],
-        priority: "critical"
+        pages: ["index.html"]
+        // REMOVED: category, priority, hypothesis, expectedLift
       }
     },
 
-    // Navigation experiments
+    // Domain: Navigation
     navigation: {
-      // Example experiments (not active yet):
-      // sticky_tabs: {
+      // Example: Sticky navigation test
+      // exp_002: {
       //   selector: "body",
-      //   experiment: "blog_nav_sticky_tabs",
+      //   experiment: "exp_2024_02_beta",
       //   param: "enabled",
       //   type: "class",
       //   className: "md-tabs--sticky",
-      //   category: "navigation",
-      //   pages: ["*"],
-      //   priority: "high"
+      //   pages: ["*"]
       // }
     },
 
-    // Blog layout experiments
+    // Domain: Blog layout
     blog: {
-      // Example experiments (not active yet):
-      // pagination_count: {
+      // Example: Pagination count test
+      // exp_003: {
       //   selector: "[data-exp='pagination']",
-      //   experiment: "blog_pagination_count",
+      //   experiment: "exp_2024_03_gamma",
       //   param: "count",
       //   type: "attr",
       //   attr: "data-pagination-count",
-      //   category: "blog-layout",
       //   pages: ["blog/index.html"],
       //   fallback: "5"
       // }
     },
 
-    // Visual/theming experiments
-    visual: {
-      // Example experiments (not active yet):
-    },
+    // Domain: Visual
+    visual: {},
 
-    // Content experiments
-    content: {
-      // Example experiments (not active yet):
-    }
+    // Domain: Content
+    content: {}
   },
 
-  // Event tracking configuration (Phase 3)
+  // Event tracking configuration
   tracking: {
-    enableAutoClick: false,  // Disabled in local dev
-    enableEngagement: false, // Disabled in local dev
+    enableAutoClick: false,   // Disabled in local dev
+    enableEngagement: false,  // Disabled in local dev
     clickSelectors: [
       "[data-track]",
       ".md-button",
@@ -108,7 +100,7 @@ window.EXPERIMENT_CONFIG = {
       timeOnPage: [10, 30, 60, 120]
     },
     googleAnalytics: {
-      enabled: false,  // Disabled in local dev
+      enabled: false,           // Disabled in local dev
       sendExposures: false,
       sendCustomEvents: false,
       prefix: "statsig_"
