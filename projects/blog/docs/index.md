@@ -11,7 +11,7 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
 
 # Welcome
 
-[Subscribe to Newsletter](https://YOUR-NEWSLETTER-SIGNUP-URL-HERE){ #hero-cta-dev data-exp="hero_cta_label" .md-button .md-button--primary data-hidden target="_blank" }
+[Subscribe to Newsletter](https://YOUR-NEWSLETTER-SIGNUP-URL-HERE){ #hero-cta-dev data-exp="hero_cta_label" .md-button .md-button--primary target="_blank" }
 
 
 ## Project layout
