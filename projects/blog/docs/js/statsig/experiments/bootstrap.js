@@ -85,9 +85,9 @@
   }
 
   /**
-   * Hydrate experiments on the current page
+   * Hydrate experiments on the current page (sync-first, cache-based)
    */
-  async function hydrateExperiments() {
+  function hydrateExperiments() {
     try {
       // Parse configuration
       const config = parseConfig();
@@ -106,16 +106,19 @@
         });
       }
 
-      // Pre-hide all experiment elements synchronously to prevent flicker
-      window.StatsigRenderer.preHideExperimentElements(config.experiments);
+      // Synchronous cache-first initialization — no waiting, no hiding
+      const client = window.StatsigClient.getClientSync(config.clientKey, config.clientOptions);
 
-      // Initialize Statsig client with config options
-      const client = await window.StatsigClient.getClient(config.clientKey, config.clientOptions);
+      if (!client) {
+        // SDK not loaded yet — leave elements visible with default content
+        console.warn("[Statsig] Client not available, showing default content");
+        return;
+      }
 
       // Get URL parameter overrides for testing
       const urlOverrides = getUrlOverrides();
 
-      // Apply each experiment
+      // Apply each experiment immediately with cached values (or fallback)
       for (const key of Object.keys(config.experiments)) {
         const binding = config.experiments[key];
         const element = document.querySelector(binding.selector);
@@ -134,7 +137,7 @@
           value = urlOverrides[binding.experiment];
           console.log(`[Statsig] Using URL override for ${binding.experiment}: ${value}`);
         } else {
-          // Get the experiment variant value from Statsig
+          // Get the experiment variant value from Statsig (cached or fallback)
           value = client.getExperiment(binding.experiment).get(binding.param, fallback);
         }
 
@@ -156,8 +159,6 @@
       }
     } catch (error) {
       console.error("[Statsig] Hydration failed:", error);
-      // On error, ensure elements are revealed with default content
-      window.StatsigRenderer.revealAllHiddenElements();
     }
   }
 
@@ -168,23 +169,17 @@
     // MkDocs Material instant navigation support
     if (window.document$?.subscribe) {
       window.document$.subscribe(() => {
-        hydrateExperiments().catch(error => {
-          console.error("[Statsig] Hydration error in instant navigation:", error);
-        });
+        hydrateExperiments();
       });
     } else {
       // Standard page load
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", () => {
-          hydrateExperiments().catch(error => {
-            console.error("[Statsig] Hydration error on page load:", error);
-          });
+          hydrateExperiments();
         });
       } else {
         // Document already loaded
-        hydrateExperiments().catch(error => {
-          console.error("[Statsig] Hydration error (immediate):", error);
-        });
+        hydrateExperiments();
       }
     }
   }

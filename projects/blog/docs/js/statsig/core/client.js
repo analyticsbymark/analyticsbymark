@@ -57,6 +57,53 @@
   }
 
   /**
+   * Get or create the Statsig client using synchronous (cache-first) initialization.
+   * Returns the client instance immediately — not a promise.
+   * Uses localStorage-cached values via initializeSync(), then refreshes in the background.
+   * @param {string} apiKey - Statsig client API key
+   * @param {object} options - Optional Statsig client options
+   * @returns {object} The Statsig client (synchronously initialized)
+   */
+  function getStatsigClientSync(apiKey, options = {}) {
+    // Return existing client if already created
+    if (window.__statsigClientInstance) {
+      return window.__statsigClientInstance;
+    }
+
+    const Ctor = window.Statsig?.StatsigClient || window.StatsigClient;
+
+    if (typeof Ctor !== "function") {
+      console.warn("[Statsig] StatsigClient constructor not found. Ensure the Statsig SDK is loaded.");
+      return null;
+    }
+
+    const userId = window.StatsigUser.getStableUserId();
+    const client = new Ctor(apiKey, {
+      userID: userId,
+      ...options
+    });
+
+    // Synchronous init — loads cached values from localStorage instantly
+    if (typeof client.initializeSync === "function") {
+      client.initializeSync();
+      console.log("[Statsig] Using sync initialization (cache-first)");
+    } else {
+      console.warn("[Statsig] initializeSync not available, falling back to empty state");
+    }
+
+    window.__statsigClientInstance = client;
+
+    // Kick off async refresh in the background (updates cache for next visit)
+    if (typeof client.initializeAsync === "function") {
+      client.initializeAsync().catch(err => {
+        console.warn("[Statsig] Background async refresh failed:", err);
+      });
+    }
+
+    return client;
+  }
+
+  /**
    * Get the existing client if already initialized
    * @returns {Promise<object>|null} The client promise or null if not initialized
    */
@@ -67,5 +114,6 @@
   // Expose to window for other modules
   window.StatsigClient = window.StatsigClient || {};
   window.StatsigClient.getClient = getStatsigClient;
+  window.StatsigClient.getClientSync = getStatsigClientSync;
   window.StatsigClient.getExistingClient = getExistingClient;
 })();
