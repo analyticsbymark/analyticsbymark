@@ -102,36 +102,11 @@
     enrichMetadata(metadata) {
       return {
         ...metadata,
-        // Page information
         page_path: window.location.pathname,
-        page_url: window.location.href,
         page_title: document.title,
-
-        // Timing
-        timestamp: Date.now(),
         session_duration: Math.round((Date.now() - this.sessionStartTime) / 1000),
-
-        // User information
-        user_id: this.getUserId(),
-
-        // Viewport
-        viewport_width: window.innerWidth,
-        viewport_height: window.innerHeight,
-
-        // Referrer
         referrer: document.referrer || 'direct'
       };
-    }
-
-    /**
-     * Get user ID from localStorage (stable ID set by user.js)
-     */
-    getUserId() {
-      try {
-        return localStorage.getItem('statsig-user-id') || 'anonymous';
-      } catch (error) {
-        return 'anonymous';
-      }
     }
 
     /**

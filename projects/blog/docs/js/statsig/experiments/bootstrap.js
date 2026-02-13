@@ -13,6 +13,32 @@
   const DEFAULT_CLIENT_KEY = "client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6";
 
   /**
+   * Get URL parameter overrides for experiments
+   * Allows testing specific variants via URL parameters like ?exp_2026_02_alpha=true
+   * @returns {object} Map of experiment names to override values
+   */
+  function getUrlOverrides() {
+    const params = new URLSearchParams(window.location.search);
+    const overrides = {};
+
+    for (const [key, value] of params.entries()) {
+      // Check if this looks like an experiment override
+      if (key.startsWith('exp_') || key.includes('_experiment') || key.includes('_test')) {
+        // Parse the value - handle booleans, numbers, and strings
+        let parsedValue = value;
+        if (value === 'true') parsedValue = true;
+        else if (value === 'false') parsedValue = false;
+        else if (!isNaN(value) && value !== '') parsedValue = Number(value);
+
+        overrides[key] = parsedValue;
+        console.log(`[Statsig] URL override: ${key} = ${parsedValue}`);
+      }
+    }
+
+    return overrides;
+  }
+
+  /**
    * Parse config and determine format (legacy vs new)
    * @returns {object} { clientKey, clientOptions, experiments }
    */
@@ -86,6 +112,9 @@
       // Initialize Statsig client with config options
       const client = await window.StatsigClient.getClient(config.clientKey, config.clientOptions);
 
+      // Get URL parameter overrides for testing
+      const urlOverrides = getUrlOverrides();
+
       // Apply each experiment
       for (const key of Object.keys(config.experiments)) {
         const binding = config.experiments[key];
@@ -99,8 +128,15 @@
         // Get the fallback value
         const fallback = binding.fallback || ((binding.type === "text") ? (element.textContent || "") : "");
 
-        // Get the experiment variant value from Statsig
-        const value = client.getExperiment(binding.experiment).get(binding.param, fallback);
+        // Check for URL override first, then fall back to Statsig
+        let value;
+        if (urlOverrides.hasOwnProperty(binding.experiment)) {
+          value = urlOverrides[binding.experiment];
+          console.log(`[Statsig] Using URL override for ${binding.experiment}: ${value}`);
+        } else {
+          // Get the experiment variant value from Statsig
+          value = client.getExperiment(binding.experiment).get(binding.param, fallback);
+        }
 
         // Apply the variant to the element
         window.StatsigRenderer.applyExperiment(element, binding, value);
@@ -155,11 +191,4 @@
 
   // Auto-initialize when this module loads
   initializeExperiments();
-
-  // Initialize tracking system (after experiments initialized)
-  if (window.StatsigTracker?.init) {
-    window.StatsigTracker.init().catch(error => {
-      console.error("[Statsig] Tracking initialization failed:", error);
-    });
-  }
 })();

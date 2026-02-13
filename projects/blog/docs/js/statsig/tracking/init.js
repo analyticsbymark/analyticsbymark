@@ -103,25 +103,25 @@
    */
   function getExistingClient() {
     return new Promise((resolve) => {
-      // Check if client already exists
-      if (window.StatsigClient && window.StatsigClient.instance) {
-        resolve(window.StatsigClient.instance);
+      // Check immediately
+      const existing = window.StatsigClient?.getExistingClient?.();
+      if (existing) {
+        resolve(existing);
         return;
       }
 
-      // Wait for client (max 5 seconds)
+      // Poll for client promise (bootstrap creates it after DOM ready)
       let attempts = 0;
-      const maxAttempts = 50; // 50 * 100ms = 5 seconds
+      const maxAttempts = 50; // 5 seconds
 
       const checkInterval = setInterval(() => {
         attempts++;
-
-        if (window.StatsigClient && window.StatsigClient.instance) {
+        const clientPromise = window.StatsigClient?.getExistingClient?.();
+        if (clientPromise) {
           clearInterval(checkInterval);
-          resolve(window.StatsigClient.instance);
+          resolve(clientPromise);
           return;
         }
-
         if (attempts >= maxAttempts) {
           clearInterval(checkInterval);
           console.warn('[Statsig Tracking] Timeout waiting for Statsig client');
@@ -134,5 +134,10 @@
   // Expose init function
   window.StatsigTracker = window.StatsigTracker || {};
   window.StatsigTracker.init = init;
+
+  // Auto-initialize when this module loads
+  init().catch(error => {
+    console.error("[Statsig] Tracking initialization failed:", error);
+  });
 
 })();
