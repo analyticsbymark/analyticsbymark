@@ -16,7 +16,7 @@ We will start with that in a new function `select_policies()`:
 ``` py title="" hl_lines="3 4"
 # Code omitted ☝️
 
---8<-- "./docs_src/tutorial/modelling/tutorial_001.py:38:39"
+--8<-- "./docs_src/space_dev/modelling/tutorial_001.py:38:39"
 
 # Code omitted 👇
 ```
@@ -30,7 +30,7 @@ First we have to import `select` from `sqlmodel` at the top of the file:
 ``` py title="" hl_lines="3"
 # Code omitted ☝️
 
---8<-- "./docs_src/tutorial/modelling/tutorial_001.py:3:3"
+--8<-- "./docs_src/space_dev/modelling/tutorial_001.py:3:3"
 
 # Code omitted 👇
 ```
@@ -40,7 +40,7 @@ And then we will use it to create a `SELECT` statement in Python code:
 ``` py title="" hl_lines="3"
 # Code omitted ☝️
 
---8<-- "./docs_src/tutorial/modelling/tutorial_001.py:38:40"
+--8<-- "./docs_src/space_dev/modelling/tutorial_001.py:38:40"
 
 # Code omitted 👇
 ```
@@ -76,7 +76,7 @@ Now that we have the `select` statement, we can execute it with the **session**:
 ``` py title="" hl_lines="6"
 # Code omitted ☝️
 
---8<-- "./docs_src/tutorial/modelling/tutorial_001.py:38:41"
+--8<-- "./docs_src/space_dev/modelling/tutorial_001.py:38:41"
 
 # Code omitted 👇
 ```
@@ -102,7 +102,7 @@ The `results` object is an <abbr title="Something that can be used in a for loop
 
 Now we can put it in a `for` loop and print each one of the heroes:
 
-{* ./docs_src/tutorial/modelling/tutorial001.py ln[34:39] hl[38:39] *}
+{* ./docs_src/space_dev/modelling/tutorial001.py ln[34:39] hl[38:39] *}
 
 This will print the output:
 
@@ -119,7 +119,7 @@ Now include a call to `select_policies()` in the `main()` function so that it is
 ``` py title="" hl_lines="7 8"
 # Code omitted ☝️
 
---8<-- "./docs_src/tutorial/modelling/tutorial_001.py:38:43"
+--8<-- "./docs_src/space_dev/modelling/tutorial_001.py:38:43"
 
 # Code omitted 👇
 ```
@@ -131,10 +131,10 @@ Great, you're now being able to read the data from the database! 🎉
 Let's review the code up to this point:
 
 ```py {.annotate}
---8<-- "./docs_src/tutorial/modelling/tutorial_002.py"
+--8<-- "./docs_src/space_dev/modelling/tutorial_002.py"
 ```
 
---8<-- "./docs_src/tutorial/modelling/annotations/tutorial_002.md"
+--8<-- "./docs_src/space_dev/modelling/annotations/tutorial_002.md"
    
 
 /// tip
