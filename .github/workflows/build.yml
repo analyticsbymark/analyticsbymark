@@ -38,16 +38,63 @@ jobs:
           const fs = require("fs");
           const path = require("path");
 
-          function write(outPath, raw) {
-            if (!raw || !raw.trim()) return;
-            const obj = JSON.parse(raw);
-            fs.mkdirSync(path.dirname(outPath), { recursive: true });
-            fs.writeFileSync(outPath, `window.EXPERIMENT_CONFIG = ${JSON.stringify(obj)};\n`);
-            console.log("Wrote", outPath);
+          function validateConfig(obj) {
+            // Basic validation
+            if (!obj.client?.apiKey) {
+              throw new Error("Missing client.apiKey in config");
+            }
+            if (!obj.experiments) {
+              throw new Error("Missing experiments in config");
+            }
+            console.log("  ✓ Config validation passed");
+            return true;
           }
 
-          write("projects/dev/docs/js/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_DEV);
-          write("projects/blog/docs/js/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_BLOG);
+          function write(outPath, raw) {
+            if (!raw || !raw.trim()) {
+              console.log(`  ⊘ Skipping ${outPath} (no config provided)`);
+              return;
+            }
+
+            try {
+              // Parse JSON
+              const obj = JSON.parse(raw);
+
+              // Validate config
+              validateConfig(obj);
+
+              // Ensure output directory exists
+              fs.mkdirSync(path.dirname(outPath), { recursive: true });
+
+              // Write config file
+              fs.writeFileSync(
+                outPath,
+                `window.EXPERIMENT_CONFIG = ${JSON.stringify(obj, null, 2)};\n`
+              );
+
+              // Count experiments
+              let experimentCount = 0;
+              if (obj.experiments) {
+                for (const category of Object.values(obj.experiments)) {
+                  if (typeof category === 'object') {
+                    experimentCount += Object.keys(category).length;
+                  }
+                }
+              }
+
+              console.log(`  ✓ Wrote ${outPath}`);
+              console.log(`    Environment: ${obj._meta?.environment || 'unknown'}`);
+              console.log(`    Experiments: ${experimentCount}`);
+            } catch (error) {
+              console.error(`  ✗ Error writing ${outPath}:`, error.message);
+              process.exit(1);
+            }
+          }
+
+          console.log("Writing experiment configs...");
+          write("projects/dev/docs/js/statsig/config/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_DEV);
+          write("projects/blog/docs/js/statsig/config/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_BLOG);
+          console.log("Done!");
           NODE
 
       - name: Build analyticsbymark.dev

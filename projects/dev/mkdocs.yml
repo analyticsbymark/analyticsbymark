@@ -9,11 +9,12 @@ copyright: >
 
 theme:
   name: material
+  custom_dir: overrides
   logo: assets/logo.png
   favicon: assets/logo.png
-  font:
-    text: Roboto
   palette:
+
+    # Palette toggle for light mode
     - scheme: default
       toggle:
         icon: material/brightness-7
@@ -23,11 +24,10 @@ theme:
     - scheme: slate
       toggle:
         icon: material/brightness-4
-        name: Switch to light mode
   features:
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/
     - navigation.indexes
-    #    - navigation.instant # :todo enable this when ready to add links (https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-previews)
+    - navigation.instant
     - navigation.instant.prefetch # hover over links to get preload
     - navigation.tracking # add tracking to the url for more precise links
     - navigation.tabs # adds menu to the header above certain screen size
@@ -50,14 +50,16 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite # syntax highlighting
-  - pymdownx.snippets # embedding code from source
+  - pymdownx.snippets: # embedding code from source
+      base_path:
+        - "projects/dev"  # relative to repo root (where CI runs from)
+      check_paths: true
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tabbed: # create tabs
       alternate_style: true
   - pymdownx.superfences # for code highlighting and admonition boxes
-  - admonition # for admonition boxes
   - pymdownx.details  # for admonition boxes
 #  - material.extensions.preview: todo enable this when ready to add links
 #      configurations:
@@ -91,7 +93,16 @@ extra_css:
   - assets/extra.css
 
 extra_javascript:
-  # client key designed for where the key itself cannot be secret -> safe in repo (https://docs.statsig.com/sdk-keys/api-keys/)
-  - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
-  - "js/sidecar-bootstrap.js"
+  # Statsig SDK loaded in <head> via overrides/partials/integrations/analytics.html
+  - "js/statsig/config/experiments.config.js"
+  - "js/statsig/core/user.js"
+  - "js/statsig/core/client.js"
+  - "js/statsig/experiments/renderer.js"
+  - "js/statsig/experiments/bootstrap.js"
+  # Event tracking modules
+  - "js/statsig/tracking/eventLogger.js"
+  - "js/statsig/tracking/exposureLogger.js"
+  - "js/statsig/tracking/clickTracker.js"
+  - "js/statsig/tracking/engagementTracker.js"
+  - "js/statsig/tracking/init.js"
 

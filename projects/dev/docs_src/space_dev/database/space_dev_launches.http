@@ -9,3 +9,8 @@ GET https://ll.thespacedevs.com/2.3.0/launches/?lsp__id=121&status__ids=3,4,7&or
 
 ### Failures
 GET https://ll.thespacedevs.com/2.3.0/launches/?lsp__id=121&status__ids=4,7&ordering=-net
+
+
+### All launches
+GET https://lldev.thespacedevs.com/2.3.0/launches/?lsp__id=121&ordering=-net&limit=100
+

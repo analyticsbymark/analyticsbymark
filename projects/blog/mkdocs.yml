@@ -3,12 +3,27 @@ site_name: ABM - Blog
 site_description: My journey in building datasets and designing analytics that deliver actionable results in insurance.
 
 # Copyright
-copyright: Copyright &copy; 2024 - 2025 Mark Cooper
+copyright: > 
+  Copyright &copy; 2024 - 2025 Mark Cooper <br>
+  <a href="#__consent">Change cookie settings</a>
 
 theme:
   name: material
   custom_dir: overrides
   logo: assets/logo.png
+  favicon: assets/logo.png
+  palette:
+
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
   features:
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/
     - navigation.indexes
@@ -24,6 +39,7 @@ theme:
     - search.suggest # display the likeliest completion when searching
     - search.share # deep link search query + result to share
     - content.code.annotate
+    - announce.dismiss
 
 plugins:
   - search
@@ -48,16 +64,18 @@ plugins:
         as_creation: date.created
         as_update: date.updated
 
-extra:
-  social:
-    - icon: fontawesome/brands/linkedin
-      name: Mark on Linkedin
-      link: https://www.linkedin.com/in/mark-cooper-b8878686
-
 hooks:
   - ../../hooks/socialmedia.py
 
 markdown_extensions:
+  - admonition # highlighting sections of the page
+  - attr_list # used by various extensions
+  - md_in_html # used by various extensions
+  - pymdownx.highlight: # syntax highlighting
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite # syntax highlighting
   - pymdownx.snippets: # embedding code from source
       base_path:
         - ".."          # <-- start at /projects
@@ -66,6 +84,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed: # create tabs
+      alternate_style: true
+  - pymdownx.details  # for admonition boxes
 
 nav:
   - Home: index.md
@@ -74,11 +95,38 @@ nav:
      - blog/index.md
      - blog/tags.md
 
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      name: Mark on Linkedin
+      link: https://www.linkedin.com/in/mark-cooper-b8878686
+  analytics:
+    provider: google
+    property: G-QGKGYMC3V5
+    consent:
+      title: Cookie consent
+      description: >-
+        We use cookies to recognize your repeated visits and preferences, as well
+        as to measure the effectiveness of our documentation and whether users
+        find what they're searching for. With your consent, you're helping us to
+        make our documentation better.
+
 extra_css:
   - assets/extra.css
 
 extra_javascript:
   # client key designed for where the key itself cannot be secret -> safe in repo (https://docs.statsig.com/sdk-keys/api-keys/)
 #  - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
-  - "js/experiments.config.js"
-  - "js/sidecar-bootstrap.js"
+  # Enhanced config (Phase 2)
+  - "js/statsig/config/experiments.config.js"
+  # Modular Statsig bootstrap (load in order)
+  - "js/statsig/core/user.js"
+  - "js/statsig/core/client.js"
+  - "js/statsig/experiments/renderer.js"
+  - "js/statsig/experiments/bootstrap.js"
+  # Event tracking modules (Phase 3)
+  - "js/statsig/tracking/eventLogger.js"
+  - "js/statsig/tracking/exposureLogger.js"
+  - "js/statsig/tracking/clickTracker.js"
+  - "js/statsig/tracking/engagementTracker.js"
+  - "js/statsig/tracking/init.js"

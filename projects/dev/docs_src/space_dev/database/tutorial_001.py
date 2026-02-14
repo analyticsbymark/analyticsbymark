@@ -1,5 +1,5 @@
 import requests
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Tuple
 from datetime import datetime, date, timedelta
 
 import pandas as pd
@@ -15,7 +15,7 @@ class LL2Settings(BaseSettings):
 
     # --- Core ---
     BASE_URL: HttpUrl = Field(
-        default="https://lldev.thespacedevs.com/2.3.0",  # DEV: no rate limits
+        default="https://ll.thespacedevs.com/2.3.0",  # DEV: https://lldev.thespacedevs.com/2.3.0 no rate limits
         description="LL2 DEV base URL",
     )
     TIMEOUT_S: int = 30
@@ -81,7 +81,8 @@ class LL2Client:
         params.setdefault("limit", self.settings.DEFAULT_LIMIT)
 
         all_items: List[Dict[str, Any]] = []
-
+        print(url)
+        print(params)
         # 1️⃣ First page
         resp = self.session.get(url, params=params, timeout=self.settings.TIMEOUT_S)
         resp.raise_for_status()
@@ -139,31 +140,67 @@ class LaunchData(SQLModel):
     def window_year(self) -> int:
         return self.window_start.year
 
+
 class AgencyLaunchData(SQLModel):
-    name: str
-    window_start: datetime
-    window_end: datetime
-    launch_status: str
-    launch_status_id: int
-    launch_status_abbrev: str
-    launch_status_description: Optional[str]
-    image_thumbnail: Optional[str]
-    mission_name: Optional[str]
-    mission_type: Optional[str]
-    mission_description: Optional[str]
-    rocket_full_name: Optional[str]
-    rocket_variant: Optional[str]
-    rocket_name: Optional[str]
-    rocket_family: Optional[str]
-    launchpad_name: Optional[str]
-    launchpad_id: Optional[int]
-    launchpad_name: Optional[str]
-    launchpad_description: Optional[str]
-    launchpad_map_url: Optional[str]
-    launchpad_latitude: Optional[float]
-    launchpad_longitude: Optional[float]
-    launchpad_location_name: Optional[str]
-    launchpad_country: Optional[str]
+    # --- Identity (strongly recommended) ---
+    launch_uuid: Optional[str] = Field(default=None, index=True)   # API "id" (UUID string)
+    launch_url: Optional[str] = None
+
+    # --- Timing ---
+    net: Optional[datetime] = Field(default=None, index=True)      # best for time series
+    window_start: Optional[datetime] = None
+    window_end: Optional[datetime] = None
+    last_updated: Optional[datetime] = None
+
+    # --- Launch status ---
+    launch_name: str
+    launch_status: Optional[str] = None
+    launch_status_id: Optional[int] = None
+    launch_status_abbrev: Optional[str] = None
+    launch_status_description: Optional[str] = None
+
+    # --- Operator (who launched the rocket) ---
+    operator_id: Optional[int] = Field(default=None, index=True)   # launch_service_provider.id
+    operator_name: Optional[str] = Field(default=None, index=True) # launch_service_provider.name
+
+    # --- Mission identity ---
+    mission_id: Optional[int] = Field(default=None, index=True)
+
+    # --- Mission ---
+    mission_name: Optional[str] = None
+    mission_type: Optional[str] = None
+    mission_description: Optional[str] = None
+
+    # --- Mission owner(s) (who owns/sponsors the mission) ---
+    mission_owner_primary_id: Optional[int] = Field(default=None, index=True)
+    mission_owner_primary_name: Optional[str] = Field(default=None, index=True)
+
+    # Store all owners as a delimited string for easy filtering/grouping in BI
+    mission_owner_all_ids: Optional[str] = None      # e.g. "44;161;121"
+    mission_owner_all_names: Optional[str] = None    # e.g. "NASA;USAF;ESA"
+
+    # --- Program(s) (useful for Starlink, Crew, etc.) ---
+    program_names: Optional[str] = None              # e.g. "Starlink;Commercial Crew"
+
+    # --- Media ---
+    image_thumbnail: Optional[str] = None
+
+    # --- Rocket ---
+    rocket_full_name: Optional[str] = None
+    rocket_variant: Optional[str] = None
+    rocket_name: Optional[str] = None
+    rocket_family: Optional[str] = None
+
+    # --- Launchpad ---
+    launchpad_id: Optional[int] = Field(default=None, index=True)
+    launchpad_name: Optional[str] = None
+    launchpad_description: Optional[str] = None
+    launchpad_map_url: Optional[str] = None
+    launchpad_latitude: Optional[float] = None
+    launchpad_longitude: Optional[float] = None
+    launchpad_location_name: Optional[str] = None
+    launchpad_country: Optional[str] = None
+
 
 class AgencyLaunchDataWrite(AgencyLaunchData, table=True):
     __tablename__ = 'agency_launch_data'
@@ -281,13 +318,68 @@ def safe_get(obj, *keys, default=None):
 
     return current
 
+def extract_operator(launch_dict: dict) -> Tuple[Optional[int], Optional[str]]:
+    return (
+        safe_get(launch_dict, "launch_service_provider", "id"),
+        safe_get(launch_dict, "launch_service_provider", "name"),
+    )
+
+
+def extract_mission_owners(launch_dict: dict) -> List[Dict]:
+    """De-duped by agency id, preserving order."""
+    agencies: List[Dict] = []
+
+    # 1) mission.agencies
+    mission_agencies = safe_get(launch_dict, "mission", "agencies", default=[]) or []
+    if isinstance(mission_agencies, list):
+        agencies.extend([a for a in mission_agencies if isinstance(a, dict)])
+
+    # 2) program[].agencies
+    programs = safe_get(launch_dict, "program", default=[]) or []
+    if isinstance(programs, list):
+        for p in programs:
+            prog_agencies = safe_get(p, "agencies", default=[]) or []
+            if isinstance(prog_agencies, list):
+                agencies.extend([a for a in prog_agencies if isinstance(a, dict)])
+
+    # de-dupe by id (fallback to name if id missing)
+    seen = set()
+    out: List[Dict] = []
+    for a in agencies:
+        key = safe_get(a, "id") or safe_get(a, "name")
+        if key and key not in seen:
+            seen.add(key)
+            out.append(a)
+
+    return out
+
+
+def extract_program_names(launch_dict: dict) -> Optional[str]:
+    programs = safe_get(launch_dict, "program", default=[]) or []
+    if not isinstance(programs, list) or not programs:
+        return None
+
+    names = [safe_get(p, "name") for p in programs if safe_get(p, "name")]
+    if not names:
+        return None
+
+    # de-dupe preserve order
+    seen = set()
+    deduped = []
+    for n in names:
+        if n not in seen:
+            seen.add(n)
+            deduped.append(n)
+
+    return "; ".join(deduped)
+
 
 def get_launch_data(client: LL2Client, params: Optional[dict] = None):
 
     if params is None:
         params = {"ordering": "net", "net__gte": "2026-01-01T00:00:00Z"}
 
-    launch_data = client.get_results(settings.EP_LAUNCHES, params=params, n_items=300)
+    launch_data = client.get_results(settings.EP_LAUNCHES, params=params)
 
     data = []
 
@@ -313,6 +405,7 @@ def get_launch_data(client: LL2Client, params: Optional[dict] = None):
 
     return data
 
+
 def get_agency_launch_data(client: LL2Client, params: Optional[dict] = None):
 
     if params is None:
@@ -323,25 +416,62 @@ def get_agency_launch_data(client: LL2Client, params: Optional[dict] = None):
     data = []
 
     for launch_dict in launch_data:
+        operator_id, operator_name = extract_operator(launch_dict)
+
+        owners = extract_mission_owners(launch_dict)
+        primary_owner = owners[0] if owners else None
+
+        # Build delimited strings (safe even if ids are missing)
+        owner_ids = [str(safe_get(a, "id")) for a in owners if safe_get(a, "id") is not None]
+        owner_names = [safe_get(a, "name") for a in owners if safe_get(a, "name")]
+
         launch = AgencyLaunchData(
-            name=safe_get(launch_dict, "name"),
+            # --- identity ---
+            launch_uuid=safe_get(launch_dict, "id"),
+            launch_url=safe_get(launch_dict, "url"),
+
+            # --- timing ---
+            net=safe_get(launch_dict, "net"),
             window_start=safe_get(launch_dict, "window_start"),
             window_end=safe_get(launch_dict, "window_end"),
+            last_updated=safe_get(launch_dict, "last_updated"),
+
+            # --- status / label ---
+            launch_name=safe_get(launch_dict, "name"),
             launch_status=safe_get(launch_dict, "status", "name"),
             launch_status_id=safe_get(launch_dict, "status", "id"),
             launch_status_abbrev=safe_get(launch_dict, "status", "abbrev"),
             launch_status_description=safe_get(launch_dict, "status", "description"),
-            image_thumbnail=safe_get(launch_dict, "image", "thumbnail_url"),
+
+            # --- operator ---
+            operator_id=operator_id,
+            operator_name=operator_name,
+
+            # --- mission ---
+            mission_id=safe_get(launch_dict, "mission", "id"),
             mission_name=safe_get(launch_dict, "mission", "name"),
             mission_type=safe_get(launch_dict, "mission", "type"),
             mission_description=safe_get(launch_dict, "mission", "description"),
+
+            # --- mission owners ---
+            mission_owner_primary_id=safe_get(primary_owner, "id") if primary_owner else None,
+            mission_owner_primary_name=safe_get(primary_owner, "name") if primary_owner else  None,
+            mission_owner_all_ids=";".join(owner_ids) if owner_ids else None,
+            mission_owner_all_names=";".join(owner_names) if owner_names else None,
+
+            # --- programs ---
+            program_names=extract_program_names(launch_dict),
+
+            # --- media ---
+            image_thumbnail=safe_get(launch_dict, "image", "thumbnail_url"),
+
+            # --- rocket ---
             rocket_full_name=safe_get(launch_dict, "rocket", "configuration", "full_name"),
             rocket_variant=safe_get(launch_dict, "rocket", "configuration", "variant"),
             rocket_name=safe_get(launch_dict, "rocket", "configuration", "name"),
             rocket_family=safe_get(launch_dict, "rocket", "configuration", "families", 0, "name"),
-            agency_name=safe_get(launch_dict, "mission", "agencies", 0, "name"),
-            agency_country=safe_get(launch_dict, "mission", "agencies", 0, "country_code"),
-            agency_logo=safe_get(launch_dict, "mission", "agencies", 0, "image", "logo_url"),
+
+            # --- launchpad ---
             launchpad_name=safe_get(launch_dict, "pad", "name"),
             launchpad_id=safe_get(launch_dict, "pad", "id"),
             launchpad_description=safe_get(launch_dict, "pad", "description"),
@@ -349,12 +479,13 @@ def get_agency_launch_data(client: LL2Client, params: Optional[dict] = None):
             launchpad_latitude=safe_get(launch_dict, "pad", "latitude"),
             launchpad_longitude=safe_get(launch_dict, "pad", "longitude"),
             launchpad_location_name=safe_get(launch_dict, "pad", "location", "name"),
-            launchpad_country=safe_get(launch_dict, "pad", "country", "alpha_3_code")
+            launchpad_country=safe_get(launch_dict, "pad", "country", "alpha_3_code"),
         )
 
         data.append(launch)
 
     return data
+
 
 def get_astronaut_data(client: LL2Client, params: Optional[dict] = None) -> list[AstronautData]:
     if params is None:
@@ -515,23 +646,23 @@ if __name__ == "__main__":
 
     create_tables()
 
-    truncate_tables()
+    # truncate_tables()
 
-    launch_data = get_launch_data(client=client, params=launch_params)
-    add_launches(launch_data=launch_data)
-    add_launches_by_month_and_year()
+    # launch_data = get_launch_data(client=client, params=launch_params)
+    # add_launches(launch_data=launch_data)
+    # add_launches_by_month_and_year()
 
     #Agency Launch Data
-    agency_launch_data = get_agency_launch_data(client=client)
-    add_agency_launches(launch_data=agency_launch_data)
-
-    # Agencies
-    agencies = get_agency_data(client=client)
-    add_agencies(agency_data=agencies)
-
-    #Astronauts
-    astronauts = get_astronaut_data(client=client)
-    add_astronauts(astronaut_data=astronauts)
+    # agency_launch_data = get_agency_launch_data(client=client)
+    # add_agency_launches(launch_data=agency_launch_data)
+    #
+    # # Agencies
+    # agencies = get_agency_data(client=client)
+    # add_agencies(agency_data=agencies)
+    #
+    # #Astronauts
+    # astronauts = get_astronaut_data(client=client)
+    # add_astronauts(astronaut_data=astronauts)
 
 
 
