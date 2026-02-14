@@ -39,6 +39,7 @@ theme:
     - search.suggest # display the likeliest completion when searching
     - search.share # deep link search query + result to share
     - content.code.annotate
+    - announce.dismiss
 
 plugins:
   - search

@@ -1,22 +1,13 @@
-# Welcome to MkDocs
+# Analytics by Mark
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+[Real-world analytics and data engineering for insurance professionals.]{#hero-subtitle}
 
-## Commands
+[Subscribe to Newsletter](https://YOUR-NEWSLETTER-SIGNUP-URL-HERE){ #hero-cta-dev .md-button .md-button--primary target="_blank" }
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+---
 
-# Welcome
+## Free Guide: 5 Must-Haves in Your Insurance Analytics Data Model
 
-[Subscribe to Newsletter](https://YOUR-NEWSLETTER-SIGNUP-URL-HERE){ #hero-cta-dev data-exp="hero_cta_label" .md-button .md-button--primary target="_blank" }
+Get the checklist that saves months of rework — from schema design to production deployment.
 
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+[Download the Free Guide](https://YOUR-NEWSLETTER-SIGNUP-URL-HERE){ #lead-magnet-cta .md-button .md-button--primary target="_blank" }
