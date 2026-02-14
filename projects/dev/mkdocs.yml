@@ -9,6 +9,7 @@ copyright: >
 
 theme:
   name: material
+  custom_dir: overrides
   logo: assets/logo.png
   favicon: assets/logo.png
   palette:
@@ -26,7 +27,7 @@ theme:
   features:
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/
     - navigation.indexes
-    #    - navigation.instant # :todo enable this when ready to add links (https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-previews)
+    - navigation.instant
     - navigation.instant.prefetch # hover over links to get preload
     - navigation.tracking # add tracking to the url for more precise links
     - navigation.tabs # adds menu to the header above certain screen size
@@ -51,7 +52,7 @@ markdown_extensions:
   - pymdownx.inlinehilite # syntax highlighting
   - pymdownx.snippets: # embedding code from source
       base_path:
-        - ".."          # <-- start at /projects
+        - "."           # <-- start at /projects/dev (config file dir)
       check_paths: true
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
@@ -92,7 +93,16 @@ extra_css:
   - assets/extra.css
 
 extra_javascript:
-  # client key designed for where the key itself cannot be secret -> safe in repo (https://docs.statsig.com/sdk-keys/api-keys/)
-  - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
-  - "js/sidecar-bootstrap.js"
+  # Statsig SDK loaded in <head> via overrides/partials/integrations/analytics.html
+  - "js/statsig/config/experiments.config.js"
+  - "js/statsig/core/user.js"
+  - "js/statsig/core/client.js"
+  - "js/statsig/experiments/renderer.js"
+  - "js/statsig/experiments/bootstrap.js"
+  # Event tracking modules
+  - "js/statsig/tracking/eventLogger.js"
+  - "js/statsig/tracking/exposureLogger.js"
+  - "js/statsig/tracking/clickTracker.js"
+  - "js/statsig/tracking/engagementTracker.js"
+  - "js/statsig/tracking/init.js"
 
