@@ -29,6 +29,11 @@ def on_page_markdown(markdown, **kwargs):
 
     # (Optional) log to verify at build/serve time
     return markdown + dedent(f"""
+
+    ---
+
+    [Enjoyed this post? Get more like it in your inbox.](https://YOUR-NEWSLETTER-SIGNUP-URL-HERE){{ #post-footer-cta .md-button .md-button--primary target=_blank }}
+
     [Share on :simple-x:]({x_intent}?text={encoded_title}&url={encoded_url}){{ .md-button target=_blank rel=noopener }}
     [Share on :simple-facebook:]({fb_sharer}?u={encoded_url}){{ .md-button target=_blank rel=noopener }}
     [Share on :fontawesome-brands-square-linkedin:]({li_sharer}?url={encoded_url}){{ .md-button target=_blank rel=noopener }}
