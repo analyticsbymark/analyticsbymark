@@ -223,3 +223,7 @@ projects/*/docs/js/statsig/config/experiments.config.js
 # Experiment mapping (private - contains real experiment details)
 EXPERIMENT_MAPPING.md
 SECURITY_UPDATES.md
+
+# Agent system IP (kept in separate private repo)
+agents/
+claude.md
