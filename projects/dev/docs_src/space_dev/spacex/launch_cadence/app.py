@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from dash import Dash, html, dcc, callback, Output, Input
+from dash import Dash, html, dcc, dash_table, callback, Output, Input
 
 from data.utils import get_spacex_data
 
@@ -128,10 +128,23 @@ app.layout = html.Div(
         # --- Chart ---
         dcc.Graph(id="cadence-chart"),
 
+        # --- Data table: shows the filtered data driving the chart ---
+        # Hint: customise columns, conditional formatting, and CSV export via
+        # https://dash.plotly.com/datatable
+        html.H4("Filtered Data", style={"marginTop": "24px"}),
+        dash_table.DataTable(
+            id="data-table",
+            sort_action="native",
+            page_size=15,
+            style_table={"overflowX": "auto"},
+            style_header={"fontWeight": "bold", "backgroundColor": "#F5F5F5"},
+            style_cell={"textAlign": "left", "padding": "8px", "fontSize": "13px"},
+        ),
+
         # --- Footer ---
         html.P(
             SOURCE,
-            style={"color": "#999", "fontSize": "11px", "marginTop": "8px"},
+            style={"color": "#999", "fontSize": "11px", "marginTop": "16px"},
         ),
         # Hint: add dcc.Markdown() here for narrative text or tutorial context.
         # See: https://dash.plotly.com/dash-core-components/markdown
@@ -144,12 +157,14 @@ app.layout = html.Div(
 # ---------------------------------------------------------------------------
 @callback(
     Output("cadence-chart", "figure"),
+    Output("data-table", "data"),
+    Output("data-table", "columns"),
     Input("year-range", "value"),
     Input("phase-filter", "value"),
     Input("annotation-toggle", "value"),
 )
-def update_chart(year_range: list, phases: list, annotations: list) -> go.Figure:
-    """Rebuild the bar chart from filtered data and optional annotations."""
+def update_chart(year_range: list, phases: list, annotations: list) -> tuple:
+    """Rebuild the bar chart and data table from filtered data."""
     y_min, y_max = year_range
     yearly = DF.groupby("year").size().reset_index(name="launches")
     yearly["phase"] = yearly["year"].apply(assign_phase)
@@ -235,7 +250,20 @@ def update_chart(year_range: list, phases: list, annotations: list) -> go.Figure
                 bgcolor="white", bordercolor="#0D47A1", borderwidth=1, borderpad=4,
             )
 
-    return fig
+    raw = DF[(DF["year"] >= y_min) & (DF["year"] <= y_max)].copy()
+    raw["phase"] = raw["year"].apply(assign_phase)
+    raw = raw[raw["phase"].isin(phases)]
+    table_df = raw[["net", "launch_name", "rocket_name", "mission_type",
+                     "launchpad_name", "launch_status_abbrev"]].copy()
+    table_df["net"] = table_df["net"].dt.strftime("%Y-%m-%d")
+    table_df = table_df.rename(columns={
+        "net": "Date", "launch_name": "Mission", "rocket_name": "Rocket",
+        "mission_type": "Type", "launchpad_name": "Pad",
+        "launch_status_abbrev": "Status",
+    }).sort_values("Date", ascending=False)
+    columns = [{"name": c, "id": c} for c in table_df.columns]
+
+    return fig, table_df.to_dict("records"), columns
 
 
 if __name__ == "__main__":

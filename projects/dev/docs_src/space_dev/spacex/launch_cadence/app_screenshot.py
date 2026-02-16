@@ -1,11 +1,14 @@
 """
-Capture a full-page screenshot of the Dash dashboard.
+Capture screenshots of the Dash dashboard.
 
 Starts the app in a background thread, uses headless Chrome to
-screenshot the default view, then exits.
+capture two views, then exits.
+
+Output:
+  images/app_image_01_linkedin_preview.png  — Fixed 1200x627 (LinkedIn optimised)
+  images/app_image_02_full_view.png         — Full page including data table
 
 Run with: python app_screenshot.py
-Output:   images/app_image_01_default_view.png
 """
 
 import sys
@@ -26,9 +29,12 @@ from app import app
 IMAGES_DIR = Path(__file__).resolve().parent / "images"
 IMAGES_DIR.mkdir(exist_ok=True)
 
+LINKEDIN_WIDTH = 1200
+LINKEDIN_HEIGHT = 627
+
 
 def main() -> None:
-    """Start the Dash server, screenshot it, and exit."""
+    """Start the Dash server and capture both screenshots."""
     server_thread = threading.Thread(
         target=lambda: app.run(debug=False, use_reloader=False),
         daemon=True,
@@ -39,7 +45,7 @@ def main() -> None:
     opts = Options()
     opts.add_argument("--headless")
     opts.add_argument("--no-sandbox")
-    opts.add_argument("--window-size=1400,900")
+    opts.add_argument(f"--window-size={LINKEDIN_WIDTH},{LINKEDIN_HEIGHT}")
     driver = webdriver.Chrome(options=opts)
 
     try:
@@ -49,9 +55,29 @@ def main() -> None:
         )
         time.sleep(1)
 
-        out = IMAGES_DIR / "app_image_01_default_view.png"
-        driver.save_screenshot(str(out))
-        print(f"Saved: {out}")
+        # Image 1: LinkedIn preview — 1200px wide, height cropped just above
+        # the data table heading so only controls + chart are visible.
+        # First render at full width to get layout positions.
+        driver.set_window_size(LINKEDIN_WIDTH, 1200)
+        time.sleep(0.5)
+        crop_y = driver.execute_script(
+            "const h4 = document.querySelector('h4');"
+            "return h4 ? h4.getBoundingClientRect().top : 627;"
+        )
+        driver.set_window_size(LINKEDIN_WIDTH, int(crop_y))
+        time.sleep(0.5)
+        out_1 = IMAGES_DIR / "app_image_01_linkedin_preview.png"
+        driver.save_screenshot(str(out_1))
+        print(f"Saved: {out_1}  ({LINKEDIN_WIDTH}x{int(crop_y)})")
+
+        # Image 2: Full page — expand to capture data table
+        page_height = driver.execute_script("return document.body.scrollHeight")
+        driver.set_window_size(1400, page_height)
+        time.sleep(0.5)
+        out_2 = IMAGES_DIR / "app_image_02_full_view.png"
+        driver.save_screenshot(str(out_2))
+        print(f"Saved: {out_2}")
+
     finally:
         driver.quit()
 
