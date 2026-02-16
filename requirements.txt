@@ -53,3 +53,9 @@ typing-inspection==0.4.2
 tzdata==2024.2
 urllib3==2.5.0
 watchdog==6.0.0
+# Visualization & tutorial dependencies
+plotly==5.21.0
+dash==2.16.1
+kaleido==0.2.1
+pytest==8.2.2
+black==24.4.2

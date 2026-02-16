@@ -97,6 +97,9 @@ jobs:
           console.log("Done!");
           NODE
 
+      - name: Run tests
+        run: python -m pytest projects/ -v
+
       - name: Build analyticsbymark.dev
         run: |
           mkdir -p "$GITHUB_WORKSPACE/_build"
