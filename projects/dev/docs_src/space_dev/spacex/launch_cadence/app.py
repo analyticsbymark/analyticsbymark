@@ -27,9 +27,6 @@ from dash import Dash, html, dcc, callback, Output, Input
 
 from data.utils import get_spacex_data
 
-IMAGES_DIR = Path(__file__).resolve().parent / "images"
-IMAGES_DIR.mkdir(exist_ok=True)
-
 # ---------------------------------------------------------------------------
 # Data: loaded once at startup, filtered to completed launches
 # ---------------------------------------------------------------------------
@@ -241,46 +238,5 @@ def update_chart(year_range: list, phases: list, annotations: list) -> go.Figure
     return fig
 
 
-def save_dashboard_screenshot() -> None:
-    """Launch the app in a background thread, screenshot the full page with
-    headless Chrome, then shut down the background server."""
-    import threading
-    import time
-    from selenium import webdriver
-    from selenium.webdriver.chrome.options import Options
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
-    from selenium.webdriver.common.by import By
-
-    # Start Dash in a daemon thread so it doesn't block
-    server_thread = threading.Thread(
-        target=lambda: app.run(debug=False, use_reloader=False),
-        daemon=True,
-    )
-    server_thread.start()
-    time.sleep(2)
-
-    opts = Options()
-    opts.add_argument("--headless")
-    opts.add_argument("--no-sandbox")
-    opts.add_argument("--window-size=1400,900")
-    driver = webdriver.Chrome(options=opts)
-
-    try:
-        driver.get("http://127.0.0.1:8050")
-        # Wait for the Plotly chart to render
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CLASS_NAME, "js-plotly-plot"))
-        )
-        time.sleep(1)
-
-        out = IMAGES_DIR / "app_image_01_default_view.png"
-        driver.save_screenshot(str(out))
-        print(f"Saved: {out}")
-    finally:
-        driver.quit()
-
-
 if __name__ == "__main__":
-    save_dashboard_screenshot()
     app.run(debug=True)
