@@ -15,7 +15,6 @@ All tutorials import data the same way:
 
 import sys
 from pathlib import Path
-from typing import Optional
 
 import pandas as pd
 
@@ -31,7 +30,8 @@ _SPACEX_LSP_ID = 121
 
 def _fetch_from_api() -> pd.DataFrame:
     """
-    Fetch SpaceX launch data from the LL2 API using the existing LL2Client.
+    Fetch SpaceX launch data from the LL2 API using the existing
+    get_agency_launch_data() function from the database module.
 
     Returns a flat DataFrame with one row per launch.
     """
@@ -44,44 +44,31 @@ def _fetch_from_api() -> pd.DataFrame:
         added_to_path = True
 
     try:
-        from tutorial_001 import LL2Settings, LL2Client, safe_get
+        from tutorial_001 import (
+            LL2Settings,
+            LL2Client,
+            get_agency_launch_data,
+        )
 
         settings = LL2Settings()
         client = LL2Client(settings)
 
-        params = {
-            "ordering": "-net",
-            "lsp__id": _SPACEX_LSP_ID,
-            "limit": 100,
-        }
+        # get_agency_launch_data defaults to lsp__id=121 (SpaceX)
+        agency_launches = get_agency_launch_data(client=client)
 
-        raw_launches = client.get_results(
-            settings.EP_LAUNCHES, params=params
-        )
+        # Convert AgencyLaunchData pydantic models to flat dicts
+        df = pd.DataFrame([launch.model_dump() for launch in agency_launches])
 
-        rows = []
-        for launch in raw_launches:
-            rows.append(
-                {
-                    "launch_name": safe_get(launch, "name"),
-                    "net": safe_get(launch, "net"),
-                    "launch_status": safe_get(launch, "status", "name"),
-                    "mission_name": safe_get(launch, "mission", "name"),
-                    "mission_type": safe_get(launch, "mission", "type"),
-                    "rocket_name": safe_get(
-                        launch, "rocket", "configuration", "name"
-                    ),
-                    "launchpad_name": safe_get(launch, "pad", "name"),
-                }
-            )
+        if not df.empty:
+            # Parse datetime columns
+            for col in ["net", "window_start", "window_end", "last_updated"]:
+                if col in df.columns:
+                    df[col] = pd.to_datetime(df[col], utc=True)
 
-        df = pd.DataFrame(rows)
-
-        # Parse dates and derive year/month columns
-        if not df.empty and "net" in df.columns:
-            df["net"] = pd.to_datetime(df["net"], utc=True)
-            df["year"] = df["net"].dt.year
-            df["month"] = df["net"].dt.month
+            # Derive year/month from net for time-series analysis
+            if "net" in df.columns:
+                df["year"] = df["net"].dt.year
+                df["month"] = df["net"].dt.month
 
         return df
 
@@ -98,9 +85,13 @@ def get_spacex_data(force_refresh: bool = False) -> pd.DataFrame:
     re-fetch from the LL2 API.
 
     Returns:
-        pd.DataFrame with columns:
-            launch_name, net, launch_status, mission_name, mission_type,
-            rocket_name, launchpad_name, year, month
+        pd.DataFrame with columns including:
+            launch_name, net, launch_status, launch_status_abbrev,
+            operator_name, mission_name, mission_type, mission_description,
+            mission_owner_primary_name, program_names,
+            rocket_full_name, rocket_name, rocket_family,
+            launchpad_name, launchpad_location_name, launchpad_country,
+            year, month, and more.
 
     Example:
         >>> from data.utils import get_spacex_data
@@ -108,7 +99,7 @@ def get_spacex_data(force_refresh: bool = False) -> pd.DataFrame:
         >>> print(df.shape)
     """
     if not force_refresh and _CACHE_FILE.exists():
-        df = pd.read_csv(_CACHE_FILE, parse_dates=["net"])
+        df = pd.read_csv(_CACHE_FILE, parse_dates=["net", "window_start", "window_end", "last_updated"])
         return df
 
     df = _fetch_from_api()
@@ -124,5 +115,8 @@ if __name__ == "__main__":
     df = get_spacex_data()
     print(f"Loaded {len(df)} SpaceX launches")
     print(f"Columns: {list(df.columns)}")
-    print(f"Date range: {df['net'].min()} to {df['net'].max()}")
-    print(df.head())
+    print(f"\nDate range: {df['net'].min()} to {df['net'].max()}")
+    print(f"\nShape: {df.shape}")
+    print(f"\nMission types:\n{df['mission_type'].value_counts()}")
+    print(f"\nRockets:\n{df['rocket_name'].value_counts()}")
+    print(f"\nLaunch statuses:\n{df['launch_status'].value_counts()}")
