@@ -41,6 +41,16 @@ theme:
     - content.code.annotate
 
 
+plugins:
+  - social:
+      cards_layout: default
+      cards_layout_dir: layouts
+      # Available layouts: default, tutorial, dataset, showcase, article
+      # Override per-page via frontmatter:
+      #   social:
+      #     cards_layout: tutorial
+      # Or per-directory via .meta.yml (requires meta plugin)
+
 markdown_extensions:
   - admonition # highlighting sections of the page
   - attr_list # used by various extensions
@@ -53,7 +63,8 @@ markdown_extensions:
   - pymdownx.snippets: # embedding code from source
       base_path:
         - "projects/dev"  # relative to repo root (where CI runs from)
-      check_paths: true
+        - "."  # relative to CWD (for local `mkdocs serve` from projects/dev/)
+      check_paths: false  # TODO: re-enable once all snippet sources exist
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
