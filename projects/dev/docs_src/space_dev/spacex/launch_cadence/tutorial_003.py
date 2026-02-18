@@ -18,8 +18,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 # Standard imports
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
-from pathlib import Path
 
 # Local imports
 from data.utils import get_spacex_data
