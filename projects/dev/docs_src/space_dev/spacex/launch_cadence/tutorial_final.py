@@ -75,21 +75,24 @@ def build_bar_chart(df: pd.DataFrame) -> None:
     yearly["phase"] = yearly["year"].apply(assign_phase)
 
     first_year = yearly["year"].iloc[0]
-    last_year = yearly["year"].iloc[-1]
     first_count = int(yearly["launches"].iloc[0])
-    last_count = int(yearly.loc[yearly["year"] == last_year, "launches"].values[0])
-    multiple = last_count / max(first_count, 1)
 
     hyperscale_year = 2020
+    hs_data = yearly[yearly["year"] >= hyperscale_year]
+    peak_idx = hs_data["launches"].idxmax()
+    peak_year = int(hs_data.loc[peak_idx, "year"])
+    peak_count = int(hs_data.loc[peak_idx, "launches"])
+    multiple = peak_count / max(first_count, 1)
+
     hs_count = int(yearly.loc[yearly["year"] == hyperscale_year, "launches"].values[0])
     prev_count = int(yearly.loc[yearly["year"] == hyperscale_year - 1, "launches"].values[0])
     yoy_pct = round((hs_count - prev_count) / prev_count * 100)
 
-    n_years = last_year - hyperscale_year
-    cagr_pct = round(((last_count / hs_count) ** (1 / n_years) - 1) * 100)
+    n_years = peak_year - hyperscale_year
+    cagr_pct = round(((peak_count / hs_count) ** (1 / n_years) - 1) * 100)
 
-    bracket_y = last_count + 30
-    bracket_mid_x = hyperscale_year + (last_year - hyperscale_year) / 2
+    bracket_y = peak_count + 30
+    bracket_mid_x = hyperscale_year + (peak_year - hyperscale_year) / 2
 
     fig = px.bar(
         yearly,
@@ -106,9 +109,9 @@ def build_bar_chart(df: pd.DataFrame) -> None:
     fig.update_layout(
         title=dict(
             text=(
-                f"From {first_count} to {last_count}: SpaceX's Launch Acceleration"
+                f"From {first_count} to {peak_count}: SpaceX's Launch Acceleration"
                 f"<br><sup style='color:#666'>Completed launches per year, "
-                f"{first_year}-{last_year} — three distinct acceleration phases</sup>"
+                f"{first_year}-{peak_year} — three distinct acceleration phases</sup>"
             ),
             x=0.5, xanchor="center", font=dict(size=18),
         ),
@@ -136,8 +139,8 @@ def build_bar_chart(df: pd.DataFrame) -> None:
 
     for x0, y0, x1, y1 in [
         (hyperscale_year, hs_count + 11, hyperscale_year, bracket_y),
-        (hyperscale_year, bracket_y, last_year, bracket_y),
-        (last_year, last_count + 12, last_year, bracket_y),
+        (hyperscale_year, bracket_y, peak_year, bracket_y),
+        (peak_year, peak_count + 12, peak_year, bracket_y),
     ]:
         fig.add_shape(
             type="line", x0=x0, y0=y0, x1=x1, y1=y1,
@@ -145,14 +148,14 @@ def build_bar_chart(df: pd.DataFrame) -> None:
         )
     fig.add_annotation(
         x=bracket_mid_x, y=bracket_y + 8,
-        text=f"{hyperscale_year}-{last_year} CAGR <b>{cagr_pct}%</b>",
+        text=f"{hyperscale_year}-{peak_year} CAGR <b>{cagr_pct}%</b>",
         showarrow=False, font=dict(size=12, color="#0D47A1"),
         bgcolor="white", bordercolor="#0D47A1", borderwidth=1, borderpad=4,
     )
 
     fig.add_annotation(
-        x=last_year, y=last_count,
-        text=f"<b>{last_count} launches</b><br>{multiple:.0f}\u00d7 the first year",
+        x=peak_year, y=peak_count,
+        text=f"<b>{peak_count} launches</b><br>{multiple:.0f}\u00d7 the first year",
         showarrow=True, arrowhead=2, arrowsize=1.2, arrowcolor="#0D47A1",
         ax=70, ay=-40,
         font=dict(size=11, color="#0D47A1"),
@@ -169,65 +172,10 @@ def build_bar_chart(df: pd.DataFrame) -> None:
     print(f"Saved: {out}")
 
 
-def build_heatmap(df: pd.DataFrame) -> None:
-    """Produce the secondary monthly density heatmap."""
-    pivot = df.pivot_table(index="year", columns="month", aggfunc="size", fill_value=0)
-    for m in range(1, 13):
-        if m not in pivot.columns:
-            pivot[m] = 0
-    pivot = pivot[range(1, 13)]
-
-    month_labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
-    fig = px.imshow(
-        pivot.values,
-        x=month_labels,
-        y=[str(y) for y in pivot.index],
-        color_continuous_scale=HEATMAP_SCALE,
-        labels=dict(x="Month", y="Year", color="Launches"),
-        text_auto=True,
-        aspect="auto",
-    )
-    fig.update_layout(
-        title=dict(
-            text=(
-                "From Sporadic to Always-On: Monthly Launch Density"
-                "<br><sup style='color:#666'>Completed launches by month, "
-                "2006-2026 — white cells indicate zero launches</sup>"
-            ),
-            x=0.5, xanchor="center", font=dict(size=16),
-        ),
-        width=1000, height=650,
-        margin=dict(t=100, b=80, r=130),
-        paper_bgcolor="white",
-    )
-
-    fig.add_annotation(
-        text="Sparse:<br>gaps & clusters",
-        xref="paper", yref="paper", x=1.1, y=0.85,
-        showarrow=False, font=dict(size=10, color="#B0BEC5"),
-    )
-    fig.add_annotation(
-        text="Dense:<br>every month active",
-        xref="paper", yref="paper", x=1.1, y=0.2,
-        showarrow=False, font=dict(size=10, color="#0D47A1"),
-    )
-    fig.add_annotation(
-        text=SOURCE, xref="paper", yref="paper",
-        x=0, y=-0.1, showarrow=False, font=dict(size=9, color="#999"),
-    )
-
-    out = IMAGES_DIR / "tutorial_final_image_02_heatmap_density.png"
-    fig.write_image(str(out), scale=2)
-    print(f"Saved: {out}")
-
-
 def main() -> None:
     """Generate final composition for launch cadence curiosity."""
     df = load_data()
     build_bar_chart(df)
-    build_heatmap(df)
 
 
 if __name__ == "__main__":

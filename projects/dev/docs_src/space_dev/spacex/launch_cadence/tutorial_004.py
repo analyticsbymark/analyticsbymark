@@ -160,21 +160,24 @@ def bar_annotated(yearly: pd.DataFrame) -> None:
 
     # --- Derive annotation values from data ---
     first_year = yearly["year"].iloc[0]
-    last_year = yearly["year"].iloc[-1]
     first_count = int(yearly["launches"].iloc[0])
-    last_count = int(yearly.loc[yearly["year"] == last_year, "launches"].values[0])
-    multiple = last_count / max(first_count, 1)
 
     hyperscale_year = 2020
+    hs_data = yearly[yearly["year"] >= hyperscale_year]
+    peak_idx = hs_data["launches"].idxmax()
+    peak_year = int(hs_data.loc[peak_idx, "year"])
+    peak_count = int(hs_data.loc[peak_idx, "launches"])
+    multiple = peak_count / max(first_count, 1)
+
     hs_count = int(yearly.loc[yearly["year"] == hyperscale_year, "launches"].values[0])
     prev_count = int(yearly.loc[yearly["year"] == hyperscale_year - 1, "launches"].values[0])
     yoy_pct = round((hs_count - prev_count) / prev_count * 100)
 
-    n_years = last_year - hyperscale_year
-    cagr_pct = round(((last_count / hs_count) ** (1 / n_years) - 1) * 100)
+    n_years = peak_year - hyperscale_year
+    cagr_pct = round(((peak_count / hs_count) ** (1 / n_years) - 1) * 100)
 
-    bracket_y = last_count + 30
-    bracket_mid_x = hyperscale_year + (last_year - hyperscale_year) / 2
+    bracket_y = peak_count + 30
+    bracket_mid_x = hyperscale_year + (peak_year - hyperscale_year) / 2
 
     fig = px.bar(
         yearly,
@@ -195,9 +198,9 @@ def bar_annotated(yearly: pd.DataFrame) -> None:
     fig.update_layout(
         title=dict(
             text=(
-                f"From {first_count} to {last_count}: SpaceX's Launch Acceleration"
+                f"From {first_count} to {peak_count}: SpaceX's Launch Acceleration"
                 f"<br><sup style='color:#666'>Completed launches per year, "
-                f"{first_year}-{last_year} "
+                f"{first_year}-{peak_year} "
                 f"| Three distinct acceleration phases</sup>"
             ),
             x=0.5,
@@ -241,17 +244,17 @@ def bar_annotated(yearly: pd.DataFrame) -> None:
         line=dict(color="#0D47A1", width=1.5, dash="dot"),
     )
     fig.add_shape(
-        type="line", x0=hyperscale_year, y0=bracket_y, x1=last_year, y1=bracket_y,
+        type="line", x0=hyperscale_year, y0=bracket_y, x1=peak_year, y1=bracket_y,
         line=dict(color="#0D47A1", width=1.5, dash="dot"),
     )
     fig.add_shape(
-        type="line", x0=last_year, y0=last_count + 12, x1=last_year, y1=bracket_y,
+        type="line", x0=peak_year, y0=peak_count + 12, x1=peak_year, y1=bracket_y,
         line=dict(color="#0D47A1", width=1.5, dash="dot"),
     )
     fig.add_annotation(
         x=bracket_mid_x,
         y=bracket_y + 8,
-        text=f"{hyperscale_year}-{last_year} CAGR <b>{cagr_pct}%</b>",
+        text=f"{hyperscale_year}-{peak_year} CAGR <b>{cagr_pct}%</b>",
         showarrow=False,
         font=dict(size=12, color="#0D47A1"),
         bgcolor="white",
@@ -262,9 +265,9 @@ def bar_annotated(yearly: pd.DataFrame) -> None:
 
     # Annotation 3: The peak year
     fig.add_annotation(
-        x=last_year,
-        y=last_count,
-        text=f"<b>{last_count} launches</b><br>{multiple:.0f}x the first year",
+        x=peak_year,
+        y=peak_count,
+        text=f"<b>{peak_count} launches</b><br>{multiple:.0f}x the first year",
         showarrow=True,
         arrowhead=2,
         arrowsize=1.2,
@@ -384,7 +387,8 @@ def main() -> None:
     """Run the annotation process for both winning charts.
 
     Kirk Ch 9: Annotation is where the author's voice enters the
-    visualisation. Without annotation, you have a chart. With it,
+    visualisation. Wit
+    hout annotation, you have a chart. With it,
     you have a story.
     """
     df = load_and_filter()
