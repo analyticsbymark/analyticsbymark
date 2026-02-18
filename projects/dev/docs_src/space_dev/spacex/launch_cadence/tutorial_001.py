@@ -270,7 +270,7 @@ def main() -> None:
 1. ACCELERATION PHASES: The yearly cadence chart shows three distinct eras:
    - Startup (2006-2013): Single-digit launches, proving the vehicle works
    - Growth (2014-2019): Steady climb from 6 to 21 launches per year
-   - Hyperscale (2020-2025): Exponential jump from 29 to 170+
+   - Hyperscale (2020+): Exponential jump — see yearly counts above
 
 2. SEASONALITY: The monthly heatmap reveals that early years had clustered
    launches (gaps of several months), while recent years show near-uniform

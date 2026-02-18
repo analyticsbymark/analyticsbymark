@@ -67,10 +67,10 @@ def chart_candidate_bar(yearly: pd.DataFrame) -> None:
     accurately perceived visual channels. Each year gets its own discrete
     bar, making year-to-year comparison effortless.
 
-    VERDICT: Strong candidate. The dramatic height difference between 2006
-    (1 bar barely visible) and 2025 (170, towering) tells the acceleration
-    story at a glance. However, it emphasises individual year totals more
-    than the *shape* of the growth curve.
+    VERDICT: Strong candidate. The dramatic height difference between the
+    first year (barely visible) and the latest year (towering) tells the
+    acceleration story at a glance. However, it emphasises individual year
+    totals more than the *shape* of the growth curve.
     """
     fig = px.bar(
         yearly,
@@ -192,7 +192,7 @@ def main() -> None:
     the curiosity question for our audience.
 
     Our audience: insurance professionals learning data viz.
-    Our question: How did SpaceX scale from 1 to 170 launches per year?
+    Our question: How did SpaceX scale its launch cadence so dramatically?
     They need to take away: the acceleration happened in distinct phases,
     and the pattern maps to their own claims frequency analysis.
     """
@@ -204,8 +204,8 @@ def main() -> None:
     print("CHART SELECTION — Kirk Ch 7: Data Representation")
     print("=" * 60)
     print()
-    print("Curiosity question: How did SpaceX scale from 1 launch per")
-    print("year to 170, and what does the acceleration curve reveal?")
+    print("Curiosity question: How did SpaceX scale its launch cadence")
+    print("so dramatically, and what does the acceleration curve reveal?")
     print()
     print("Evaluating 4 chart candidates...")
     print()
@@ -237,7 +237,7 @@ WHY THE BAR CHART WINS:
 
 1. IMMEDIATE IMPACT: The bar chart delivers the acceleration story in
    under 2 seconds. The visual contrast between the tiny early bars and
-   the towering 170-bar is visceral — no interpretation needed.
+   the towering latest-year bar is visceral — no interpretation needed.
 
 2. PRECISE COMPARISON: Kirk Ch 7 tells us length is the most accurately
    perceived visual channel. Readers can compare any two years at a

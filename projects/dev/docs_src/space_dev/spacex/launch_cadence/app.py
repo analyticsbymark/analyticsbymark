@@ -44,6 +44,13 @@ SOURCE = "Source: Launch Library 2 API | thespacedevs.com"
 ALL_YEARS = sorted(DF["year"].unique())
 MIN_YEAR, MAX_YEAR = ALL_YEARS[0], ALL_YEARS[-1]
 
+# Derive headline stats once for the layout subtitle
+_yearly_full = DF.groupby("year").size().reset_index(name="launches")
+_FIRST_COUNT = int(_yearly_full["launches"].iloc[0])
+_LAST_COUNT = int(_yearly_full.loc[_yearly_full["year"] == MAX_YEAR, "launches"].values[0])
+_FIRST_YEAR = int(_yearly_full["year"].iloc[0])
+del _yearly_full
+
 
 def assign_phase(year: int) -> str:
     """Map a year to its acceleration phase."""
@@ -68,8 +75,9 @@ app.layout = html.Div(
     children=[
         html.H2("SpaceX Launch Cadence Explorer"),
         html.P(
-            "From 1 launch in 2006 to 170 in 2025 — filter by year and acceleration "
-            "phase to explore how SpaceX scaled to hyperscale operations.",
+            f"From {_FIRST_COUNT} launch in {_FIRST_YEAR} to {_LAST_COUNT} in {MAX_YEAR} "
+            f"— filter by year and acceleration "
+            f"phase to explore how SpaceX scaled to hyperscale operations.",
             style={"color": "#666", "fontSize": "14px", "marginBottom": "24px"},
         ),
 
@@ -168,6 +176,26 @@ def update_chart(year_range: list, phases: list, annotations: list) -> tuple:
     y_min, y_max = year_range
     yearly = DF.groupby("year").size().reset_index(name="launches")
     yearly["phase"] = yearly["year"].apply(assign_phase)
+
+    # Derive annotation values from unfiltered data (before user filters)
+    first_year = int(yearly["year"].iloc[0])
+    last_year = int(yearly["year"].iloc[-1])
+    first_count = int(yearly["launches"].iloc[0])
+    last_count = int(yearly.loc[yearly["year"] == last_year, "launches"].values[0])
+    multiple = last_count / max(first_count, 1)
+
+    hyperscale_year = 2020
+    hs_count = int(yearly.loc[yearly["year"] == hyperscale_year, "launches"].values[0])
+    prev_count = int(yearly.loc[yearly["year"] == hyperscale_year - 1, "launches"].values[0])
+    yoy_pct = round((hs_count - prev_count) / prev_count * 100)
+
+    n_years = last_year - hyperscale_year
+    cagr_pct = round(((last_count / hs_count) ** (1 / n_years) - 1) * 100)
+
+    bracket_y = last_count + 30
+    bracket_mid_x = hyperscale_year + (last_year - hyperscale_year) / 2
+
+    # Apply user filters
     yearly = yearly[(yearly["year"] >= y_min) & (yearly["year"] <= y_max)]
     yearly = yearly[yearly["phase"].isin(phases)]
 
@@ -186,9 +214,9 @@ def update_chart(year_range: list, phases: list, annotations: list) -> tuple:
     fig.update_layout(
         title=dict(
             text=(
-                "From 1 to 170: SpaceX's Launch Acceleration"
-                "<br><sup style='color:#666'>Completed launches per year "
-                "— three distinct acceleration phases</sup>"
+                f"From {first_count} to {last_count}: SpaceX's Launch Acceleration"
+                f"<br><sup style='color:#666'>Completed launches per year "
+                f"— three distinct acceleration phases</sup>"
             ),
             x=0.5,
             xanchor="center",
@@ -211,39 +239,38 @@ def update_chart(year_range: list, phases: list, annotations: list) -> tuple:
     # --- Annotations (only when toggled on) ---
     show = "on" in (annotations or [])
     if show:
-        in_range = y_min <= 2020 <= y_max and y_min <= 2025 <= y_max
+        in_range = y_min <= hyperscale_year <= y_max and y_min <= last_year <= y_max
         has_hyperscale = "Hyperscale (2020+)" in phases
 
         if in_range and has_hyperscale:
             fig.add_annotation(
-                x=2020, y=29,
-                text="Hyperscale begins<br><b>+93% YoY</b>",
+                x=hyperscale_year, y=hs_count,
+                text=f"Hyperscale begins<br><b>+{yoy_pct}% YoY</b>",
                 showarrow=True, arrowhead=2, arrowsize=1.2, arrowcolor="#0D47A1",
                 ax=-70, ay=-50,
                 font=dict(size=11, color="#0D47A1"),
                 bgcolor="white", bordercolor="#0D47A1", borderwidth=1, borderpad=4,
             )
 
-            bracket_y = 200
             for x0, y0, x1, y1 in [
-                (2020, 40, 2020, bracket_y),
-                (2020, bracket_y, 2025, bracket_y),
-                (2025, 182, 2025, bracket_y),
+                (hyperscale_year, hs_count + 11, hyperscale_year, bracket_y),
+                (hyperscale_year, bracket_y, last_year, bracket_y),
+                (last_year, last_count + 12, last_year, bracket_y),
             ]:
                 fig.add_shape(
                     type="line", x0=x0, y0=y0, x1=x1, y1=y1,
                     line=dict(color="#0D47A1", width=1.5, dash="dot"),
                 )
             fig.add_annotation(
-                x=2022.5, y=bracket_y + 8,
-                text="2020-2025 CAGR <b>42%</b>",
+                x=bracket_mid_x, y=bracket_y + 8,
+                text=f"{hyperscale_year}-{last_year} CAGR <b>{cagr_pct}%</b>",
                 showarrow=False, font=dict(size=12, color="#0D47A1"),
                 bgcolor="white", bordercolor="#0D47A1", borderwidth=1, borderpad=4,
             )
 
             fig.add_annotation(
-                x=2025, y=170,
-                text="<b>170 launches</b><br>170\u00d7 the first year",
+                x=last_year, y=last_count,
+                text=f"<b>{last_count} launches</b><br>{multiple:.0f}\u00d7 the first year",
                 showarrow=True, arrowhead=2, arrowsize=1.2, arrowcolor="#0D47A1",
                 ax=70, ay=-40,
                 font=dict(size=11, color="#0D47A1"),

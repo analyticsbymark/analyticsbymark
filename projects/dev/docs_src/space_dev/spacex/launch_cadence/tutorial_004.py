@@ -90,7 +90,7 @@ def bar_labeled_only(yearly: pd.DataFrame) -> None:
     Kirk Ch 9 distinguishes between LABELING and ANNOTATING:
 
     LABELING answers: 'What value is this bar?'
-    - The text on each bar (1, 2, 7, 18, 170...) is a label.
+    - The text on each bar is a label.
     - Labels identify. They tell the reader what something IS.
     - They are necessary but not sufficient for insight.
 
@@ -145,16 +145,37 @@ def bar_annotated(yearly: pd.DataFrame) -> None:
     4. Footnotes & source — credibility, context
 
     We annotate THREE strategic moments:
-    1. 2020: The inflection point where hyperscale begins (29 launches,
-       a 93% jump from 2019's 15 — the steepest year-over-year leap).
-    2. 2020-2025 CAGR: 42% compound annual growth rate across the
+    1. 2020: The inflection point where hyperscale begins — the steepest
+       year-over-year leap.
+    2. 2020-latest CAGR: Compound annual growth rate across the
        hyperscale era. CAGR is the language of finance — our insurance
        audience thinks in compound growth, not single-year jumps.
-    3. 2025: The peak at 170 — a 170x multiple from the first year.
+    3. Latest year: The peak — a massive multiple from the first year.
 
     These three points frame the entire acceleration narrative.
+
+    All annotation values (counts, percentages, positions) are derived
+    from the data so they stay correct when the dataset is refreshed.
     """
     color_map = PHASE_COLORS
+
+    # --- Derive annotation values from data ---
+    first_year = yearly["year"].iloc[0]
+    last_year = yearly["year"].iloc[-1]
+    first_count = int(yearly["launches"].iloc[0])
+    last_count = int(yearly.loc[yearly["year"] == last_year, "launches"].values[0])
+    multiple = last_count / max(first_count, 1)
+
+    hyperscale_year = 2020
+    hs_count = int(yearly.loc[yearly["year"] == hyperscale_year, "launches"].values[0])
+    prev_count = int(yearly.loc[yearly["year"] == hyperscale_year - 1, "launches"].values[0])
+    yoy_pct = round((hs_count - prev_count) / prev_count * 100)
+
+    n_years = last_year - hyperscale_year
+    cagr_pct = round(((last_count / hs_count) ** (1 / n_years) - 1) * 100)
+
+    bracket_y = last_count + 30
+    bracket_mid_x = hyperscale_year + (last_year - hyperscale_year) / 2
 
     fig = px.bar(
         yearly,
@@ -171,13 +192,14 @@ def bar_annotated(yearly: pd.DataFrame) -> None:
     # --- Annotation hierarchy level 1: Title & subtitle ---
     # Kirk Ch 9: The title should frame the editorial angle, not just
     # describe the chart type. "SpaceX Launches per Year" is a label.
-    # "From 1 to 170" is an annotation — it tells you what to notice.
+    # "From X to Y" is an annotation — it tells you what to notice.
     fig.update_layout(
         title=dict(
             text=(
-                "From 1 to 170: SpaceX's Launch Acceleration"
-                "<br><sup style='color:#666'>Completed launches per year, 2006-2026 "
-                "| Three distinct acceleration phases</sup>"
+                f"From {first_count} to {last_count}: SpaceX's Launch Acceleration"
+                f"<br><sup style='color:#666'>Completed launches per year, "
+                f"{first_year}-{last_year} "
+                f"| Three distinct acceleration phases</sup>"
             ),
             x=0.5,
             xanchor="center",
@@ -195,9 +217,9 @@ def bar_annotated(yearly: pd.DataFrame) -> None:
 
     # Annotation 1: The 2020 inflection point
     fig.add_annotation(
-        x=2020,
-        y=29,
-        text="Hyperscale begins<br><b>+93% YoY</b>",
+        x=hyperscale_year,
+        y=hs_count,
+        text=f"Hyperscale begins<br><b>+{yoy_pct}% YoY</b>",
         showarrow=True,
         arrowhead=2,
         arrowsize=1.2,
@@ -215,23 +237,22 @@ def bar_annotated(yearly: pd.DataFrame) -> None:
     # Kirk Ch 9: CAGR speaks directly to a finance-literate audience —
     # it compresses five years of compounding into a single number.
     # A dashed bracket visually spans the era from 2020 to 2025.
-    bracket_y = 200
     fig.add_shape(
-        type="line", x0=2020, y0=40, x1=2020, y1=bracket_y,
+        type="line", x0=hyperscale_year, y0=hs_count + 11, x1=hyperscale_year, y1=bracket_y,
         line=dict(color="#0D47A1", width=1.5, dash="dot"),
     )
     fig.add_shape(
-        type="line", x0=2020, y0=bracket_y, x1=2025, y1=bracket_y,
+        type="line", x0=hyperscale_year, y0=bracket_y, x1=last_year, y1=bracket_y,
         line=dict(color="#0D47A1", width=1.5, dash="dot"),
     )
     fig.add_shape(
-        type="line", x0=2025, y0=182, x1=2025, y1=bracket_y,
+        type="line", x0=last_year, y0=last_count + 12, x1=last_year, y1=bracket_y,
         line=dict(color="#0D47A1", width=1.5, dash="dot"),
     )
     fig.add_annotation(
-        x=2022.5,
+        x=bracket_mid_x,
         y=bracket_y + 8,
-        text="2020-2025 CAGR <b>42%</b>",
+        text=f"{hyperscale_year}-{last_year} CAGR <b>{cagr_pct}%</b>",
         showarrow=False,
         font=dict(size=12, color="#0D47A1"),
         bgcolor="white",
@@ -240,11 +261,11 @@ def bar_annotated(yearly: pd.DataFrame) -> None:
         borderpad=4,
     )
 
-    # Annotation 3: The 2025 peak
+    # Annotation 3: The peak year
     fig.add_annotation(
-        x=2025,
-        y=170,
-        text="<b>170 launches</b><br>170x the first year",
+        x=last_year,
+        y=last_count,
+        text=f"<b>{last_count} launches</b><br>{multiple:.0f}x the first year",
         showarrow=True,
         arrowhead=2,
         arrowsize=1.2,
@@ -405,17 +426,19 @@ def main() -> None:
 KIRK CH 9 ANNOTATION HIERARCHY APPLIED:
 
 1. TITLE & SUBTITLE (most prominent):
-   - Bar: "From 1 to 170: SpaceX's Launch Acceleration"
+   - Bar: "From X to Y: SpaceX's Launch Acceleration"
      → Editorial, not descriptive. Tells the reader what the story IS.
+     → Values derived from data so they stay current.
    - Heatmap: "From Sporadic to Always-On: Monthly Launch Density"
      → Frames the subplot before the reader even looks at the data.
 
 2. DIRECT ANNOTATIONS (strategic callouts):
-   - 2020 inflection point: "+93% YoY" — the moment hyperscale begins.
-   - 2020-2025 CAGR: "42%" — compound growth rate speaks the language
+   - 2020 inflection point: YoY growth — the moment hyperscale begins.
+   - Hyperscale-era CAGR — compound growth rate speaks the language
      of finance. Insurance professionals think in CAGR, not single-year
      jumps. This bridges the inflection and the peak.
-   - 2025 peak: "170x the first year" — the payoff of the story.
+   - Peak year: Nx the first year — the payoff of the story.
+   → All values computed from the data, not hardcoded.
 
 3. AXIS LABELS (orientation):
    - Year and Launches on bar chart — standard, unambiguous.
@@ -427,10 +450,10 @@ KIRK CH 9 ANNOTATION HIERARCHY APPLIED:
 
 LABELING vs ANNOTATING:
 
-  LABELING = "This bar is 170"
+  LABELING = "This bar is N"
   → Identifies the value. Necessary for precision.
 
-  ANNOTATING = "170x the first year"
+  ANNOTATING = "Nx the first year"
   → Interprets the value. Gives the reader the takeaway.
 
   The best visualisations do both: labels for readers who want detail,

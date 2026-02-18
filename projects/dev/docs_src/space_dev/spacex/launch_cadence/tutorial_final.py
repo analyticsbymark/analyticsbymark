@@ -3,8 +3,8 @@ SpaceX Launch Cadence — Final Composition
 ==========================================
 
 Production-ready visualisation answering the curiosity question:
-"How did SpaceX scale from 1 launch per year to 170, and what does
-the acceleration curve reveal?"
+"How did SpaceX scale from its first launch to hyperscale operations,
+and what does the acceleration curve reveal?"
 
 Produces two polished charts:
   1. Yearly bar chart with phase-based color, data labels, CAGR bracket,
@@ -75,6 +75,23 @@ def build_bar_chart(df: pd.DataFrame) -> None:
     yearly = df.groupby("year").size().reset_index(name="launches")
     yearly["phase"] = yearly["year"].apply(assign_phase)
 
+    first_year = yearly["year"].iloc[0]
+    last_year = yearly["year"].iloc[-1]
+    first_count = int(yearly["launches"].iloc[0])
+    last_count = int(yearly.loc[yearly["year"] == last_year, "launches"].values[0])
+    multiple = last_count / max(first_count, 1)
+
+    hyperscale_year = 2020
+    hs_count = int(yearly.loc[yearly["year"] == hyperscale_year, "launches"].values[0])
+    prev_count = int(yearly.loc[yearly["year"] == hyperscale_year - 1, "launches"].values[0])
+    yoy_pct = round((hs_count - prev_count) / prev_count * 100)
+
+    n_years = last_year - hyperscale_year
+    cagr_pct = round(((last_count / hs_count) ** (1 / n_years) - 1) * 100)
+
+    bracket_y = last_count + 30
+    bracket_mid_x = hyperscale_year + (last_year - hyperscale_year) / 2
+
     fig = px.bar(
         yearly,
         x="year",
@@ -90,9 +107,9 @@ def build_bar_chart(df: pd.DataFrame) -> None:
     fig.update_layout(
         title=dict(
             text=(
-                "From 1 to 170: SpaceX's Launch Acceleration"
-                "<br><sup style='color:#666'>Completed launches per year, "
-                "2006-2026 — three distinct acceleration phases</sup>"
+                f"From {first_count} to {last_count}: SpaceX's Launch Acceleration"
+                f"<br><sup style='color:#666'>Completed launches per year, "
+                f"{first_year}-{last_year} — three distinct acceleration phases</sup>"
             ),
             x=0.5, xanchor="center", font=dict(size=18),
         ),
@@ -110,34 +127,33 @@ def build_bar_chart(df: pd.DataFrame) -> None:
     fig.update_yaxes(showgrid=True, gridcolor="#EEEEEE")
 
     fig.add_annotation(
-        x=2020, y=29,
-        text="Hyperscale begins<br><b>+93% YoY</b>",
+        x=hyperscale_year, y=hs_count,
+        text=f"Hyperscale begins<br><b>+{yoy_pct}% YoY</b>",
         showarrow=True, arrowhead=2, arrowsize=1.2, arrowcolor="#0D47A1",
         ax=-70, ay=-50,
         font=dict(size=11, color="#0D47A1"),
         bgcolor="white", bordercolor="#0D47A1", borderwidth=1, borderpad=4,
     )
 
-    bracket_y = 200
     for x0, y0, x1, y1 in [
-        (2020, 40, 2020, bracket_y),
-        (2020, bracket_y, 2025, bracket_y),
-        (2025, 182, 2025, bracket_y),
+        (hyperscale_year, hs_count + 11, hyperscale_year, bracket_y),
+        (hyperscale_year, bracket_y, last_year, bracket_y),
+        (last_year, last_count + 12, last_year, bracket_y),
     ]:
         fig.add_shape(
             type="line", x0=x0, y0=y0, x1=x1, y1=y1,
             line=dict(color="#0D47A1", width=1.5, dash="dot"),
         )
     fig.add_annotation(
-        x=2022.5, y=bracket_y + 8,
-        text="2020-2025 CAGR <b>42%</b>",
+        x=bracket_mid_x, y=bracket_y + 8,
+        text=f"{hyperscale_year}-{last_year} CAGR <b>{cagr_pct}%</b>",
         showarrow=False, font=dict(size=12, color="#0D47A1"),
         bgcolor="white", bordercolor="#0D47A1", borderwidth=1, borderpad=4,
     )
 
     fig.add_annotation(
-        x=2025, y=170,
-        text="<b>170 launches</b><br>170\u00d7 the first year",
+        x=last_year, y=last_count,
+        text=f"<b>{last_count} launches</b><br>{multiple:.0f}\u00d7 the first year",
         showarrow=True, arrowhead=2, arrowsize=1.2, arrowcolor="#0D47A1",
         ax=70, ay=-40,
         font=dict(size=11, color="#0D47A1"),
