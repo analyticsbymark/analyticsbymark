@@ -6,11 +6,27 @@ Kirk Chapter 8: Interactivity — letting the reader explore the failure
 timeline on their own terms, guided by the same editorial framing from
 the static composition.
 
-Wraps the failure timeline scatter from tutorial_final.py with three
-controls:
-  1. Year range slider — filter the timeline to a date range
-  2. Rocket family checklist — isolate individual vehicle families
-  3. Annotation toggle — layer editorial context on/off
+Layout rationale
+----------------
+A sidebar-right layout places the wide failure timeline scatter in the
+dominant left column (~75% width) while stacking the compact controls
+and the small data table (max 15 rows) in a narrow right sidebar.
+
+Why this layout suits this specific data:
+  - The timeline scatter is inherently wide and short — it needs every
+    horizontal pixel available to spread 20 years of history legibly.
+  - The controls are tiny: 3 checkboxes, 1 toggle, 1 slider. They do
+    not warrant a full-width row above the chart.
+  - The data table never exceeds 15 rows — it fits comfortably in a
+    narrow column and stays visible alongside the chart, eliminating
+    the need to scroll between chart and table.
+  - The user's eye reads left-to-right: chart tells the story first,
+    sidebar lets them explore and drill into individual events.
+
+Controls:
+  1. Rocket family checklist — isolate individual vehicle families
+  2. Annotation toggle — layer editorial context on/off
+  3. Year range slider — filter the timeline to a date range
 
 Run with: python app.py
 Open:     http://localhost:8050
@@ -183,119 +199,263 @@ del _all_failures
 
 
 # ---------------------------------------------------------------------------
-# App layout
+# Shared styles
+# ---------------------------------------------------------------------------
+
+_FONT_STACK = "Arial, sans-serif"
+_SIDEBAR_WIDTH = "340px"
+_BORDER_COLOR = "#E0E0E0"
+_LABEL_STYLE = {
+    "fontWeight": "600",
+    "fontSize": "12px",
+    "color": "#555",
+    "textTransform": "uppercase",
+    "letterSpacing": "0.5px",
+    "marginBottom": "6px",
+    "display": "block",
+}
+_SECTION_STYLE = {
+    "marginBottom": "20px",
+    "paddingBottom": "16px",
+    "borderBottom": f"1px solid {_BORDER_COLOR}",
+}
+
+
+# ---------------------------------------------------------------------------
+# App layout — sidebar-right: chart dominates left, controls + table right
 # ---------------------------------------------------------------------------
 
 app = Dash(__name__)
 
 app.layout = html.Div(
     style={
-        "fontFamily": "Arial, sans-serif",
-        "maxWidth": "1200px",
-        "margin": "0 auto",
-        "padding": "24px",
+        "fontFamily": _FONT_STACK,
+        "margin": "0",
+        "padding": "0",
+        "backgroundColor": "#FAFAFA",
+        "minHeight": "100vh",
     },
     children=[
-        html.H2("SpaceX Failure Timeline: From Development Chaos to Operational Reliability"),
-        html.P(
-            (
-                f"Across {_TOTAL_LAUNCHES} completed launches ({_DATE_MIN_YEAR}–{_DATE_MAX_YEAR}), "
-                f"SpaceX recorded {_TOTAL_FAILURES} failures or partial failures. "
-                f"Filter by year and rocket family to trace how each vehicle's reliability arc unfolded."
-            ),
-            style={"color": "#666", "fontSize": "14px", "marginBottom": "24px"},
-        ),
-
-        # --- Controls row ---
+        # --- Header bar ---
         html.Div(
             style={
-                "display": "flex",
-                "gap": "40px",
-                "alignItems": "flex-start",
-                "marginBottom": "24px",
+                "backgroundColor": "white",
+                "borderBottom": f"2px solid {_BORDER_COLOR}",
+                "padding": "16px 28px",
             },
             children=[
-                # Control 1: Year range slider
-                html.Div(
-                    style={"flex": "1"},
-                    children=[
-                        html.Label(
-                            "Year Range",
-                            style={"fontWeight": "bold", "marginBottom": "8px", "display": "block"},
-                        ),
-                        dcc.RangeSlider(
-                            id="year-range",
-                            min=MIN_YEAR,
-                            max=MAX_YEAR,
-                            value=[MIN_YEAR, MAX_YEAR],
-                            marks={
-                                str(y): str(y)
-                                for y in ALL_YEARS
-                                if y % 5 == 0 or y == MIN_YEAR or y == MAX_YEAR
-                            },
-                            step=1,
-                            tooltip={"placement": "bottom", "always_visible": False},
-                        ),
-                    ],
+                html.H2(
+                    "SpaceX Failure Timeline: From Development Chaos to "
+                    "Operational Reliability",
+                    style={
+                        "margin": "0 0 4px 0",
+                        "fontSize": "20px",
+                        "color": "#111",
+                        "fontWeight": "700",
+                    },
                 ),
-
-                # Control 2: Rocket family checklist
-                html.Div(
-                    style={"minWidth": "200px"},
-                    children=[
-                        html.Label(
-                            "Rocket Family",
-                            style={"fontWeight": "bold", "marginBottom": "8px", "display": "block"},
-                        ),
-                        dcc.Checklist(
-                            id="family-filter",
-                            options=[
-                                {"label": family, "value": family}
-                                for family in LIFECYCLE_ORDER
-                            ],
-                            value=list(LIFECYCLE_ORDER),
-                            style={"fontSize": "13px"},
-                        ),
-                    ],
-                ),
-
-                # Control 3: Annotation toggle
-                html.Div(
-                    style={"minWidth": "160px"},
-                    children=[
-                        html.Label(
-                            "Annotations",
-                            style={"fontWeight": "bold", "marginBottom": "8px", "display": "block"},
-                        ),
-                        dcc.Checklist(
-                            id="annotation-toggle",
-                            options=[{"label": "Show annotations", "value": "on"}],
-                            value=["on"],
-                            style={"fontSize": "13px"},
-                        ),
-                    ],
+                html.P(
+                    (
+                        f"Across {_TOTAL_LAUNCHES} completed launches "
+                        f"({_DATE_MIN_YEAR}\u2013{_DATE_MAX_YEAR}), SpaceX "
+                        f"recorded {_TOTAL_FAILURES} failures or partial "
+                        f"failures. Use the controls to trace how each "
+                        f"vehicle\u2019s reliability arc unfolded."
+                    ),
+                    style={
+                        "margin": "0",
+                        "color": "#666",
+                        "fontSize": "13px",
+                        "lineHeight": "1.5",
+                    },
                 ),
             ],
         ),
 
-        # --- Chart ---
-        dcc.Graph(id="failure-chart"),
+        # --- Main content: chart (left) + sidebar (right) ---
+        html.Div(
+            style={
+                "display": "flex",
+                "gap": "0",
+                "minHeight": "calc(100vh - 100px)",
+            },
+            children=[
+                # LEFT column: the chart — takes all remaining space
+                html.Div(
+                    style={
+                        "flex": "1",
+                        "minWidth": "0",
+                        "padding": "20px 24px 16px 24px",
+                        "backgroundColor": "white",
+                    },
+                    children=[
+                        dcc.Graph(
+                            id="failure-chart",
+                            style={"width": "100%", "height": "100%"},
+                            config={
+                                "displayModeBar": True,
+                                "displaylogo": False,
+                                "modeBarButtonsToRemove": [
+                                    "select2d",
+                                    "lasso2d",
+                                ],
+                            },
+                        ),
+                    ],
+                ),
 
-        # --- Data table ---
-        html.H4("Filtered Data", style={"marginTop": "24px"}),
-        dash_table.DataTable(
-            id="data-table",
-            sort_action="native",
-            page_size=15,
-            style_table={"overflowX": "auto"},
-            style_header={"fontWeight": "bold", "backgroundColor": "#F5F5F5"},
-            style_cell={"textAlign": "left", "padding": "8px", "fontSize": "13px"},
-        ),
+                # RIGHT sidebar: controls + data table stacked
+                html.Div(
+                    style={
+                        "width": _SIDEBAR_WIDTH,
+                        "minWidth": _SIDEBAR_WIDTH,
+                        "borderLeft": f"2px solid {_BORDER_COLOR}",
+                        "padding": "20px",
+                        "backgroundColor": "#FAFAFA",
+                        "overflowY": "auto",
+                    },
+                    children=[
+                        # Section: Rocket Family filter
+                        html.Div(
+                            style=_SECTION_STYLE,
+                            children=[
+                                html.Label(
+                                    "Rocket Family",
+                                    style=_LABEL_STYLE,
+                                ),
+                                dcc.Checklist(
+                                    id="family-filter",
+                                    options=[
+                                        {"label": family, "value": family}
+                                        for family in LIFECYCLE_ORDER
+                                    ],
+                                    value=list(LIFECYCLE_ORDER),
+                                    style={"fontSize": "13px"},
+                                    labelStyle={
+                                        "display": "block",
+                                        "marginBottom": "4px",
+                                        "cursor": "pointer",
+                                    },
+                                ),
+                            ],
+                        ),
 
-        # --- Footer ---
-        html.P(
-            SOURCE_TEXT,
-            style={"color": "#999", "fontSize": "11px", "marginTop": "16px"},
+                        # Section: Annotations toggle
+                        html.Div(
+                            style=_SECTION_STYLE,
+                            children=[
+                                html.Label(
+                                    "Annotations",
+                                    style=_LABEL_STYLE,
+                                ),
+                                dcc.Checklist(
+                                    id="annotation-toggle",
+                                    options=[
+                                        {
+                                            "label": "Show editorial annotations",
+                                            "value": "on",
+                                        }
+                                    ],
+                                    value=["on"],
+                                    style={"fontSize": "13px"},
+                                    labelStyle={"cursor": "pointer"},
+                                ),
+                            ],
+                        ),
+
+                        # Section: Year range slider
+                        html.Div(
+                            style=_SECTION_STYLE,
+                            children=[
+                                html.Label(
+                                    "Year Range",
+                                    style=_LABEL_STYLE,
+                                ),
+                                dcc.RangeSlider(
+                                    id="year-range",
+                                    min=MIN_YEAR,
+                                    max=MAX_YEAR,
+                                    value=[MIN_YEAR, MAX_YEAR],
+                                    marks={
+                                        str(y): {
+                                            "label": str(y),
+                                            "style": {"fontSize": "10px"},
+                                        }
+                                        for y in ALL_YEARS
+                                        if y % 5 == 0
+                                        or y == MIN_YEAR
+                                        or y == MAX_YEAR
+                                    },
+                                    step=1,
+                                    tooltip={
+                                        "placement": "bottom",
+                                        "always_visible": False,
+                                    },
+                                ),
+                            ],
+                        ),
+
+                        # Section: Filtered failure events table
+                        html.Div(
+                            children=[
+                                html.Label(
+                                    "Failure Events",
+                                    style=_LABEL_STYLE,
+                                ),
+                                html.Div(
+                                    id="table-summary",
+                                    style={
+                                        "fontSize": "12px",
+                                        "color": "#888",
+                                        "marginBottom": "8px",
+                                    },
+                                ),
+                                dash_table.DataTable(
+                                    id="data-table",
+                                    sort_action="native",
+                                    page_size=15,
+                                    style_table={
+                                        "overflowX": "auto",
+                                        "border": f"1px solid {_BORDER_COLOR}",
+                                        "borderRadius": "4px",
+                                    },
+                                    style_header={
+                                        "fontWeight": "bold",
+                                        "backgroundColor": "#F0F0F0",
+                                        "fontSize": "11px",
+                                        "color": "#333",
+                                    },
+                                    style_cell={
+                                        "textAlign": "left",
+                                        "padding": "6px 8px",
+                                        "fontSize": "11px",
+                                        "whiteSpace": "normal",
+                                        "minWidth": "60px",
+                                    },
+                                    style_data_conditional=[
+                                        {
+                                            "if": {"row_index": "odd"},
+                                            "backgroundColor": "#F9F9F9",
+                                        },
+                                    ],
+                                ),
+                            ],
+                        ),
+
+                        # Footer: source attribution
+                        html.P(
+                            SOURCE_TEXT,
+                            style={
+                                "color": "#AAA",
+                                "fontSize": "10px",
+                                "marginTop": "20px",
+                                "borderTop": f"1px solid {_BORDER_COLOR}",
+                                "paddingTop": "12px",
+                            },
+                        ),
+                    ],
+                ),
+            ],
         ),
     ],
 )
@@ -309,6 +469,7 @@ app.layout = html.Div(
     Output("failure-chart", "figure"),
     Output("data-table", "data"),
     Output("data-table", "columns"),
+    Output("table-summary", "children"),
     Input("year-range", "value"),
     Input("family-filter", "value"),
     Input("annotation-toggle", "value"),
@@ -349,7 +510,7 @@ def update_chart(
             title="No failure events match the current filters.",
             plot_bgcolor="white",
             paper_bgcolor="white",
-            height=400,
+            height=560,
         )
     else:
         n_f = len(failures)
@@ -386,18 +547,19 @@ def update_chart(
         fig.update_traces(marker=dict(size=13))
 
         fig.update_layout(
-            height=500,
+            height=560,
             plot_bgcolor="white",
             paper_bgcolor="white",
-            font=dict(family="Arial, sans-serif", size=12, color="#333333"),
-            margin=dict(l=80, r=120, t=170, b=120),
+            font=dict(family=_FONT_STACK, size=12, color="#333333"),
+            margin=dict(l=80, r=40, t=170, b=120),
             title=dict(
                 text=(
-                    f"{n_f} Failure{'s' if n_f != 1 else ''} in {n_t} Launches: "
-                    f"How SpaceX Built Reliability"
+                    f"{n_f} Failure{'s' if n_f != 1 else ''} in "
+                    f"{n_t} Launches: How SpaceX Built Reliability"
                     f"<br><sup style='color:#555555; font-size:12px'>"
-                    f"Each point is one failure or partial failure, colored by rocket family "
-                    f"— {date_min.year}–{date_max.year}"
+                    f"Each point is one failure or partial failure, "
+                    f"colored by rocket family "
+                    f"\u2014 {date_min.year}\u2013{date_max.year}"
                     f"</sup>"
                 ),
                 font=dict(size=17, color="#111111"),
@@ -451,8 +613,9 @@ def update_chart(
                     y="Failure",
                     text=(
                         f"<b>Development era</b><br>"
-                        f"{f1_count} failures in first {f1_count} flights<br>"
-                        f"({f1_y_start}–{f1_y_end})"
+                        f"{f1_count} failures in first "
+                        f"{f1_count} flights<br>"
+                        f"({f1_y_start}\u2013{f1_y_end})"
                     ),
                     showarrow=True,
                     arrowhead=2,
@@ -461,7 +624,10 @@ def update_chart(
                     arrowcolor=ROCKET_FAMILY_COLORS["Falcon 1"],
                     ax=0,
                     ay=-75,
-                    font=dict(size=11, color=ROCKET_FAMILY_COLORS["Falcon 1"]),
+                    font=dict(
+                        size=11,
+                        color=ROCKET_FAMILY_COLORS["Falcon 1"],
+                    ),
                     bgcolor="rgba(255,255,255,0.90)",
                     bordercolor=ROCKET_FAMILY_COLORS["Falcon 1"],
                     borderwidth=1.2,
@@ -487,7 +653,8 @@ def update_chart(
                     text=(
                         f"<b>Pivot point</b><br>"
                         f"{insights['cluster_label']}<br>"
-                        f"Failures that triggered<br>the Block 5 redesign"
+                        f"Failures that triggered<br>"
+                        f"the Block 5 redesign"
                     ),
                     showarrow=True,
                     arrowhead=2,
@@ -496,7 +663,10 @@ def update_chart(
                     arrowcolor=ROCKET_FAMILY_COLORS["Falcon 9"],
                     ax=0,
                     ay=80,
-                    font=dict(size=11, color=ROCKET_FAMILY_COLORS["Falcon 9"]),
+                    font=dict(
+                        size=11,
+                        color=ROCKET_FAMILY_COLORS["Falcon 9"],
+                    ),
                     bgcolor="rgba(255,255,255,0.90)",
                     bordercolor=ROCKET_FAMILY_COLORS["Falcon 9"],
                     borderwidth=1.2,
@@ -532,7 +702,11 @@ def update_chart(
                         y0=0,
                         y1=1,
                         yref="paper",
-                        line=dict(color="#2980B9", width=1, dash="dot"),
+                        line=dict(
+                            color="#2980B9",
+                            width=1,
+                            dash="dot",
+                        ),
                     )
                 fig.add_annotation(
                     x=gap_mid,
@@ -540,9 +714,11 @@ def update_chart(
                     yref="paper",
                     text=(
                         f"<b>Falcon 9 Block 5: "
-                        f"{insights['gap_days']:,} days without a failure</b><br>"
-                        f"({insights['gap_years']:.1f} years — "
-                        f"{gap_start.strftime('%b %Y')} to {gap_end.strftime('%b %Y')})"
+                        f"{insights['gap_days']:,} days "
+                        f"without a failure</b><br>"
+                        f"({insights['gap_years']:.1f} years \u2014 "
+                        f"{gap_start.strftime('%b %Y')} to "
+                        f"{gap_end.strftime('%b %Y')})"
                     ),
                     showarrow=False,
                     font=dict(size=12, color="#2980B9"),
@@ -551,11 +727,14 @@ def update_chart(
                     borderwidth=1.5,
                     borderpad=6,
                     align="center",
-                    yanchor="top",
+                    # yanchor="bottom" places the text box ABOVE the plot area
+                    # (into the top margin) instead of hanging down into it,
+                    # which would cover Starship partial failure points at ~2020.
+                    yanchor="bottom",
                     xanchor="center",
                 )
 
-    # --- Data table: failure/partial failure events only, filtered, date desc ---
+    # --- Data table: failure/partial failure events, filtered, date desc ---
     table_raw = DF[
         (DF["launch_status_abbrev"].isin(FAILURE_STATUSES))
         & (DF["net"].dt.year >= y_min)
@@ -569,7 +748,7 @@ def update_chart(
     table_raw = table_raw[table_raw["rocket_family_group"].isin(families)]
 
     table_df = table_raw[
-        ["net", "mission_name", "rocket_full_name", "launchpad_name", "launch_status_abbrev"]
+        ["net", "mission_name", "rocket_full_name", "launch_status_abbrev"]
     ].copy()
     table_df["net"] = table_df["net"].dt.strftime("%Y-%m-%d")
     table_df = table_df.rename(
@@ -577,14 +756,15 @@ def update_chart(
             "net": "Date",
             "mission_name": "Mission",
             "rocket_full_name": "Rocket",
-            "launchpad_name": "Pad",
             "launch_status_abbrev": "Outcome",
         }
     ).sort_values("Date", ascending=False)
 
     columns = [{"name": c, "id": c} for c in table_df.columns]
+    n_shown = len(table_df)
+    summary = f"Showing {n_shown} of {_TOTAL_FAILURES} total failure events"
 
-    return fig, table_df.to_dict("records"), columns
+    return fig, table_df.to_dict("records"), columns, summary
 
 
 if __name__ == "__main__":
