@@ -64,6 +64,30 @@ def assign_phase(year: int) -> str:
     return "Hyperscale (2020+)"
 
 
+def _build_card(value: str, label: str, accent: str) -> html.Div:
+    """Return a single stat card with a big number, label, and accent border."""
+    return html.Div(
+        style={
+            "background": "white",
+            "border": "1px solid #E0E0E0",
+            "borderLeft": f"4px solid {accent}",
+            "borderRadius": "4px",
+            "padding": "12px 16px",
+            "minWidth": "120px",
+            "flex": "1",
+        },
+        children=[
+            html.Div(value, style={
+                "fontSize": "24px", "fontWeight": "bold", "color": accent,
+            }),
+            html.Div(label, style={
+                "fontSize": "11px", "textTransform": "uppercase",
+                "color": "#999", "letterSpacing": "0.5px", "marginTop": "2px",
+            }),
+        ],
+    )
+
+
 # ---------------------------------------------------------------------------
 # App layout
 # ---------------------------------------------------------------------------
@@ -82,6 +106,12 @@ app.layout = html.Div(
             f"— filter by year and acceleration "
             f"phase to explore how SpaceX scaled to hyperscale operations.",
             style={"color": "#666", "fontSize": "14px", "marginBottom": "24px"},
+        ),
+
+        # --- Stat cards ---
+        html.Div(
+            id="stat-cards",
+            style={"display": "flex", "gap": "12px", "flexWrap": "wrap", "marginBottom": "24px"},
         ),
 
         # --- Controls row ---
@@ -170,6 +200,7 @@ app.layout = html.Div(
     Output("cadence-chart", "figure"),
     Output("data-table", "data"),
     Output("data-table", "columns"),
+    Output("stat-cards", "children"),
     Input("year-range", "value"),
     Input("phase-filter", "value"),
     Input("annotation-toggle", "value"),
@@ -204,6 +235,24 @@ def update_chart(year_range: list, phases: list, annotations: list) -> tuple:
     # Apply user filters
     yearly = yearly[(yearly["year"] >= y_min) & (yearly["year"] <= y_max)]
     yearly = yearly[yearly["phase"].isin(phases)]
+
+    # --- Stat cards: computed from filtered yearly ---
+    if yearly.empty:
+        stat_cards = []
+    else:
+        _total = int(yearly["launches"].sum())
+        _peak_row = yearly.loc[yearly["launches"].idxmax()]
+        _peak_yr = int(_peak_row["year"])
+        _peak_ct = int(_peak_row["launches"])
+        _first_ct = int(yearly["launches"].iloc[0])
+        _growth = _peak_ct / max(_first_ct, 1)
+        _n_years = len(yearly)
+        stat_cards = [
+            _build_card(f"{_total:,}", "Total Launches", "#0D47A1"),
+            _build_card(f"{_peak_yr} ({_peak_ct})", "Peak Year", "#0D47A1"),
+            _build_card(f"{_growth:.0f}\u00d7", "Growth Multiple", "#42A5F5"),
+            _build_card(str(_n_years), "Active Years", "#B0BEC5"),
+        ]
 
     fig = px.bar(
         yearly,
@@ -296,7 +345,7 @@ def update_chart(year_range: list, phases: list, annotations: list) -> tuple:
     }).sort_values("Date", ascending=False)
     columns = [{"name": c, "id": c} for c in table_df.columns]
 
-    return fig, table_df.to_dict("records"), columns
+    return fig, table_df.to_dict("records"), columns, stat_cards
 
 
 if __name__ == "__main__":

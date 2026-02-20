@@ -221,6 +221,28 @@ _SECTION_STYLE = {
 }
 
 
+def _build_card(value: str, label: str, accent: str) -> html.Div:
+    """Return a single stat card with a big number, label, and accent border."""
+    return html.Div(
+        style={
+            "background": "white",
+            "border": "1px solid #E0E0E0",
+            "borderLeft": f"4px solid {accent}",
+            "borderRadius": "4px",
+            "padding": "8px 12px",
+        },
+        children=[
+            html.Div(value, style={
+                "fontSize": "24px", "fontWeight": "bold", "color": accent,
+            }),
+            html.Div(label, style={
+                "fontSize": "11px", "textTransform": "uppercase",
+                "color": "#999", "letterSpacing": "0.5px", "marginTop": "2px",
+            }),
+        ],
+    )
+
+
 # ---------------------------------------------------------------------------
 # App layout — sidebar-right: chart dominates left, controls + table right
 # ---------------------------------------------------------------------------
@@ -315,6 +337,17 @@ app.layout = html.Div(
                         "overflowY": "auto",
                     },
                     children=[
+                        # Section: Stat cards (2x2 grid)
+                        html.Div(
+                            id="stat-cards",
+                            style={
+                                **_SECTION_STYLE,
+                                "display": "grid",
+                                "gridTemplateColumns": "1fr 1fr",
+                                "gap": "8px",
+                            },
+                        ),
+
                         # Section: Rocket Family filter
                         html.Div(
                             style=_SECTION_STYLE,
@@ -470,6 +503,7 @@ app.layout = html.Div(
     Output("data-table", "data"),
     Output("data-table", "columns"),
     Output("table-summary", "children"),
+    Output("stat-cards", "children"),
     Input("year-range", "value"),
     Input("family-filter", "value"),
     Input("annotation-toggle", "value"),
@@ -764,7 +798,34 @@ def update_chart(
     n_shown = len(table_df)
     summary = f"Showing {n_shown} of {_TOTAL_FAILURES} total failure events"
 
-    return fig, table_df.to_dict("records"), columns, summary
+    # --- Stat cards: mix of fixed and dynamic ---
+    all_in_range = DF[
+        (DF["net"].dt.year >= y_min)
+        & (DF["net"].dt.year <= y_max)
+    ].copy()
+    all_in_range["rocket_family_group"] = (
+        all_in_range["rocket_full_name"]
+        .map(ROCKET_FAMILY_MAP)
+        .fillna(all_in_range["rocket_full_name"])
+    )
+    filtered_total = len(
+        all_in_range[all_in_range["rocket_family_group"].isin(families)]
+    )
+    success_rate = (
+        (filtered_total - n_shown) / filtered_total * 100
+        if filtered_total > 0
+        else 0.0
+    )
+    stat_cards = [
+        _build_card(f"{_TOTAL_LAUNCHES:,}", "Total Launches", "#2980B9"),
+        _build_card(str(n_shown), "Failures", "#C0392B"),
+        _build_card(f"{success_rate:.1f}%", "Success Rate", "#2980B9"),
+        _build_card(
+            f"{GLOBAL_INSIGHTS['gap_days']:,} days", "Block 5 Streak", "#D4A017"
+        ),
+    ]
+
+    return fig, table_df.to_dict("records"), columns, summary, stat_cards
 
 
 if __name__ == "__main__":
