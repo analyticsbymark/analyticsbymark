@@ -56,7 +56,7 @@ watchdog==6.0.0
 # Imaging deps for mkdocs-material social plugin
 pillow>=12.1.1
 cairosvg>=2.8.2
-selenium>=4.40.0
+selenium>=4.27.0,<4.40.0
 # Visualization & tutorial dependencies
 plotly==5.21.0
 dash==2.16.1
