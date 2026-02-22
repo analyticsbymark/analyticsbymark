@@ -84,17 +84,9 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Learn:
-    - tutorial/index.md
-    - Data:
-      - tutorial/data/index.md
-      - tutorial/data/spacex.md
-    - SpaceX:
-      - tutorial/spaceX/launch_cadence.md
-      - tutorial/spaceX/sandbox.md
 
 not_in_nav: |
-  docs_src/AGENT_INDEX.md
+  **/*
 
 extra:
   analytics:

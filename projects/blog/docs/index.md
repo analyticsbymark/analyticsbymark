@@ -1,13 +1,17 @@
-# Analytics by Mark
+---
+hide:
+  - navigation
+  - toc
+---
 
-[Real-world analytics and data engineering for insurance professionals.]{#hero-subtitle}
+<div style="text-align: center; padding: 4rem 1rem;" markdown>
 
-[Subscribe to Newsletter](https://YOUR-NEWSLETTER-SIGNUP-URL-HERE){ #hero-cta-dev .md-button .md-button--primary target="_blank" }
+![Mark Cooper](https://avatars.githubusercontent.com/u/132222060?v=4){ .circular width="200" }
+
+# Coming Soon
+
+**Analytics By Mark** — real-world analytics and data engineering for insurance professionals.
 
 ---
 
-## Free Guide: 5 Must-Haves in Your Insurance Analytics Data Model
-
-Get the checklist that saves months of rework — from schema design to production deployment.
-
-[Download the Free Guide](https://YOUR-NEWSLETTER-SIGNUP-URL-HERE){ #lead-magnet-cta .md-button .md-button--primary target="_blank" }
+</div>
