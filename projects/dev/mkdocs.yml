@@ -1,5 +1,5 @@
 site_url: https://www.analyticsbymark.dev
-site_name: ABM - Code Base
+site_name: Analytics By Mark
 site_description: My dev site explaining datasets and analytics that deliver actionable results in insurance.
 
 # Copyright
@@ -86,8 +86,15 @@ nav:
   - Home: index.md
   - Learn:
     - tutorial/index.md
-    - tutorial/creating_policies.md
-    - tutorial/sandbox.md
+    - Data:
+      - tutorial/data/index.md
+      - tutorial/data/spacex.md
+    - SpaceX:
+      - tutorial/spaceX/launch_cadence.md
+      - tutorial/spaceX/sandbox.md
+
+not_in_nav: |
+  docs_src/AGENT_INDEX.md
 
 extra:
   analytics:

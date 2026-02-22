@@ -1,0 +1,148 @@
+# =============================================================================
+# Social Card: Dataset
+# =============================================================================
+# For dataset landing and overview pages. Features a large dataset icon,
+# dataset name, and description.
+#
+# Frontmatter options:
+#   icon: material/rocket-launch   (dataset-specific icon)
+#   tags: [spacex, launches]       (shown at bottom)
+#   description: "..."             (dataset description)
+#
+# Usage in frontmatter:
+#   social:
+#     cards_layout: dataset
+# =============================================================================
+
+definitions:
+
+  - &logo >-
+    docs/assets/logo.png
+
+  - &page_title >-
+    {{ page.meta.get("title", page.title) }}
+
+  - &page_description >-
+    {%- if page.meta.description -%}
+    {{ page.meta.description }}
+    {%- elif config.site_description -%}
+    {{ config.site_description }}
+    {%- endif -%}
+
+size: { width: 1200, height: 630 }
+
+layers:
+
+  # Background — teal
+  - background:
+      color: "#384D48"
+
+  # Top band — slightly darker
+  - size: { width: 1200, height: 160 }
+    offset: { x: 0, y: 0 }
+    background:
+      color: "#2A3A36"
+
+  # "DATASET" label — top band
+  - size: { width: 140, height: 28 }
+    offset: { x: 64, y: 24 }
+    typography:
+      content: DATASET
+      color: "#5C8076"
+      align: start
+      font:
+        family: Roboto
+        style: Medium
+
+  # ABM logo — top-right
+  - size: { width: 56, height: 56 }
+    offset: { x: 1080, y: 20 }
+    background:
+      image: *logo
+
+  # Dataset icon — large, prominent, in top band
+  - size: { width: 96, height: 96 }
+    offset: { x: 64, y: 56 }
+    icon:
+      value: >-
+        {{ page.meta.get("icon", "material/database-outline") }}
+      color: "#FFFFFF"
+
+  # Dataset name — next to icon in top band
+  - size: { width: 900, height: 80 }
+    offset: { x: 184, y: 64 }
+    typography:
+      content: *page_title
+      color: "#FFFFFF"
+      align: start
+      overflow: shrink
+      line:
+        amount: 2
+        height: 1.25
+      font:
+        family: Roboto
+        style: Bold
+
+  # Decorative icon — large, right side, translucent
+  - size: { width: 360, height: 360 }
+    offset: { x: 800, y: 200 }
+    icon:
+      value: >-
+        {{ page.meta.get("icon", "material/database-outline") }}
+      color: "#5C807615"
+
+  # Description — main body area
+  - size: { width: 800, height: 200 }
+    offset: { x: 64, y: 200 }
+    typography:
+      content: *page_description
+      color: "#FFFFFFCC"
+      align: start
+      overflow: truncate
+      line:
+        amount: 4
+        height: 1.4
+      font:
+        family: Roboto
+        style: Regular
+
+  # Divider
+  - size: { width: 1072, height: 2 }
+    offset: { x: 64, y: 460 }
+    background:
+      color: "#5C807633"
+
+  # Tags icon
+  - size: { width: 24, height: 24 }
+    offset: { x: 64, y: 500 }
+    icon:
+      value: >-
+        {%- if page.meta.tags -%}
+        material/tag-outline
+        {%- endif -%}
+      color: "#5C8076"
+
+  # Tags text
+  - size: { width: 600, height: 24 }
+    offset: { x: 100, y: 500 }
+    typography:
+      content: >-
+        {%- if page.meta.tags -%}
+        {{ page.meta.tags | join(" / ") }}
+        {%- endif -%}
+      color: "#5C8076"
+      align: start
+      font:
+        family: Roboto
+        style: Medium
+
+  # Site URL — bottom right
+  - size: { width: 300, height: 24 }
+    offset: { x: 836, y: 560 }
+    typography:
+      content: analyticsbymark.dev
+      color: "#5C807644"
+      align: end
+      font:
+        family: Roboto
+        style: Regular
