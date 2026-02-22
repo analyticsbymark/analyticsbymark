@@ -1,0 +1,1 @@
+--8<-- "docs_src/AGENT_INDEX.md"

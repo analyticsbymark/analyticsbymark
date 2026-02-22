@@ -1,0 +1,126 @@
+# =============================================================================
+# Social Card: Showcase
+# =============================================================================
+# For interactive dashboards, apps, and live demos. Supports a background
+# image (e.g., a dashboard screenshot) with a dark overlay for readability.
+#
+# Frontmatter options:
+#   social:
+#     cards_layout: showcase
+#     cards_layout_options:
+#       background_image: path/to/screenshot.png   (optional)
+#
+# If no background_image is provided, falls back to a solid dark background
+# with a decorative icon.
+# =============================================================================
+
+definitions:
+
+  - &logo >-
+    docs/assets/logo.png
+
+  - &page_title >-
+    {{ page.meta.get("title", page.title) }}
+
+  - &page_description >-
+    {%- if page.meta.description -%}
+    {{ page.meta.description }}
+    {%- endif -%}
+
+  - &background_image >-
+    {%- if layout.background_image -%}
+    {{ layout.background_image }}
+    {%- endif -%}
+
+size: { width: 1200, height: 630 }
+
+layers:
+
+  # Base background — dark fallback
+  - background:
+      color: "#1E2D29"
+
+  # Optional background image (e.g., dashboard screenshot)
+  - background:
+      image: *background_image
+
+  # Dark overlay for text readability
+  - background:
+      color: "#1E2D29CC"
+
+  # Bottom gradient band — solid anchor for text
+  - size: { width: 1200, height: 240 }
+    offset: { x: 0, y: 390 }
+    background:
+      color: "#1E2D29EE"
+
+  # "INTERACTIVE" badge — top-left
+  - size: { width: 180, height: 32 }
+    offset: { x: 64, y: 48 }
+    background:
+      color: "#5C8076"
+
+  - size: { width: 160, height: 28 }
+    offset: { x: 74, y: 50 }
+    typography:
+      content: INTERACTIVE
+      color: "#FFFFFF"
+      align: center
+      font:
+        family: Roboto
+        style: Bold
+
+  # ABM logo — top-right
+  - size: { width: 56, height: 56 }
+    offset: { x: 1080, y: 40 }
+    background:
+      image: *logo
+
+  # Decorative icon — center, large, translucent (visible when no bg image)
+  - size: { width: 300, height: 300 }
+    offset: { x: 450, y: 80 }
+    icon:
+      value: >-
+        {{ page.meta.get("icon", "material/monitor-dashboard") }}
+      color: "#5C807620"
+
+  # Page title — bottom area, over the solid band
+  - size: { width: 1000, height: 120 }
+    offset: { x: 64, y: 420 }
+    typography:
+      content: *page_title
+      color: "#FFFFFF"
+      align: start
+      overflow: shrink
+      line:
+        amount: 2
+        height: 1.25
+      font:
+        family: Roboto
+        style: Bold
+
+  # Description
+  - size: { width: 700, height: 40 }
+    offset: { x: 64, y: 550 }
+    typography:
+      content: *page_description
+      color: "#5C8076"
+      align: start
+      overflow: truncate
+      line:
+        amount: 1
+        height: 1.3
+      font:
+        family: Roboto
+        style: Regular
+
+  # Site URL — bottom right
+  - size: { width: 300, height: 24 }
+    offset: { x: 836, y: 560 }
+    typography:
+      content: analyticsbymark.dev
+      color: "#5C807644"
+      align: end
+      font:
+        family: Roboto
+        style: Regular

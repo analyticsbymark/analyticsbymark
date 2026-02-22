@@ -1,0 +1,162 @@
+# =============================================================================
+# Social Card: Article
+# =============================================================================
+# Inverted (light background) card for article-style content, announcements,
+# and editorial pieces. Date and tags displayed prominently.
+#
+# Frontmatter options:
+#   date: 2026-02-16               (publication date)
+#   tags: [data-viz, insurance]    (topic tags)
+#   icon: material/newspaper       (decorative icon)
+#
+# Usage in frontmatter:
+#   social:
+#     cards_layout: article
+# =============================================================================
+
+definitions:
+
+  - &logo >-
+    docs/assets/logo.png
+
+  - &page_title >-
+    {{ page.meta.get("title", page.title) }}
+
+  - &page_description >-
+    {%- if page.meta.description -%}
+    {{ page.meta.description }}
+    {%- endif -%}
+
+size: { width: 1200, height: 630 }
+
+layers:
+
+  # Background — light, clean
+  - background:
+      color: "#F0F4F3"
+
+  # Left accent bar — brand teal
+  - size: { width: 8, height: 630 }
+    offset: { x: 0, y: 0 }
+    background:
+      color: "#384D48"
+
+  # Top band — dark teal header
+  - size: { width: 1200, height: 100 }
+    offset: { x: 0, y: 0 }
+    background:
+      color: "#384D48"
+
+  # ABM logo — in top band
+  - size: { width: 52, height: 52 }
+    offset: { x: 64, y: 24 }
+    background:
+      image: *logo
+
+  # Site name — in top band
+  - size: { width: 400, height: 32 }
+    offset: { x: 132, y: 34 }
+    typography:
+      content: "{{ config.site_name }}"
+      color: "#5C8076"
+      align: start
+      font:
+        family: Roboto
+        style: Medium
+
+  # Decorative page icon — right side, translucent on light bg
+  - size: { width: 320, height: 320 }
+    offset: { x: 840, y: 200 }
+    icon:
+      value: >-
+        {{ page.meta.get("icon", "material/text-box-outline") }}
+      color: "#384D4810"
+
+  # Date icon
+  - size: { width: 24, height: 24 }
+    offset: { x: 64, y: 128 }
+    icon:
+      value: >-
+        {%- if page.meta.date -%}
+        material/calendar
+        {%- endif -%}
+      color: "#5C8076"
+
+  # Date text
+  - size: { width: 300, height: 24 }
+    offset: { x: 100, y: 128 }
+    typography:
+      content: >-
+        {%- if page.meta.date -%}
+        {{ page.meta.date.strftime('%b %-d, %Y') }}
+        {%- endif -%}
+      color: "#5C8076"
+      align: start
+      font:
+        family: Roboto
+        style: Medium
+
+  # Page title — dark text on light background
+  - size: { width: 900, height: 240 }
+    offset: { x: 64, y: 180 }
+    typography:
+      content: *page_title
+      color: "#2A3A36"
+      align: start
+      overflow: shrink
+      line:
+        amount: 3
+        height: 1.25
+      font:
+        family: Roboto
+        style: Bold
+
+  # Description
+  - size: { width: 700, height: 64 }
+    offset: { x: 64, y: 440 }
+    typography:
+      content: *page_description
+      color: "#384D48AA"
+      align: start
+      overflow: truncate
+      line:
+        amount: 2
+        height: 1.3
+      font:
+        family: Roboto
+        style: Regular
+
+  # Tags icon
+  - size: { width: 24, height: 24 }
+    offset: { x: 64, y: 548 }
+    icon:
+      value: >-
+        {%- if page.meta.tags -%}
+        material/tag-outline
+        {%- endif -%}
+      color: "#5C8076"
+
+  # Tags text
+  - size: { width: 600, height: 24 }
+    offset: { x: 100, y: 548 }
+    typography:
+      content: >-
+        {%- if page.meta.tags -%}
+        {{ page.meta.tags | join(" / ") }}
+        {%- endif -%}
+      color: "#5C8076"
+      align: start
+      font:
+        family: Roboto
+        style: Medium
+
+  # Site URL — bottom right
+  - size: { width: 300, height: 24 }
+    offset: { x: 836, y: 548 }
+    typography:
+      content: analyticsbymark.dev
+      color: "#384D4833"
+      align: end
+      font:
+        family: Roboto
+        style: Regular
