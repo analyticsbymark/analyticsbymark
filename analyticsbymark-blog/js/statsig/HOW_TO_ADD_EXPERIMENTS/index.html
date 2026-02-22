@@ -1,0 +1,2028 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="My journey in building datasets and designing analytics that deliver actionable results in insurance.">
+      
+      
+      
+        <link rel="canonical" href="https://www.analyticsbymark.blog/js/statsig/HOW_TO_ADD_EXPERIMENTS/">
+      
+      
+      
+      
+        
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>How to Add New A/B Tests - Step-by-Step Guide - ABM - Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/@statsig/js-client@3/build/statsig-js-client.min.js">
+<script src="https://cdn.jsdelivr.net/npm/@statsig/js-client@3/build/statsig-js-client.min.js"></script>
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-add-new-ab-tests-step-by-step-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+        <aside class="md-banner">
+          <div class="md-banner__inner md-grid md-typeset">
+            
+              <button class="md-banner__button md-icon" aria-label="Don't show this again">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+              </button>
+            
+            
+<span id="announce-cta">Free Claude Code Course — learn to build with AI. <a href="https://YOUR-NEWSLETTER-SIGNUP-URL-HERE" target="_blank"><strong>Sign up to the newsletter to get access</strong></a></span>
+
+          </div>
+          
+            <script>var el=document.querySelector("[data-md-component=announce]");if(el){var content=el.querySelector(".md-typeset");__md_hash(content.innerHTML)===__md_get("__announce")&&(el.hidden=!0)}</script>
+          
+        </aside>
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ABM - Blog" class="md-header__button md-logo" aria-label="ABM - Blog" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ABM - Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              How to Add New A/B Tests - Step-by-Step Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label=""  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ABM - Blog" class="md-nav__button md-logo" aria-label="ABM - Blog" data-md-component="logo">
+      
+  <img src="../../../assets/logo.png" alt="logo">
+
+    </a>
+    ABM - Blog
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview-the-5-step-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview: The 5-Step Process
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-create-experiment-in-statsig-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Create Experiment in Statsig Console
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Create Experiment in Statsig Console">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-log-into-statsig" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Log into Statsig
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-create-new-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Create New Experiment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-define-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Define Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-set-success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Set Success Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-start-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Start Experiment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-configure-in-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Configure in Code
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Configure in Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-identify-experiment-category" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Identify Experiment Category
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-add-to-config-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Add to Config Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-experiment-configuration-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Experiment Configuration Options
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3 Experiment Configuration Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Required Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experiment-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiment Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-fields" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional Fields
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-update-production-config" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Update Production Config
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-prepare-dom-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Prepare DOM Elements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Prepare DOM Elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-add-target-element" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Add Target Element
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-add-anti-flicker-attribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Add Anti-Flicker Attribute
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-add-tracking-attributes-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Add Tracking Attributes (Optional)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-page-specific-experiments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Page-Specific Experiments
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-test-locally" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Test Locally
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Test Locally">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-enable-debug-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Enable Debug Logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-start-local-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Start Local Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-test-in-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Test in Browser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-test-both-variants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Test Both Variants
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-test-tracking-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Test Tracking Events
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-test-instant-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Test Instant Navigation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-test-anti-flicker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Test Anti-Flicker
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-deploy-monitor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Deploy &amp; Monitor
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Deploy &amp; Monitor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-commit-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Commit Changes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-update-production-config-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Update Production Config Secret
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-deploy-to-staging-if-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Deploy to Staging (If Available)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-deploy-to-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Deploy to Production
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-ramp-up-in-statsig-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 Ramp Up in Statsig Console
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-monitor-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 Monitor Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-statistical-significance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 Statistical Significance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#58-make-decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.8 Make Decision
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-experiment-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Experiment Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Experiment Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pattern-1-button-text-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 1: Button Text Optimization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern-2-navigation-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 2: Navigation Layout
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern-3-content-density" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 3: Content Density
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern-4-visual-styling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 4: Visual Styling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pattern-5-multi-element-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pattern 5: Multi-Element Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experiment-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiment Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Experiment Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#do" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DO ✅
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dont" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DON'T ❌
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#issue-experiment-not-applying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue: Experiment Not Applying
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-content-flash-fouc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue: Content Flash (FOUC)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-events-not-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue: Events Not Logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-wrong-variant-assigned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue: Wrong Variant Assigned
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-experiment-not-in-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue: Experiment Not in Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Topics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Topics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sequential-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequential Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-armed-bandit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Armed Bandit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#personalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Personalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#experiment-interactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiment Interactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#statsig-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statsig Console
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#google-analytics-if-enabled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Google Analytics (if enabled)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Support
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#experiment-config-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Experiment Config Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTML Template
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="how-to-add-new-ab-tests-step-by-step-guide">How to Add New A/B Tests - Step-by-Step Guide</h1>
+<p>This guide walks you through adding new experiments using the Statsig experimentation system.</p>
+<hr />
+<h2 id="overview-the-5-step-process">Overview: The 5-Step Process</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>1. Create Experiment in Statsig Console
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>   ↓
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>2. Configure in experiments.config.js
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   ↓
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>3. Prepare DOM Elements
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   ↓
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>4. Test Locally
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>   ↓
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>5. Deploy &amp; Monitor
+</span></code></pre></div>
+<hr />
+<h2 id="step-1-create-experiment-in-statsig-console">Step 1: Create Experiment in Statsig Console</h2>
+<h3 id="11-log-into-statsig">1.1 Log into Statsig</h3>
+<p>Go to https://console.statsig.com and log into your project.</p>
+<h3 id="12-create-new-experiment">1.2 Create New Experiment</h3>
+<p><strong>Navigate:</strong> Experiments → Create New Experiment</p>
+<p><strong>Settings:</strong>
+- <strong>Name:</strong> Use descriptive, snake_case naming (e.g., <code>blog_hero_cta_text</code>)
+- <strong>Type:</strong> Select "Experiment" (not "Feature Flag")
+- <strong>Allocation:</strong> Start with 50/50 split between variants</p>
+<h3 id="13-define-parameters">1.3 Define Parameters</h3>
+<p>Parameters are the values that change between variants.</p>
+<p><strong>Example: Text Change Experiment</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">Parameter Name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">button_label</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">String</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nt">Variants</span><span class="p">:</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Control</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Read</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">Tutorial&quot;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Treatment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Start</span><span class="nv"> </span><span class="s">Learning</span><span class="nv"> </span><span class="s">Now&quot;</span>
+</span></code></pre></div></p>
+<p><strong>Example: Layout Experiment</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">Parameter Name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">layout_style</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">String</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nt">Variants</span><span class="p">:</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Control</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;grid&quot;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Treatment</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;list&quot;</span>
+</span></code></pre></div></p>
+<p><strong>Example: Number Experiment</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">Parameter Name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">posts_per_page</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nt">Type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Number</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">Variants</span><span class="p">:</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Control</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Treatment_A</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">Treatment_B</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</span></code></pre></div></p>
+<h3 id="14-set-success-metrics">1.4 Set Success Metrics</h3>
+<p>Define what success looks like:
+- Primary: Click-through rate, conversion rate, etc.
+- Secondary: Time on page, scroll depth, bounce rate</p>
+<h3 id="15-start-experiment">1.5 Start Experiment</h3>
+<p>Keep it at 0% allocation initially. You'll ramp up after testing.</p>
+<hr />
+<h2 id="step-2-configure-in-code">Step 2: Configure in Code</h2>
+<h3 id="21-identify-experiment-category">2.1 Identify Experiment Category</h3>
+<p>Choose the appropriate category:
+- <code>cta</code> - Call-to-action buttons and conversion elements
+- <code>navigation</code> - Navigation bars, menus, tabs
+- <code>blog</code> - Blog-specific layouts and features
+- <code>visual</code> - Colors, themes, visual styling
+- <code>content</code> - Content display and organization</p>
+<h3 id="22-add-to-config-template">2.2 Add to Config Template</h3>
+<p>Edit: <code>projects/blog/docs/js/statsig/config/experiments.config.template.js</code></p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nx">experiments</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nx">cta</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="c1">// Existing experiments...</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="c1">// NEW EXPERIMENT</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nx">hero_cta_style</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">      </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;#hero-cta-btn&quot;</span><span class="p">,</span><span class="w">           </span><span class="c1">// CSS selector for target element</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">      </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_hero_cta_style&quot;</span><span class="p">,</span><span class="w">   </span><span class="c1">// Statsig experiment name</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">      </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;button_style&quot;</span><span class="p">,</span><span class="w">               </span><span class="c1">// Parameter name from Statsig</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">      </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;class&quot;</span><span class="p">,</span><span class="w">                       </span><span class="c1">// Type of change (see types below)</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">      </span><span class="nx">className</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;md-button--primary&quot;</span><span class="p">,</span><span class="w">     </span><span class="c1">// For type: &quot;class&quot;</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">      </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;conversion&quot;</span><span class="p">,</span><span class="w">              </span><span class="c1">// Category for analytics</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">      </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;index.html&quot;</span><span class="p">],</span><span class="w">               </span><span class="c1">// Pages where this runs</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">      </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="w">                 </span><span class="c1">// Priority level</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="23-experiment-configuration-options">2.3 Experiment Configuration Options</h3>
+<h4 id="required-fields">Required Fields</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>selector</code></td>
+<td>CSS selector for target element</td>
+<td><code>"#hero-cta"</code></td>
+</tr>
+<tr>
+<td><code>experiment</code></td>
+<td>Statsig experiment name</td>
+<td><code>"blog_hero_cta_text"</code></td>
+</tr>
+<tr>
+<td><code>param</code></td>
+<td>Parameter name from Statsig</td>
+<td><code>"button_label"</code></td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>Type of DOM manipulation</td>
+<td><code>"text"</code></td>
+</tr>
+<tr>
+<td><code>category</code></td>
+<td>Analytics category</td>
+<td><code>"conversion"</code></td>
+</tr>
+<tr>
+<td><code>pages</code></td>
+<td>Pages where experiment runs</td>
+<td><code>["index.html"]</code> or <code>["*"]</code></td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td>Importance level</td>
+<td><code>"critical"</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="experiment-types">Experiment Types</h4>
+<p><strong>1. Text Changes</strong> (<code>type: "text"</code>)
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;#hero-heading&quot;</span><span class="p">,</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_hero_heading_text&quot;</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;heading_text&quot;</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;conversion&quot;</span><span class="p">,</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;index.html&quot;</span><span class="p">],</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>2. CSS Class Changes</strong> (<code>type: "class"</code>)
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;body&quot;</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_sticky_nav&quot;</span><span class="p">,</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;enabled&quot;</span><span class="p">,</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;class&quot;</span><span class="p">,</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="nx">className</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;md-tabs--sticky&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// Class to add if param is truthy</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;navigation&quot;</span><span class="p">,</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>3. Attribute Changes</strong> (<code>type: "attr"</code>)
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;[data-exp=&#39;pagination&#39;]&quot;</span><span class="p">,</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_pagination_count&quot;</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;count&quot;</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;attr&quot;</span><span class="p">,</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span><span class="nx">attr</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;data-pagination-count&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// Attribute to set</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog-layout&quot;</span><span class="p">,</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;blog/index.html&quot;</span><span class="p">],</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;low&quot;</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>4. HTML Changes</strong> (<code>type: "html"</code>)
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;.blog-sidebar&quot;</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_sidebar_content&quot;</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;html_content&quot;</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;html&quot;</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;content&quot;</span><span class="p">,</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;blog/*.html&quot;</span><span class="p">],</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>5. Style Changes</strong> (<code>type: "style"</code>)
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;.blog-card&quot;</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_card_layout&quot;</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;layout_style&quot;</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;style&quot;</span><span class="p">,</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nx">styleProperty</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;display&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1">// CSS property to change</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;visual&quot;</span><span class="p">,</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;blog/index.html&quot;</span><span class="p">],</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;low&quot;</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<h4 id="optional-fields">Optional Fields</h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fallback</code></td>
+<td>Default value if Statsig fails</td>
+<td><code>"Click Here"</code></td>
+</tr>
+<tr>
+<td><code>className</code></td>
+<td>Class to add (for type: "class")</td>
+<td><code>"md-button--primary"</code></td>
+</tr>
+<tr>
+<td><code>attr</code></td>
+<td>Attribute name (for type: "attr")</td>
+<td><code>"data-count"</code></td>
+</tr>
+<tr>
+<td><code>styleProperty</code></td>
+<td>CSS property (for type: "style")</td>
+<td><code>"background-color"</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="24-update-production-config">2.4 Update Production Config</h3>
+<p>In your GitHub Secrets, update <code>EXPERIMENT_CONFIG_JSON_BLOG_PROD</code> to include the new experiment.</p>
+<p><strong>Format (JSON):</strong>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">{</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">&quot;experiments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="nt">&quot;cta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">      </span><span class="nt">&quot;hero_cta_style&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">        </span><span class="nt">&quot;selector&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#hero-cta-btn&quot;</span><span class="p">,</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">        </span><span class="nt">&quot;experiment&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;blog_hero_cta_style&quot;</span><span class="p">,</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">        </span><span class="nt">&quot;param&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;button_style&quot;</span><span class="p">,</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;class&quot;</span><span class="p">,</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">        </span><span class="nt">&quot;className&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;md-button--primary&quot;</span><span class="p">,</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">        </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;conversion&quot;</span><span class="p">,</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">        </span><span class="nt">&quot;pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;index.html&quot;</span><span class="p">],</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">        </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="step-3-prepare-dom-elements">Step 3: Prepare DOM Elements</h2>
+<h3 id="31-add-target-element">3.1 Add Target Element</h3>
+<p>Make sure your HTML has an element matching the selector.</p>
+<p><strong>Example: Text Experiment</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="cm">&lt;!-- Add unique ID for targeting --&gt;</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;/tutorial&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;hero-cta-btn&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;md-button&quot;</span> <span class="na">data-hidden</span><span class="p">&gt;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>  Read the Tutorial
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<h3 id="32-add-anti-flicker-attribute">3.2 Add Anti-Flicker Attribute</h3>
+<p><strong>Critical:</strong> Add <code>data-hidden</code> to prevent content flash before variant loads.</p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;experiment-target&quot;</span> <span class="na">data-hidden</span><span class="p">&gt;</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>  Default content here
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<p>The CSS will hide this until the experiment loads:
+<div class="language-css highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="o">[</span><span class="nt">data-hidden</span><span class="o">]</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="k">visibility</span><span class="p">:</span><span class="w"> </span><span class="kc">hidden</span><span class="w"> </span><span class="cp">!important</span><span class="p">;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<h3 id="33-add-tracking-attributes-optional">3.3 Add Tracking Attributes (Optional)</h3>
+<p>For custom click tracking:
+<div class="language-html highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;hero-cta&quot;</span> <span class="na">data-track</span><span class="o">=</span><span class="s">&quot;custom_event_name&quot;</span> <span class="na">data-exp-key</span><span class="o">=</span><span class="s">&quot;hero_cta_text&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>  Click Me
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<p><strong>Attributes:</strong>
+- <code>data-track</code> - Custom event name for tracking
+- <code>data-exp-key</code> - Links click to experiment for <code>experiment_interaction</code> events</p>
+<h3 id="34-page-specific-experiments">3.4 Page-Specific Experiments</h3>
+<p>Use the <code>pages</code> array to control where experiments run:</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1">// Run only on homepage</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;index.html&quot;</span><span class="p">]</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1">// Run on all blog posts</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;blog/*.html&quot;</span><span class="p">]</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1">// Run everywhere</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">]</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1">// Run on specific pages</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;index.html&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;about.html&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;blog/tutorial-1.html&quot;</span><span class="p">]</span>
+</span></code></pre></div>
+<hr />
+<h2 id="step-4-test-locally">Step 4: Test Locally</h2>
+<h3 id="41-enable-debug-logging">4.1 Enable Debug Logging</h3>
+<p>In your local <code>experiments.config.js</code>:</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nx">client</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nx">options</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="nx">loggingLevel</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;debug&quot;</span><span class="w">  </span><span class="c1">// Enable verbose logging</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="42-start-local-server">4.2 Start Local Server</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>projects/blog
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="nb">source</span><span class="w"> </span>../../.venv/bin/activate
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>mkdocs<span class="w"> </span>serve
+</span></code></pre></div>
+<h3 id="43-test-in-browser">4.3 Test in Browser</h3>
+<ol>
+<li><strong>Open:</strong> http://127.0.0.1:8000/</li>
+<li><strong>Open DevTools:</strong> Press F12 → Console tab</li>
+</ol>
+<p><strong>Expected Console Output:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>[Statsig] Config loaded: {...}
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>[Statsig] Client initialized
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>[Statsig Renderer] Pre-hiding experiment elements
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>[Statsig Renderer] Applied experiment: hero_cta_text = &quot;Start Learning Now&quot;
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>[Statsig ExposureLogger] Logged exposure: blog_hero_cta_text = &quot;Start Learning Now&quot;
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>[Statsig EventLogger] Logged event: experiment_exposure
+</span></code></pre></div></p>
+<h3 id="44-test-both-variants">4.4 Test Both Variants</h3>
+<p><strong>Option 1: URL Override</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>http://127.0.0.1:8000/?exp_blog_hero_cta_text=control
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>http://127.0.0.1:8000/?exp_blog_hero_cta_text=treatment
+</span></code></pre></div></p>
+<p><strong>Option 2: Force in Statsig Console</strong>
+Go to Statsig Console → Experiments → Your Experiment → Overrides → Add your user ID</p>
+<p><strong>Option 3: Clear localStorage</strong>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1">// In browser console</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nx">localStorage</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="nx">location</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span>
+</span></code></pre></div></p>
+<h3 id="45-test-tracking-events">4.5 Test Tracking Events</h3>
+<p><strong>Check exposure logging:</strong>
+- Should see <code>experiment_exposure</code> event when page loads</p>
+<p><strong>Check click tracking:</strong>
+- Click the experiment element
+- Should see <code>experiment_interaction</code> event with experiment metadata</p>
+<p><strong>Check Network tab:</strong>
+- Filter by "statsig"
+- Should see POST requests to <code>api.statsig.com/v1/log_event</code></p>
+<h3 id="46-test-instant-navigation">4.6 Test Instant Navigation</h3>
+<ol>
+<li>Click an internal link</li>
+<li>Console should show: <code>[Statsig Tracking] Page navigation detected, resetting trackers...</code></li>
+<li>New exposure should be logged for the new page</li>
+</ol>
+<h3 id="47-test-anti-flicker">4.7 Test Anti-Flicker</h3>
+<ol>
+<li><strong>Disable cache:</strong> DevTools → Network → Disable cache</li>
+<li><strong>Slow 3G:</strong> DevTools → Network → Throttle to Slow 3G</li>
+<li><strong>Reload page:</strong> Should NOT see default content flash before variant</li>
+</ol>
+<p>If you see a flash:
+- Check <code>data-hidden</code> attribute is on element
+- Check CSS includes anti-flicker rule
+- Check element selector is correct</p>
+<hr />
+<h2 id="step-5-deploy-monitor">Step 5: Deploy &amp; Monitor</h2>
+<h3 id="51-commit-changes">5.1 Commit Changes</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>git<span class="w"> </span>add<span class="w"> </span>projects/blog/docs/js/statsig/config/experiments.config.template.js
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>git<span class="w"> </span>add<span class="w"> </span>projects/blog/docs/index.md<span class="w">  </span><span class="c1"># Or wherever you added HTML</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;feat: add hero CTA style experiment</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="s2">- Add blog_hero_cta_style experiment to test button styling</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="s2">- Target: #hero-cta-btn element</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="s2">- Variants: primary vs secondary button style</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="s2">- Expected lift: 15-20% CTR</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="s2">Co-Authored-By: Claude Sonnet 4.5 &lt;noreply@anthropic.com&gt;&quot;</span>
+</span></code></pre></div>
+<h3 id="52-update-production-config-secret">5.2 Update Production Config Secret</h3>
+<p>In GitHub: Settings → Secrets → Update <code>EXPERIMENT_CONFIG_JSON_BLOG_PROD</code></p>
+<p>Add your new experiment to the JSON.</p>
+<h3 id="53-deploy-to-staging-if-available">5.3 Deploy to Staging (If Available)</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>develop
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="c1"># Wait for GitHub Actions to deploy</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1"># Test on staging URL</span>
+</span></code></pre></div>
+<h3 id="54-deploy-to-production">5.4 Deploy to Production</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>main
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>git<span class="w"> </span>merge<span class="w"> </span>feature_branch
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</span></code></pre></div>
+<h3 id="55-ramp-up-in-statsig-console">5.5 Ramp Up in Statsig Console</h3>
+<ol>
+<li>Go to Statsig Console → Your Experiment</li>
+<li>Start with 10% allocation</li>
+<li>Monitor for 24 hours</li>
+<li>If no issues, increase to 50%</li>
+<li>Monitor until statistical significance</li>
+</ol>
+<h3 id="56-monitor-metrics">5.6 Monitor Metrics</h3>
+<p><strong>Statsig Console:</strong>
+- Experiments → Your Experiment → Results
+- Check primary metric lift
+- Monitor secondary metrics
+- Watch for guardrail metrics (error rate, page load time)</p>
+<p><strong>Google Analytics (if enabled):</strong>
+- Events → Filter by <code>statsig_experiment_exposure</code>
+- Segments → Create segment by experiment variant
+- Compare metrics across variants</p>
+<p><strong>Key Metrics to Watch:</strong>
+- Click-through rate (primary for CTA tests)
+- Conversion rate
+- Time on page
+- Scroll depth
+- Bounce rate
+- Error rate (should not increase)</p>
+<h3 id="57-statistical-significance">5.7 Statistical Significance</h3>
+<p>Wait until:
+- <strong>Minimum sample size:</strong> Usually 1000+ users per variant
+- <strong>Statistical significance:</strong> p-value &lt; 0.05 (95% confidence)
+- <strong>Practical significance:</strong> Lift is meaningful (e.g., &gt;10%)
+- <strong>Time window:</strong> At least 1-2 weeks to account for weekday/weekend differences</p>
+<h3 id="58-make-decision">5.8 Make Decision</h3>
+<p><strong>If Treatment Wins:</strong>
+1. Increase allocation to 100% in Statsig
+2. Update config to make treatment the default
+3. Remove experiment code (now just standard code)
+4. Archive experiment in Statsig</p>
+<p><strong>If Control Wins or No Difference:</strong>
+1. Keep control (do nothing)
+2. Archive experiment in Statsig
+3. Remove experiment code
+4. Document learnings</p>
+<hr />
+<h2 id="common-experiment-patterns">Common Experiment Patterns</h2>
+<h3 id="pattern-1-button-text-optimization">Pattern 1: Button Text Optimization</h3>
+<p><strong>Goal:</strong> Find the most compelling CTA text</p>
+<p><strong>Setup:</strong>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="p">{</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;#signup-cta&quot;</span><span class="p">,</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_signup_cta_text&quot;</span><span class="p">,</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;button_text&quot;</span><span class="p">,</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;conversion&quot;</span><span class="p">,</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;index.html&quot;</span><span class="p">],</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Statsig Variants:</strong>
+- Control: "Sign Up"
+- Treatment_A: "Get Started Free"
+- Treatment_B: "Start Learning Now"</p>
+<p><strong>Success Metric:</strong> Click-through rate</p>
+<h3 id="pattern-2-navigation-layout">Pattern 2: Navigation Layout</h3>
+<p><strong>Goal:</strong> Test sticky vs non-sticky navigation</p>
+<p><strong>Setup:</strong>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="p">{</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;body&quot;</span><span class="p">,</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_sticky_nav&quot;</span><span class="p">,</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;enabled&quot;</span><span class="p">,</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;class&quot;</span><span class="p">,</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="w">  </span><span class="nx">className</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;md-tabs--sticky&quot;</span><span class="p">,</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;navigation&quot;</span><span class="p">,</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Statsig Variants:</strong>
+- Control: false (no sticky nav)
+- Treatment: true (sticky nav)</p>
+<p><strong>Success Metrics:</strong> Page views per session, time on site</p>
+<h3 id="pattern-3-content-density">Pattern 3: Content Density</h3>
+<p><strong>Goal:</strong> Find optimal number of posts per page</p>
+<p><strong>Setup:</strong>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="p">{</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;[data-exp=&#39;pagination&#39;]&quot;</span><span class="p">,</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_posts_per_page&quot;</span><span class="p">,</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;count&quot;</span><span class="p">,</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;attr&quot;</span><span class="p">,</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">  </span><span class="nx">attr</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;data-posts-count&quot;</span><span class="p">,</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog-layout&quot;</span><span class="p">,</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;blog/index.html&quot;</span><span class="p">],</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Statsig Variants:</strong>
+- Control: 5
+- Treatment_A: 10
+- Treatment_B: 3</p>
+<p><strong>Success Metrics:</strong> Engagement rate, pages per session</p>
+<h3 id="pattern-4-visual-styling">Pattern 4: Visual Styling</h3>
+<p><strong>Goal:</strong> Test primary color variations</p>
+<p><strong>Setup:</strong>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="p">{</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;:root&quot;</span><span class="p">,</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_primary_color&quot;</span><span class="p">,</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;color_hex&quot;</span><span class="p">,</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;style&quot;</span><span class="p">,</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="w">  </span><span class="nx">styleProperty</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;--md-primary-fg-color&quot;</span><span class="p">,</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;visual&quot;</span><span class="p">,</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">],</span>
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;low&quot;</span>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Statsig Variants:</strong>
+- Control: "#384D48"
+- Treatment_A: "#2196F3"
+- Treatment_B: "#4CAF50"</p>
+<p><strong>Success Metrics:</strong> Time on page, subjective feedback</p>
+<h3 id="pattern-5-multi-element-test">Pattern 5: Multi-Element Test</h3>
+<p><strong>Goal:</strong> Test entire page redesign</p>
+<p><strong>Approach:</strong> Use multiple coordinated experiments with the same allocation</p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nx">experiments</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">  </span><span class="nx">cta</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="w">    </span><span class="nx">redesign_hero_cta</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="w">      </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;#hero-cta&quot;</span><span class="p">,</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="w">      </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_homepage_redesign_v2&quot;</span><span class="p">,</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">      </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;hero_cta_text&quot;</span><span class="p">,</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="w">      </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="w">      </span><span class="c1">// ...</span>
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="w">  </span><span class="p">},</span>
+</span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a><span class="w">  </span><span class="nx">visual</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-28-12"><a id="__codelineno-28-12" name="__codelineno-28-12" href="#__codelineno-28-12"></a><span class="w">    </span><span class="nx">redesign_hero_style</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-28-13"><a id="__codelineno-28-13" name="__codelineno-28-13" href="#__codelineno-28-13"></a><span class="w">      </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;.hero-section&quot;</span><span class="p">,</span>
+</span><span id="__span-28-14"><a id="__codelineno-28-14" name="__codelineno-28-14" href="#__codelineno-28-14"></a><span class="w">      </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;blog_homepage_redesign_v2&quot;</span><span class="p">,</span>
+</span><span id="__span-28-15"><a id="__codelineno-28-15" name="__codelineno-28-15" href="#__codelineno-28-15"></a><span class="w">      </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;hero_style&quot;</span><span class="p">,</span>
+</span><span id="__span-28-16"><a id="__codelineno-28-16" name="__codelineno-28-16" href="#__codelineno-28-16"></a><span class="w">      </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;class&quot;</span><span class="p">,</span>
+</span><span id="__span-28-17"><a id="__codelineno-28-17" name="__codelineno-28-17" href="#__codelineno-28-17"></a><span class="w">      </span><span class="nx">className</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;hero--modern&quot;</span><span class="p">,</span>
+</span><span id="__span-28-18"><a id="__codelineno-28-18" name="__codelineno-28-18" href="#__codelineno-28-18"></a><span class="w">      </span><span class="c1">// ...</span>
+</span><span id="__span-28-19"><a id="__codelineno-28-19" name="__codelineno-28-19" href="#__codelineno-28-19"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-28-20"><a id="__codelineno-28-20" name="__codelineno-28-20" href="#__codelineno-28-20"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-28-21"><a id="__codelineno-28-21" name="__codelineno-28-21" href="#__codelineno-28-21"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Statsig:</strong> Use same experiment for both, different parameters</p>
+<hr />
+<h2 id="experiment-best-practices">Experiment Best Practices</h2>
+<h3 id="do">DO ✅</h3>
+<ol>
+<li><strong>Start Small</strong></li>
+<li>Test one thing at a time</li>
+<li>
+<p>Small iterations are easier to understand</p>
+</li>
+<li>
+<p><strong>Define Success First</strong></p>
+</li>
+<li>Know your primary metric before starting</li>
+<li>
+<p>Set a minimum detectable effect (MDE)</p>
+</li>
+<li>
+<p><strong>Test for Long Enough</strong></p>
+</li>
+<li>Minimum 1-2 weeks</li>
+<li>
+<p>Wait for statistical significance</p>
+</li>
+<li>
+<p><strong>Monitor Guardrail Metrics</strong></p>
+</li>
+<li>Page load time</li>
+<li>Error rate</li>
+<li>
+<p>Core Web Vitals</p>
+</li>
+<li>
+<p><strong>Document Everything</strong></p>
+</li>
+<li>Hypothesis</li>
+<li>Expected lift</li>
+<li>Results</li>
+<li>
+<p>Learnings</p>
+</li>
+<li>
+<p><strong>Use Anti-Flicker</strong></p>
+</li>
+<li>Always add <code>data-hidden</code> to experiment elements</li>
+<li>
+<p>Test with slow network to verify</p>
+</li>
+<li>
+<p><strong>Test Both Variants</strong></p>
+</li>
+<li>Manually verify both control and treatment work</li>
+<li>Check on mobile and desktop</li>
+</ol>
+<h3 id="dont">DON'T ❌</h3>
+<ol>
+<li><strong>Don't Test Too Many Things</strong></li>
+<li>Running 10+ experiments simultaneously dilutes traffic</li>
+<li>
+<p>Harder to understand interactions</p>
+</li>
+<li>
+<p><strong>Don't Stop Too Early</strong></p>
+</li>
+<li>Need statistical significance</li>
+<li>
+<p>Account for day-of-week effects</p>
+</li>
+<li>
+<p><strong>Don't Ignore Negative Results</strong></p>
+</li>
+<li>Failed experiments teach you what doesn't work</li>
+<li>
+<p>Document and move on</p>
+</li>
+<li>
+<p><strong>Don't Break Existing Functionality</strong></p>
+</li>
+<li>Always test both variants thoroughly</li>
+<li>
+<p>Monitor error rates</p>
+</li>
+<li>
+<p><strong>Don't Forget Mobile</strong></p>
+</li>
+<li>Test on different screen sizes</li>
+<li>
+<p>Mobile users may behave differently</p>
+</li>
+<li>
+<p><strong>Don't Experiment on Critical Flows Without Testing</strong></p>
+</li>
+<li>Thoroughly test payment, signup, login flows</li>
+<li>Have rollback plan ready</li>
+</ol>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="issue-experiment-not-applying">Issue: Experiment Not Applying</h3>
+<p><strong>Check:</strong>
+1. Element selector is correct: <code>document.querySelector("#your-selector")</code>
+2. Page matches <code>pages</code> array in config
+3. Statsig experiment is running (not paused)
+4. Browser console shows experiment loaded
+5. Variant value is what you expect</p>
+<p><strong>Debug:</strong>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1">// In browser console</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">EXPERIMENT_CONFIG</span><span class="p">);</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">StatsigClient</span><span class="p">.</span><span class="nx">instance</span><span class="p">);</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">StatsigClient</span><span class="p">.</span><span class="nx">instance</span><span class="p">.</span><span class="nx">getExperiment</span><span class="p">(</span><span class="s2">&quot;your_experiment_name&quot;</span><span class="p">));</span>
+</span></code></pre></div></p>
+<h3 id="issue-content-flash-fouc">Issue: Content Flash (FOUC)</h3>
+<p><strong>Check:</strong>
+1. Element has <code>data-hidden</code> attribute
+2. Anti-flicker CSS is loaded
+3. Scripts load in correct order (renderer before bootstrap)</p>
+<p><strong>Fix:</strong>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c">/* In extra.css */</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="o">[</span><span class="nt">data-hidden</span><span class="o">]</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">  </span><span class="k">visibility</span><span class="p">:</span><span class="w"> </span><span class="kc">hidden</span><span class="w"> </span><span class="cp">!important</span><span class="p">;</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="w">  </span><span class="k">opacity</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="cp">!important</span><span class="p">;</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<h3 id="issue-events-not-logging">Issue: Events Not Logging</h3>
+<p><strong>Check:</strong>
+1. Tracking enabled in config: <code>enableAutoClick: true</code>
+2. Element matches tracking selectors
+3. Browser console shows tracking initialized
+4. Network tab shows POST to Statsig API
+5. Ad blocker not blocking requests</p>
+<p><strong>Debug:</strong>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1">// In browser console</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">StatsigTracker</span><span class="p">);</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">StatsigTracker</span><span class="p">.</span><span class="nx">eventLogger</span><span class="p">);</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">StatsigTracker</span><span class="p">.</span><span class="nx">clickTracker</span><span class="p">);</span>
+</span></code></pre></div></p>
+<h3 id="issue-wrong-variant-assigned">Issue: Wrong Variant Assigned</h3>
+<p><strong>Check:</strong>
+1. User ID is stable (check localStorage)
+2. Allocation percentage in Statsig Console
+3. No user overrides in Statsig Console</p>
+<p><strong>Reset:</strong>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1">// In browser console</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="nx">localStorage</span><span class="p">.</span><span class="nx">removeItem</span><span class="p">(</span><span class="s1">&#39;statsig-user-id&#39;</span><span class="p">);</span>
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="nx">location</span><span class="p">.</span><span class="nx">reload</span><span class="p">();</span>
+</span></code></pre></div></p>
+<h3 id="issue-experiment-not-in-results">Issue: Experiment Not in Results</h3>
+<p><strong>Check:</strong>
+1. Exposures are being logged (check Statsig Events)
+2. Enough time has passed (results update hourly)
+3. Primary metric is configured correctly
+4. Users are actually seeing both variants (check allocation)</p>
+<hr />
+<h2 id="advanced-topics">Advanced Topics</h2>
+<h3 id="sequential-testing">Sequential Testing</h3>
+<p>Test multiple variations sequentially:
+1. Test A vs B → B wins
+2. Test B vs C → C wins
+3. Test C vs D → C wins
+4. C is the winner</p>
+<h3 id="multi-armed-bandit">Multi-Armed Bandit</h3>
+<p>Let Statsig automatically allocate more traffic to winning variant:
+- Enable "Auto-tune" in Statsig Console
+- System will gradually shift traffic to better performers</p>
+<h3 id="personalization">Personalization</h3>
+<p>Use Statsig targeting rules:
+- Show different variants based on:
+  - Location
+  - Device type
+  - Time of day
+  - User properties</p>
+<h3 id="experiment-interactions">Experiment Interactions</h3>
+<p>Be careful when running multiple experiments:
+- Experiments on same page may interact
+- Use Statsig's "Mutual Exclusion Groups" to prevent conflicts</p>
+<hr />
+<h2 id="resources">Resources</h2>
+<h3 id="documentation">Documentation</h3>
+<ul>
+<li>Statsig Docs: https://docs.statsig.com</li>
+<li>This Implementation: <code>PHASE3_IMPLEMENTATION.md</code></li>
+<li>Technical Reference: <code>tracking/README.md</code></li>
+</ul>
+<h3 id="statsig-console">Statsig Console</h3>
+<ul>
+<li>Experiments: https://console.statsig.com/experiments</li>
+<li>Metrics: https://console.statsig.com/metrics</li>
+<li>Events: https://console.statsig.com/events</li>
+</ul>
+<h3 id="google-analytics-if-enabled">Google Analytics (if enabled)</h3>
+<ul>
+<li>Events: GA4 → Reports → Engagement → Events</li>
+<li>Explorations: GA4 → Explore → Create new exploration</li>
+</ul>
+<h3 id="support">Support</h3>
+<ul>
+<li>Statsig Community: https://statsig.com/slack</li>
+<li>Documentation: Check implementation docs in this repo</li>
+</ul>
+<hr />
+<h2 id="quick-reference">Quick Reference</h2>
+<h3 id="experiment-config-template">Experiment Config Template</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="nx">experiment_name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="w">  </span><span class="nx">selector</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;#element-id&quot;</span><span class="p">,</span><span class="w">              </span><span class="c1">// Required: CSS selector</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a><span class="w">  </span><span class="nx">experiment</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;statsig_experiment_name&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// Required: Statsig name</span>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="w">  </span><span class="nx">param</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;parameter_name&quot;</span><span class="p">,</span><span class="w">              </span><span class="c1">// Required: Parameter from Statsig</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="w">  </span><span class="nx">type</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;text&quot;</span><span class="p">,</span><span class="w">                         </span><span class="c1">// Required: text|class|attr|html|style</span>
+</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a><span class="w">  </span><span class="nx">category</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;conversion&quot;</span><span class="p">,</span><span class="w">               </span><span class="c1">// Required: Analytics category</span>
+</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="w">  </span><span class="nx">pages</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;index.html&quot;</span><span class="p">],</span><span class="w">                </span><span class="c1">// Required: Where to run</span>
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="w">  </span><span class="nx">priority</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;critical&quot;</span><span class="p">,</span><span class="w">                 </span><span class="c1">// Required: critical|high|medium|low</span>
+</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="w">  </span><span class="nx">fallback</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;default value&quot;</span><span class="p">,</span><span class="w">            </span><span class="c1">// Optional: Default if Statsig fails</span>
+</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="w">  </span><span class="nx">className</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;css-class&quot;</span><span class="p">,</span><span class="w">               </span><span class="c1">// For type: &quot;class&quot;</span>
+</span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a><span class="w">  </span><span class="nx">attr</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;attribute-name&quot;</span><span class="p">,</span><span class="w">               </span><span class="c1">// For type: &quot;attr&quot;</span>
+</span><span id="__span-33-12"><a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a><span class="w">  </span><span class="nx">styleProperty</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;css-property&quot;</span><span class="w">         </span><span class="c1">// For type: &quot;style&quot;</span>
+</span><span id="__span-33-13"><a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="html-template">HTML Template</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="p">&lt;</span><span class="nt">element</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;unique-id&quot;</span> <span class="na">data-hidden</span> <span class="na">data-track</span><span class="o">=</span><span class="s">&quot;event_name&quot;</span> <span class="na">data-exp-key</span><span class="o">=</span><span class="s">&quot;config_key&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>  Default content
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="p">&lt;/</span><span class="nt">element</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="testing-checklist">Testing Checklist</h3>
+<ul>
+<li>[ ] Experiment created in Statsig Console</li>
+<li>[ ] Config added to experiments.config.template.js</li>
+<li>[ ] Production secret updated (EXPERIMENT_CONFIG_JSON)</li>
+<li>[ ] HTML element has unique selector</li>
+<li>[ ] Element has <code>data-hidden</code> attribute</li>
+<li>[ ] Local testing passed (both variants work)</li>
+<li>[ ] No content flash observed</li>
+<li>[ ] Events logging correctly</li>
+<li>[ ] Instant navigation works</li>
+<li>[ ] Mobile testing passed</li>
+<li>[ ] Deployed to staging</li>
+<li>[ ] Monitored for 24h on staging</li>
+<li>[ ] Deployed to production at 10% allocation</li>
+<li>[ ] Ramped to 50% after validation</li>
+<li>[ ] Monitoring results in Statsig Console</li>
+</ul>
+<hr />
+<p><strong>Last Updated:</strong> February 7, 2026
+<strong>Version:</strong> 1.0.0</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2026 Mark Cooper <br> <a href="#__consent">Change cookie settings</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.linkedin.com/in/mark-cooper-b8878686" target="_blank" rel="noopener" title="Mark on Linkedin" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "navigation.top", "toc.follow", "search.suggest", "search.share", "content.code.annotate", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../config/experiments.config.js"></script>
+      
+        <script src="../core/user.js"></script>
+      
+        <script src="../core/client.js"></script>
+      
+        <script src="../experiments/renderer.js"></script>
+      
+        <script src="../experiments/bootstrap.js"></script>
+      
+        <script src="../tracking/eventLogger.js"></script>
+      
+        <script src="../tracking/exposureLogger.js"></script>
+      
+        <script src="../tracking/clickTracker.js"></script>
+      
+        <script src="../tracking/engagementTracker.js"></script>
+      
+        <script src="../tracking/init.js"></script>
+      
+    
+  </body>
+</html>
