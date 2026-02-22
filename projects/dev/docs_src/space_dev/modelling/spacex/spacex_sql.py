@@ -19,8 +19,8 @@ Usage:
 # Section 1: Imports
 #
 # We import SpaceXLaunch from spacex.py (same directory) to reuse
-# the validated Pydantic model. SQLModel extends Pydantic, so we can
-# inherit from SpaceXLaunch to create a database table class.
+# the validated SQLModel schema. We inherit from it to create a
+# database table class.
 # ──────────────────────────────────────────────────────────────────────
 
 import sys
@@ -35,15 +35,15 @@ from spacex import SpaceXLaunch, get_spacex_data
 # ──────────────────────────────────────────────────────────────────────
 # Section 2: SQLModel Table
 #
-# SQLModel lets us extend a Pydantic model into a database table by:
-#   1. Inheriting from both our model AND SQLModel
-#   2. Setting table=True to mark it as a database table
-#   3. Adding an auto-increment primary key
+# SpaceXLaunch is already a SQLModel, so we just need to:
+#   1. Inherit from it
+#   2. Set table=True to mark it as a database table
+#   3. Add an auto-increment primary key
 #
 # Every field from SpaceXLaunch becomes a database column automatically.
 # ──────────────────────────────────────────────────────────────────────
 
-class SpaceXLaunchRow(SpaceXLaunch, SQLModel, table=True):
+class SpaceXLaunchRow(SpaceXLaunch, table=True):
     """Database table for SpaceX launches. Inherits all fields from SpaceXLaunch."""
     __tablename__ = "spacex_launches"
 
@@ -138,11 +138,11 @@ if __name__ == "__main__":
         for status, count in sorted(counts.items()):
             print(f"  {status}: {count}")
 
-        # Query 4: Most recent launches (order + limit)
-        print("\n10 most recent launches:")
+        # Query 4: Most recent completed launches (order + filter + limit)
+        print("\n10 most recent completed launches:")
         recent = session.exec(
             select(SpaceXLaunchRow)
-            .where(SpaceXLaunchRow.net.isnot(None))
+            .where(SpaceXLaunchRow.launch_status_abbrev.in_(["Success", "Failure", "Partial Failure"]))
             .order_by(SpaceXLaunchRow.net.desc())
             .limit(10)
         ).all()

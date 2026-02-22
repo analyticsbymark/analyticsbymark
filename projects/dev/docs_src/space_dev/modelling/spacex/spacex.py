@@ -4,7 +4,7 @@ SpaceX Launch Data — Fetch, Validate, Save
 
 Self-contained script that:
 1. Fetches SpaceX launch data from the Launch Library 2 API
-2. Validates each record with a Pydantic model
+2. Validates each record with a SQLModel schema
 3. Saves a flat CSV for downstream analysis
 
 Usage:
@@ -25,7 +25,7 @@ from pathlib import Path
 
 import pandas as pd
 import requests
-from pydantic import BaseModel
+from sqlmodel import SQLModel
 
 # API configuration — Launch Library 2, SpaceX launches
 API_URL = "https://ll.thespacedevs.com/2.3.0/launches/"
@@ -36,7 +36,7 @@ OUTPUT_CSV = Path(__file__).resolve().parent / "spacex_launches.csv"
 
 
 # ──────────────────────────────────────────────────────────────────────
-# Section 2: Pydantic Model
+# Section 2: SQLModel Schema
 #
 # This flat model represents one validated launch record.
 # Every field maps to a column in the output CSV.
@@ -44,7 +44,7 @@ OUTPUT_CSV = Path(__file__).resolve().parent / "spacex_launches.csv"
 # teaches defensive data modelling — real-world APIs have gaps.
 # ──────────────────────────────────────────────────────────────────────
 
-class SpaceXLaunch(BaseModel):
+class SpaceXLaunch(SQLModel):
     """A single SpaceX launch, flattened from the nested API response."""
 
     # --- Identity ---
