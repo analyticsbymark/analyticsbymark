@@ -129,8 +129,6 @@ if __name__ == "__main__":
 
         # Query 3: Count by status
         print("\nLaunches by status:")
-        for launch in all_launches:
-            status = launch.launch_status_abbrev or "Unknown"
         counts: dict[str, int] = {}
         for launch in all_launches:
             status = launch.launch_status_abbrev or "Unknown"
