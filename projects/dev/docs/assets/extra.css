@@ -1,5 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;800&display=swap');
+
+/* Light mode */
+[data-md-color-scheme="default"] {
+  --md-default-bg-color: #f8fafc;
+}
+
+/* Dark mode */
+[data-md-color-scheme="slate"] .md-typeset h1 {
+  color: #ffffff;
+}
+
 :root  > * {
   --md-primary-fg-color:        #384D48;
+
+  --md-text-font: 'JetBrains Mono', monospace;
+  --md-code-font: 'JetBrains Mono', monospace;
+  --md-mermaid-font-family: var(--md-text-font), monospace;
+}
+
+/* Typography */
+.md-typeset h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 36px;
+  color: #1e293b;
+}
+
+.md-typeset h2 {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 28px;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset h3 {
+  font-weight: 700;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.md-button {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+small,
+.md-typeset small,
+.md-footer__link,
+.md-source__fact {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
 }
 
 .circular {
