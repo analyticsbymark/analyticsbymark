@@ -81,7 +81,7 @@ You will learn how to:
 ## Sample rows
 
 <div class="data-table" markdown>
-{{ read_csv("spacex_launches.csv", nrows=2) }}
+{{ read_csv("docs_src/space_dev/modelling/spacex/spacex_launches.csv", nrows=2) }}
 </div>
 
 
