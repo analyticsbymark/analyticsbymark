@@ -5,3 +5,43 @@
 .circular {
   border-radius: 50%;
 }
+
+/* Data tables */
+.data-table table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: .8rem;
+}
+
+.data-table th {
+  background-color: var(--md-primary-fg-color, #384D48);
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+  padding: .6rem .8rem;
+}
+
+.data-table td {
+  padding: .5rem .8rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: rgba(56, 77, 72, .05);
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(56, 77, 72, .1);
+}
+
+.purple-icon {
+  color: purple;
+}
+
+.red-icon {
+  color: red;
+}
+
+.gold-icon {
+  color: gold;
+}
