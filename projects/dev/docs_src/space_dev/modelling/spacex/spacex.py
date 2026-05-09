@@ -28,11 +28,11 @@ import requests
 from sqlmodel import SQLModel
 
 # API configuration — Launch Library 2, SpaceX launches
-API_URL = "https://ll.thespacedevs.com/2.3.0/launches/"
-SPACEX_LSP_ID = 121  # SpaceX's Launch Service Provider ID
+API_URL = "https://ll.thespacedevs.com/2.3.0/launches/" # (1)!
+SPACEX_LSP_ID = 121  # (2)! # SpaceX's Launch Service Provider ID
 
 # Output path: same directory as this script
-OUTPUT_CSV = Path(__file__).resolve().parent / "spacex_launches.csv"
+OUTPUT_CSV = Path(__file__).resolve().parent / "spacex_launches.csv" # (3)!
 
 
 # ──────────────────────────────────────────────────────────────────────
@@ -44,11 +44,11 @@ OUTPUT_CSV = Path(__file__).resolve().parent / "spacex_launches.csv"
 # teaches defensive data modelling — real-world APIs have gaps.
 # ──────────────────────────────────────────────────────────────────────
 
-class SpaceXLaunch(SQLModel):
+class SpaceXLaunch(SQLModel): #(4)!
     """A single SpaceX launch, flattened from the nested API response."""
 
     # --- Identity ---
-    launch_uuid: str | None = None
+    launch_uuid: str | None = None #(5)!
     launch_url: str | None = None
 
     # --- Timing ---
@@ -58,7 +58,7 @@ class SpaceXLaunch(SQLModel):
     last_updated: datetime | None = None
 
     # --- Launch info ---
-    launch_name: str                       # Only required field — every launch has a name
+    launch_name: str   #(6)!                     Only required field — every launch has a name
     launch_status: str | None = None
     launch_status_id: int | None = None
     launch_status_abbrev: str | None = None
@@ -110,7 +110,7 @@ class SpaceXLaunch(SQLModel):
 # a paginated REST API that returns deeply nested JSON.
 # ──────────────────────────────────────────────────────────────────────
 
-def safe_get(obj, *keys, default=None):
+def safe_get(obj, *keys, default=None): #(7)!
     """
     Safely navigate nested dicts and lists without raising KeyError or IndexError.
 
@@ -125,18 +125,18 @@ def safe_get(obj, *keys, default=None):
     current = obj
     for key in keys:
         if current is None:
-            return default
-        if isinstance(key, int):
-            if isinstance(current, list) and len(current) > key:
+            return default #(8)!
+        if isinstance(key, int): #(9)!
+            if isinstance(current, list) and len(current) > key: #(10)!
                 current = current[key]
             else:
                 return default
         else:
-            if isinstance(current, dict) and key in current:
+            if isinstance(current, dict) and key in current: #(11)!
                 current = current[key]
             else:
                 return default
-    return current
+    return current #(12)!
 
 
 def fetch_all_pages(url: str, params: dict | None = None) -> list[dict]:
@@ -146,24 +146,24 @@ def fetch_all_pages(url: str, params: dict | None = None) -> list[dict]:
     The API returns pages of results with a `next` URL for the next page.
     We follow pagination links until there are no more pages.
     """
-    headers = {"User-Agent": "SpaceXTutorial/1.0", "Accept": "application/json"}
+    headers = {"User-Agent": "SpaceXTutorial/1.0", "Accept": "application/json"} #(13)!
     all_results: list[dict] = []
 
     # First page uses params; subsequent pages use the full `next` URL
     resp = requests.get(url, params=params, headers=headers, timeout=30)
-    resp.raise_for_status()
+    resp.raise_for_status() #(14)!
     data = resp.json()
     all_results.extend(data.get("results", []))
-    next_url = data.get("next")
+    next_url = data.get("next") #(15)!
 
     print(f"  Page 1: {len(data.get('results', []))} results (total: {data.get('count', '?')})")
 
     page = 2
     while next_url:
-        resp = requests.get(next_url, headers=headers, timeout=30)
+        resp = requests.get(next_url, headers=headers, timeout=30) #(16)!
         resp.raise_for_status()
         data = resp.json()
-        all_results.extend(data.get("results", []))
+        all_results.extend(data.get("results", [])) #(17)!
         next_url = data.get("next")
         print(f"  Page {page}: {len(data.get('results', []))} results")
         page += 1
@@ -187,19 +187,19 @@ def parse_launch(launch_dict: dict) -> SpaceXLaunch:
     Each field is extracted using safe_get to handle missing/null data gracefully.
     """
     # Mission owners can appear in two places — merge and de-duplicate them
-    agencies = list(safe_get(launch_dict, "mission", "agencies") or [])
-    for p in safe_get(launch_dict, "program") or []:
+    agencies = list(safe_get(launch_dict, "mission", "agencies") or []) #(18)!
+    for p in safe_get(launch_dict, "program") or []:  #(19)!
         agencies.extend(safe_get(p, "agencies") or [])
-    owners = list(dict.fromkeys(a["id"] for a in agencies if "id" in a))
+    owners = list(dict.fromkeys(a["id"] for a in agencies if "id" in a))  #(20)!
     owner_lookup = {a["id"]: a for a in agencies if "id" in a}
 
     # Program names (e.g. "Starlink", "Commercial Crew"), de-duplicated
     programs = safe_get(launch_dict, "program") or []
-    program_names = "; ".join(dict.fromkeys(
+    program_names = "; ".join(dict.fromkeys( #(21)!
         safe_get(p, "name") for p in programs if safe_get(p, "name")
     ))
 
-    return SpaceXLaunch(
+    return SpaceXLaunch(  #(22)!
         # Identity
         launch_uuid=safe_get(launch_dict, "id"),
         launch_url=safe_get(launch_dict, "url"),
@@ -243,7 +243,7 @@ def parse_launch(launch_dict: dict) -> SpaceXLaunch:
         rocket_full_name=safe_get(launch_dict, "rocket", "configuration", "full_name"),
         rocket_variant=safe_get(launch_dict, "rocket", "configuration", "variant"),
         rocket_name=safe_get(launch_dict, "rocket", "configuration", "name"),
-        rocket_family=safe_get(launch_dict, "rocket", "configuration", "families", 0, "name"),
+        rocket_family=safe_get(launch_dict, "rocket", "configuration", "families", 0, "name"),  #(23)!
 
         # Launchpad
         launchpad_id=safe_get(launch_dict, "pad", "id"),
@@ -272,7 +272,7 @@ def get_spacex_data(force_refresh: bool = False) -> pd.DataFrame:
     If the CSV cache exists, load from disk (fast, no network).
     If --refresh is passed or no cache exists, fetch from the API.
     """
-    if not force_refresh and OUTPUT_CSV.exists():
+    if not force_refresh and OUTPUT_CSV.exists(): #(24)!
         print(f"Loading cached data from {OUTPUT_CSV}")
         return pd.read_csv(
             OUTPUT_CSV,
@@ -281,7 +281,7 @@ def get_spacex_data(force_refresh: bool = False) -> pd.DataFrame:
 
     # Fetch from API
     print("Fetching SpaceX launches from Launch Library 2 API...")
-    raw_launches = fetch_all_pages(API_URL, params={
+    raw_launches = fetch_all_pages(API_URL, params={ #(25)!
         "ordering": "-net",
         "lsp__id": SPACEX_LSP_ID,
         "limit": 100,
@@ -289,13 +289,13 @@ def get_spacex_data(force_refresh: bool = False) -> pd.DataFrame:
     print(f"Fetched {len(raw_launches)} launches")
 
     # Validate each record through the Pydantic model
-    launches = [parse_launch(raw) for raw in raw_launches]
-    df = pd.DataFrame([launch.model_dump() for launch in launches])
+    launches = [parse_launch(raw) for raw in raw_launches] #(26)!
+    df = pd.DataFrame([launch.model_dump() for launch in launches]) #(27)!
 
     # Parse datetime columns and derive year/month for time-series grouping
     for col in ("net", "window_start", "window_end", "last_updated"):
-        df[col] = pd.to_datetime(df[col], utc=True)
-    df["year"] = df["net"].dt.year
+        df[col] = pd.to_datetime(df[col], utc=True) #(28)!
+    df["year"] = df["net"].dt.year #(29)!
     df["month"] = df["net"].dt.month
 
     # Save to CSV cache
@@ -313,8 +313,8 @@ def get_spacex_data(force_refresh: bool = False) -> pd.DataFrame:
 # prints a summary so you can verify the output looks correct.
 # ──────────────────────────────────────────────────────────────────────
 
-if __name__ == "__main__":
-    refresh = "--refresh" in sys.argv
+if __name__ == "__main__": #(30)!
+    refresh = "--refresh" in sys.argv #(31)!
     df = get_spacex_data(force_refresh=refresh)
 
     print(f"\n{'='*60}")

@@ -38,10 +38,12 @@ theme:
     - toc.follow # shows the active anchor in the table of contents
     - search.suggest # display the likeliest completion when searching
     - search.share # deep link search query + result to share
-    - content.code.annotate
+    - content.code.annotate # add annotations within snippets
+    - content.code.select # copy code from snippets
 
 
 plugins:
+  - table-reader
   - social:
       cards_layout: default
       cards_layout_dir: layouts
@@ -90,8 +92,9 @@ nav:
       - tutorial/data/index.md
       - tutorial/data/spacex.md
     - SpaceX:
-      - tutorial/spaceX/launch_cadence.md
-      - tutorial/spaceX/sandbox.md
+      - tutorial/spacex/launch_cadence.md
+      - tutorial/spacex/sandbox.md
+      - tutorial/spacex/creating_policies.md
 
 not_in_nav: |
   docs_src/AGENT_INDEX.md
