@@ -41,7 +41,7 @@ mergedeep==1.3.4
 mkdocs==1.6.1
 mkdocs-get-deps==0.2.0
 mkdocs-macros-plugin==1.3.9
-mkdocs-material @ git+https://github.com/squidfunk/mkdocs-material-insiders.git@59ea1117ce0de567ea97cfbf32b0d46df3c54b99
+mkdocs-material==9.7.0
 mkdocs-material-extensions==1.3.1
 mkdocs-rss-plugin==1.17.3
 mkdocs-table-reader-plugin==3.1.0
