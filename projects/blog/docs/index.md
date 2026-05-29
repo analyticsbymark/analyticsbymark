@@ -2,18 +2,6 @@
 
 ## The honest notes of an actuary in motion
 
-## About Me
-
-![Mark Cooper](https://avatars.githubusercontent.com/u/132222060?v=4){ .circular width="250"}
-
-I spent years wrestling with data sources, fixing the same reporting problems month after month whilst knowing better analytics 
-was possible. I just didn't know how to get there from the data I'd inherited. The journey and my learnings are what this blog is about.
-
-* `Qualified Actuary` - Since 2017
-* `Lead Actuarial and Underwriting Analytics Engineer` - At The Fidelis Partnership (TFP).
-* `Varied Experience` - Worked across reserving, pricing, capital modelling and portfolio analytics.
-* `Self Taught Coder & Tinkerer` - Started to learn to code during my gap year after qualifying.
-
 ## Is this for you?
 
 You might find my blog helpful if:
@@ -36,6 +24,8 @@ Reading my blog will help you:
 1. Build datasets designed for questions they're meant to answer
 2. Build repeatable workflows that you could hand to someone else tomorrow
 3. Produce valuable insights that earn you a seat at the table
+
+Want to get to know me better? [Here's a bit more about me :material-arrow-right:](about.md)
 
 Every week I share one thing that I've learned building with AI in insurance - what I asked, what broke, what I'd do differently. A short enough read on your commute but 
 practical enough to give it a go.
