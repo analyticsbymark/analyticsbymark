@@ -91,10 +91,10 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Tags: tags.md
   - Blog:
      - blog/index.md
      - blog/tags.md
+  - About: about.md
 
 extra:
   social:
