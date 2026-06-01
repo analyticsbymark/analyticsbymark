@@ -95,6 +95,7 @@ nav:
      - blog/index.md
      - blog/tags.md
   - About: about.md
+  - Newsletter: newsletter.md
 
 extra:
   social:
