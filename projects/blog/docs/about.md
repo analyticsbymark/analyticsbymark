@@ -29,13 +29,13 @@ Over the last few years I have been leading the build of our analytics model. My
 Underwriting, Pricing, Capital, Projects, Exposure Management, Ceded Re, Strategic Planning and Corporate Finance. Data and how to model 
 it has opened doors that I never thought would have been possible.
 
-I think actuaries are going to be central to agentic developments within the insurance space. Their multi-discipline knowledge and ability to condense complexity 
+The layer between domain and agent is where I think the next generation of actuaries will play their most valuable role. Their multi-discipline knowledge and ability to condense complexity 
 is the key to the successful implementation of agents who rely on a clear explanation of the domain. Sit this domain knowledge on top of how to design the underlying
 data in the way the agents need it and you are off to the races.
 
-That is what this blog is about, me building data and learning agent design in public so you don't have to figure it out alone.
+The Agentic Layer is what gives the newsletter its name. That is what this blog is about, me building data and learning agent design in public so you don't have to figure it out alone.
 
-The newsletter is where that plays out first — I share what I've learned building with AI in insurance - what I asked, what broke, 
+I share what I've learned building with AI in insurance - what I asked, what broke, 
 what I'd do differently. A short enough read on your commute but practical enough to give it a go.
 
-[Join my newsletter](https://YOUR-NEWSLETTER-URL){ #hero-cta .md-button .md-button--primary }
+[Join The Agentic Layer](https://YOUR-NEWSLETTER-URL){ #hero-cta .md-button .md-button--primary }
