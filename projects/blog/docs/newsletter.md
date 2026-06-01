@@ -2,8 +2,6 @@
 
 A weekly newsletter on building data and designing AI agents in insurance — what I asked, what broke, and what I'd do differently.
 
-[Subscribe — it's free](https://YOUR-MAILCHIMP-URL){ #hero-cta .md-button .md-button--primary }
-
 ## What you get
 
 Each week I share one thing I've learned building with AI in insurance:
@@ -15,4 +13,6 @@ Each week I share one thing I've learned building with AI in insurance:
 
 Once a week. No spam. Unsubscribe anytime. 
 
-[Subscribe — it's free](https://YOUR-MAILCHIMP-URL){ #hero-cta .md-button .md-button--primary }
+[Subscribe now — it's free](https://YOUR-MAILCHIMP-URL){ #hero-cta .md-button .md-button--primary }
+
+Not ready yet? [Read the blog first :material-arrow-right:](blog/index.md)
