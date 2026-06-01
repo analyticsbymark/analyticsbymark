@@ -12,7 +12,7 @@ I just didn't know how to get there from the data I'd inherited.
 
 ## About This Blog
 
-Early in my career I recognised something: data foundations were often great, but the analytics layer an afterthought at best.
+Early in my career I recognised something: data foundations were often great, but the analytics layer was an afterthought at best.
 I found myself wishing tables just had these few extra columns instead of needing to do SQL acrobatics in order to get the format I needed.
 
 Most actuaries specialise early, but I didn't, which turned out to be the thing that mattered most when it comes to data. 
@@ -21,8 +21,8 @@ Growing up, however, I was always interested in coding. I went to GIRO in Edinbu
 and how it would impact insurance.
 
 I qualified that year and decided to take time out to travel South America. The bus journeys were long and time was plenty, I did what only 
-an Actuary on their gap year would do.. learn to code. After a brief stint back in capital modelling I joined an insurtech sitting 
-half way between data science and the sales teams. After a few years of coding application I joined Fidelis where I am today as a Portfolio Actuary.
+an Actuary on their gap year would do.. learn to code in python. After a brief stint back in capital modelling I joined an insurtech sitting 
+half way between data science and the sales teams. After a few years of coding application I joined Fidelis where I am today.
 Every role I moved into had the same underlying problem - data that _almost_ worked, but not quite.
 
 Over the last few years I have been leading the build of our analytics model. My team has grown and I have been involved in workstreams across 
@@ -34,3 +34,8 @@ is the key to the successful implementation of agents who rely on a clear explan
 data in the way the agents need it and you are off to the races.
 
 That is what this blog is about, me building data and learning agent design in public so you don't have to figure it out alone.
+
+The newsletter is where that plays out first — I share what I've learned building with AI in insurance - what I asked, what broke, 
+what I'd do differently. A short enough read on your commute but practical enough to give it a go.
+
+[Join my newsletter](https://YOUR-NEWSLETTER-URL){ #hero-cta .md-button .md-button--primary }
