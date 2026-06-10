@@ -227,6 +227,9 @@ SECURITY_UPDATES.md
 # Agent system IP (kept in separate private repo)
 agents/
 claude.md
+.claude/
+claude_md_plan.md
+claude_md_changes.md
 **/brief.md
 **/possible_briefs.md
 **/blog_outline.md
