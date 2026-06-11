@@ -55,9 +55,11 @@ tests/                      # pytest suite for all tutorials
 
 **Sites** — [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) (Insiders), deployed via GitHub Actions
 
-**Data** — Python, pandas, SQLModel, Pydantic, requests
+**Data** — Python 3.11+, pandas, SQLModel, Pydantic, requests; [uv](https://docs.astral.sh/uv/) for dependency management
 
 **Visualization** — Plotly, Dash, Kaleido (image export)
+
+**Experimentation** — [Statsig](https://statsig.com) for config-driven A/B testing across both sites
 
 **CI/CD** — GitHub Actions builds both sites on push to `develop` (staging) and `master` (production)
 
