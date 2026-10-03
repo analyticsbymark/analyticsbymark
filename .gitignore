@@ -215,10 +215,9 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-projects/blog/docs/js/experiments.config.js
-projects/dev/docs/js/experiments.config.js
-# Statsig generated configs
-projects/*/docs/js/statsig/config/experiments.config.js
+# Built site output
+site/
+_build/
 
 # Experiment mapping (private - contains real experiment details)
 EXPERIMENT_MAPPING.md
