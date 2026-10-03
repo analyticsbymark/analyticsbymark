@@ -1,7 +1,7 @@
 # Plan: One simple site (`/blog` + `/learn`), built for newsletter sign-ups
 
 **Date:** 2026-10-03 | **Branch:** `project_restructure_with_adal` | **POC:** Mark / AdaL
-**Based on:** `docs/adal/repo_review.md` | **Status:** DRAFT, awaiting approval
+**Based on:** `docs/adal/repo_review.md` | **Status:** IMPLEMENTED on this branch (steps 0-8), not yet pushed. Decisions: primary domain `.blog`; Mailchimp URL is a placeholder; deploy folder name `analyticsbymark-blog` kept for DigitalOcean.
 
 ## TL;DR
 
