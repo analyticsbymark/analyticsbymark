@@ -13,8 +13,8 @@ def repo_root() -> Path:
 
 @pytest.fixture
 def docs_src(repo_root: Path) -> Path:
-    """Return the docs_src directory for the dev site."""
-    return repo_root / "projects" / "dev" / "docs_src"
+    """Return the docs_src directory for the website."""
+    return repo_root / "website" / "docs_src"
 
 
 @pytest.fixture

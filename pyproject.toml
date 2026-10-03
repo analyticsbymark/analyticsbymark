@@ -41,7 +41,8 @@ dependencies = [
 ]
 
 [tool.pytest.ini_options]
-testpaths = ["projects"]
+testpaths = ["website/docs_src", "tests"]
+addopts = "--import-mode=importlib"
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]

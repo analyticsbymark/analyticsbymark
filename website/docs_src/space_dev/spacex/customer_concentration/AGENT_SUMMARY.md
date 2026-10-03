@@ -206,7 +206,7 @@ Each tutorial (001-004, final) is **independently runnable** -- there are no cro
 
 - **Test location:** `tests/test_customer_concentration.py` with `tests/conftest.py`
 - **Run command:** `pytest tests/` from the `customer_concentration/` directory
-- **Cross-curiosity safe:** Uses `importlib.util` for tutorial imports to avoid module name collisions when running `pytest projects/dev/docs_src/space_dev/spacex/` from repo root
+- **Cross-curiosity safe:** Uses `importlib.util` for tutorial imports to avoid module name collisions when running `pytest website/docs_src/space_dev/spacex/` from repo root
 - **Test types:**
   - `test_data_loads` -- verifies `get_spacex_data()` returns non-empty DataFrame with expected columns
   - `test_data_filter_completed_launches` -- verifies completed-launches filter returns expected statuses

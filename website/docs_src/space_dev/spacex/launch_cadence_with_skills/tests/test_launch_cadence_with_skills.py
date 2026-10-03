@@ -136,9 +136,9 @@ SNIPPETS = [
      "fig = px.bar(",
      ")",
      "CAGR since"),
-    ("app.py", 122, 159,
-     "def update_chart(year_range, phases, y_scale):",
-     "return fig",
+    ("app.py", 164, 206,
+     "def update(year_range, phases, y_scale):",
+     "return fig, table",
      "YEARLY["),
 ]
 
