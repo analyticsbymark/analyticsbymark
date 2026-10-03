@@ -3,9 +3,9 @@ site_name: ABM - Blog
 site_description: My journey in building datasets and designing analytics that deliver actionable results in insurance.
 
 # Copyright
-copyright: > 
+copyright: >
   Copyright &copy; 2024 - 2026 Mark Cooper <br>
-  <a href="#__consent">Change cookie settings</a>
+  <a href="/cookie-policy/">Cookie Policy and Settings</a>
 
 theme:
   name: material
@@ -110,8 +110,16 @@ extra:
       description: >-
         We use cookies to recognize your repeated visits and preferences, as well
         as to measure the effectiveness of our documentation and whether users
-        find what they're searching for. With your consent, you're helping us to
-        make our documentation better.
+        find what they're searching for. We also use Mailchimp to manage newsletter
+        subscriptions. With your consent, you're helping us to make this site better.
+        <a href="/cookie-policy/">Cookie Policy</a>
+      cookies:
+        analytics:
+          name: Google Analytics
+          checked: true
+        mailchimp:
+          name: Mailchimp
+          checked: false
 
 extra_css:
   - assets/extra.css

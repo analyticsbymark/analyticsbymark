@@ -73,3 +73,8 @@ small,
   color: var(--md-default-fg-color--light);
   margin-bottom: 1rem;
 }
+
+.circular {
+  border-radius: 50%;
+}
+

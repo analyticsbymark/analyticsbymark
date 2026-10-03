@@ -268,7 +268,7 @@ This section captures the high level _program_ a launch belongs to, e.g. `Starli
 
 This section contains image urls for launches
 
-- `image_thumbnail` - is a URL to a small preview of the launch - typically a photo of the rocked on the pad or during flight
+- `image_thumbnail` - is a URL to a small preview of the launch - typically a photo of the rocket on the pad or during flight
 
 ### 2.8. _**Rocket**_ 
 
@@ -298,7 +298,7 @@ and you want a _view on map_ option.
     for regional grouping and country for the broades cut. Different analyses need different levels of geographic 
     detail.
 
-Did your eagle eye spot it :eyes:? Every field has been initialised with a default value, e.g. `str | None = None` **_except_**
+So... did you spot it :eyes:? Every field has been initialised with a default value, e.g. `str | None = None` **_except_**
 `launch_name`. This does not take a default value of `None`.
 
 ```py hl_lines="5"
