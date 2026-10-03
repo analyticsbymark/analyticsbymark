@@ -1,6 +1,6 @@
 site_url: https://www.analyticsbymark.blog
-site_name: ABM - Blog
-site_description: My journey in building datasets and designing analytics that deliver actionable results in insurance.
+site_name: Analytics By Mark
+site_description: Practical notes and tutorials on building insurance data models, with and for AI agents. A weekly newsletter by a qualified actuary.
 
 # Copyright
 copyright: >
@@ -28,7 +28,7 @@ theme:
   features:
     # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/
     - navigation.indexes
-    - navigation.instant # :todo enable this when ready to add links (https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#instant-previews)
+    - navigation.instant
     - navigation.instant.prefetch # hover over links to get preload
     - navigation.tracking # add tracking to the url for more precise links
     - navigation.tabs # adds menu to the header above certain screen size
@@ -39,11 +39,16 @@ theme:
     - toc.follow # shows the active anchor in the table of contents
     - search.suggest # display the likeliest completion when searching
     - search.share # deep link search query + result to share
-    - content.code.annotate
+    - content.code.annotate # add annotations within snippets
+    - content.code.select # copy code from snippets
     - announce.dismiss
 
 plugins:
   - search
+  - table-reader
+  - social:
+      cards_layout: default
+      cards_layout_dir: layouts
   - blog:
       blog_toc: true
       archive_date_format: MMMM yyyy
@@ -51,6 +56,8 @@ plugins:
         - Data Engineering
         - Analytics
         - APIs
+        - Actuarial
+        - AI Agents
       pagination_per_page: 5
       archive_pagination_per_page: 10
       categories_pagination_per_page: 10
@@ -66,7 +73,7 @@ plugins:
         as_update: date.updated
 
 hooks:
-  - ../../hooks/socialmedia.py
+  - ../hooks/socialmedia.py
 
 markdown_extensions:
   - admonition # highlighting sections of the page
@@ -79,7 +86,8 @@ markdown_extensions:
   - pymdownx.inlinehilite # syntax highlighting
   - pymdownx.snippets: # embedding code from source
       base_path:
-        - ".."          # <-- start at /projects
+        - "website"     # repo root (CI and `mkdocs serve -f website/mkdocs.yml`)
+        - "."           # when run from inside website/
       check_paths: true
   - pymdownx.superfences # for code highlighting and admonition boxes
   - pymdownx.emoji:
@@ -94,10 +102,33 @@ nav:
   - Blog:
      - blog/index.md
      - blog/tags.md
+  - Learn:
+    - learn/index.md
+    - Data:
+      - learn/data/index.md
+      - learn/data/spacex.md
+    - SpaceX:
+      - learn/spacex/launch_cadence.md
+      - learn/spacex/sandbox.md
+      - learn/spacex/creating_policies.md
+    - Setup:
+      - learn/virtual_environments.md
   - About: about.md
   - Newsletter: newsletter.md
 
+not_in_nav: |
+  learn/agent_index.md
+
 extra:
+  # ---- Newsletter (Mailchimp) -------------------------------------------
+  # Change the form here ONCE; it is rendered on every page by
+  # overrides/partials/newsletter.html.
+  # Mailchimp: Audience > Signup forms > Embedded forms > copy the <form action="...">
+  # and the hidden "b_..." field name.
+  newsletter:
+    action: "https://REPLACE-ME.usX.list-manage.com/subscribe/post?u=REPLACE_U&id=REPLACE_ID"
+    honeypot: "b_REPLACE_U_REPLACE_ID"
+    placeholder: true   # set to false once the real Mailchimp URL is in
   social:
     - icon: fontawesome/brands/linkedin
       name: Mark on Linkedin
@@ -105,38 +136,18 @@ extra:
   analytics:
     provider: google
     property: G-QGKGYMC3V5
-    consent:
-      title: Cookie consent
-      description: >-
-        We use cookies to recognize your repeated visits and preferences, as well
-        as to measure the effectiveness of our documentation and whether users
-        find what they're searching for. We also use Mailchimp to manage newsletter
-        subscriptions. With your consent, you're helping us to make this site better.
-        <a href="/cookie-policy/">Cookie Policy</a>
-      cookies:
-        analytics:
-          name: Google Analytics
-          checked: true
-        mailchimp:
-          name: Mailchimp
-          checked: false
+  consent:
+    title: Cookie consent
+    description: >-
+      We use cookies to recognise your repeated visits and preferences, and to
+      measure which content is useful. We also use Mailchimp to manage newsletter
+      subscriptions. With your consent, you're helping us make this site better.
+      <a href="/cookie-policy/">Cookie Policy</a>
+    cookies:
+      analytics: Google Analytics
+      mailchimp:
+        name: Mailchimp
+        checked: false
 
 extra_css:
   - assets/extra.css
-
-extra_javascript:
-  # client key designed for where the key itself cannot be secret -> safe in repo (https://docs.statsig.com/sdk-keys/api-keys/)
-#  - "https://cdn.jsdelivr.net/npm/statsig-sidecar/dist/index.min.js?apikey=client-o5NxMKGrDvcZ6sfYbs2081B5l63hu6dpI80652s6XE6"
-  # Enhanced config (Phase 2)
-  - "js/statsig/config/experiments.config.js"
-  # Modular Statsig bootstrap (load in order)
-  - "js/statsig/core/user.js"
-  - "js/statsig/core/client.js"
-  - "js/statsig/experiments/renderer.js"
-  - "js/statsig/experiments/bootstrap.js"
-  # Event tracking modules (Phase 3)
-  - "js/statsig/tracking/eventLogger.js"
-  - "js/statsig/tracking/exposureLogger.js"
-  - "js/statsig/tracking/clickTracker.js"
-  - "js/statsig/tracking/engagementTracker.js"
-  - "js/statsig/tracking/init.js"

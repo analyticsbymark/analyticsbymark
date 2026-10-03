@@ -30,4 +30,5 @@ Want to get to know me better? [Here's a bit more about me :material-arrow-right
 Every week I share one thing that I've learned building with AI in insurance - what I asked, what broke, what I'd do differently. A short enough read on your commute but 
 practical enough to give it a go.
 
-[Join The Agentic Layer](https://YOUR-NEWSLETTER-URL){ #hero-cta .md-button .md-button--primary }
+[Join The Agentic Layer](#newsletter){ #hero-cta .md-button .md-button--primary }
+[Browse the tutorials](learn/index.md){ .md-button }

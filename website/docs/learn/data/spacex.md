@@ -119,7 +119,7 @@ particular line of code does.
 ??? info ":detective: which section is this creating?"
     
     ```py {.annotate hl_lines="22-35"}
-    --8<-- "spacex_clean.py:18:212"
+    --8<-- "docs_src/space_dev/modelling/spacex/spacex_clean.py:18:212"
     ```
 
 
@@ -454,7 +454,7 @@ We finally get to the part where we can run the script!
 ??? info ":detective: full code preview"
     
     ```py {.annotate}
-    --8<-- "spacex_clean.py:18:212"
+    --8<-- "docs_src/space_dev/modelling/spacex/spacex_clean.py:18:212"
     ```
 
 ## What You've Built

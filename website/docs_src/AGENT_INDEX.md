@@ -22,7 +22,7 @@
 
 | Data Source | Category Index | Datasets | Curiosities |
 |---|---|---|---|
-| space_dev | [SPACE_DEV_INDEX.md](space_dev/SPACE_DEV_INDEX.md) | spacex | launch_cadence, launch_reliability, customer_concentration |
+| space_dev | [SPACE_DEV_INDEX.md](https://github.com/analyticsbymark/analyticsbymark/blob/develop/website/docs_src/space_dev/SPACE_DEV_INDEX.md) | spacex | launch_cadence, launch_reliability, customer_concentration |
 
 ## Status Legend
 

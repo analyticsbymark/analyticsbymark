@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
 {% block announce %}
-<span id="announce-cta">Free Claude Code Course — learn to build with AI. <a href="https://YOUR-NEWSLETTER-SIGNUP-URL-HERE" target="_blank"><strong>Sign up to the newsletter to get access</strong></a></span>
+<span id="announce-cta">Weekly notes on building insurance data models with AI. <a href="{{ 'newsletter/' | url }}"><strong>Get The Agentic Layer, free</strong></a></span>
+{% endblock %}
+
+{#- Every page gets the same newsletter form above the footer (blog posts and the
+    blog index use their own templates, so the footer is the one place that works
+    for all of them). Opt out per page with `newsletter: false` in front matter. -#}
+{% block footer %}
+  {% if page and page.meta.newsletter != false and page.file.src_uri != "cookie-policy.md" %}
+    <div class="md-grid md-content__inner newsletter-wrap">
+      {% include "partials/newsletter.html" %}
+    </div>
+  {% endif %}
+  {{ super() }}
 {% endblock %}

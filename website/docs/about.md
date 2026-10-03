@@ -38,4 +38,4 @@ The Agentic Layer is what gives the newsletter its name. That is what this blog 
 I share what I've learned building with AI in insurance - what I asked, what broke, 
 what I'd do differently. A short enough read on your commute but practical enough to give it a go.
 
-[Join The Agentic Layer](https://YOUR-NEWSLETTER-URL){ #hero-cta .md-button .md-button--primary }
+Want the weekly version? The sign-up form is just below.

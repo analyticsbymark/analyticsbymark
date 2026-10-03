@@ -118,3 +118,42 @@ small,
 .gold-icon {
   color: gold;
 }
+/* Newsletter sign-up (overrides/partials/newsletter.html) */
+.newsletter-box {
+  margin: 3rem 0 1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: .4rem;
+  background-color: rgba(56, 77, 72, .05);
+}
+
+.newsletter-box h2 {
+  margin-top: 0;
+}
+
+.newsletter-box form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin: 1rem 0 .6rem;
+}
+
+.newsletter-box input[type="email"] {
+  flex: 1 1 16rem;
+  padding: .6rem .8rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: .2rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font: inherit;
+}
+
+.newsletter-honeypot {
+  position: absolute;
+  left: -5000px;
+}
+
+.newsletter-wrap {
+  max-width: 61rem;
+  padding-bottom: 1rem;
+}
