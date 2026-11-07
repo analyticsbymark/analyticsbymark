@@ -1,0 +1,153 @@
+site_url: https://www.analyticsbymark.blog
+site_name: Analytics By Mark
+site_description: Practical notes and tutorials on building insurance data models, with and for AI agents. A weekly newsletter by a qualified actuary.
+
+# Copyright
+copyright: >
+  Copyright &copy; 2024 - 2026 Mark Cooper <br>
+  <a href="/cookie-policy/">Cookie Policy and Settings</a>
+
+theme:
+  name: material
+  custom_dir: overrides
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  font: false
+  palette:
+
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+  features:
+    # https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.prefetch # hover over links to get preload
+    - navigation.tracking # add tracking to the url for more precise links
+    - navigation.tabs # adds menu to the header above certain screen size
+    - navigation.tabs.sticky # when header tabs shown keeps them at top after scrolling
+    #    - navigation.expand # left sidebar will expand all collapsible subsections :todo test this one when more items in sidebar
+    - navigation.path # adds breadcrumb navigation to the top of the page
+    - navigation.top # show back to top button after scrolling on a page
+    - toc.follow # shows the active anchor in the table of contents
+    - search.suggest # display the likeliest completion when searching
+    - search.share # deep link search query + result to share
+    - content.code.annotate # add annotations within snippets
+    - content.code.select # copy code from snippets
+    - announce.dismiss
+
+plugins:
+  - search
+  - table-reader
+  - social:
+      cards_layout: default
+      cards_layout_dir: layouts
+  - blog:
+      blog_toc: true
+      archive_date_format: MMMM yyyy
+      categories_allowed:
+        - Data Engineering
+        - Analytics
+        - APIs
+        - Actuarial
+        - AI Agents
+      pagination_per_page: 5
+      archive_pagination_per_page: 10
+      categories_pagination_per_page: 10
+#      post_slugify: !!python/object/apply:ext.slugs.slugify
+#        kwds:
+#          short: true
+  - meta
+  - tags
+  - rss:
+      match_path: "blog/posts/.*"
+      date_from_meta:
+        as_creation: date.created
+        as_update: date.updated
+
+hooks:
+  - ../hooks/socialmedia.py
+
+markdown_extensions:
+  - admonition # highlighting sections of the page
+  - attr_list # used by various extensions
+  - md_in_html # used by various extensions
+  - pymdownx.highlight: # syntax highlighting
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite # syntax highlighting
+  - pymdownx.snippets: # embedding code from source
+      base_path:
+        - "website"     # repo root (CI and `mkdocs serve -f website/mkdocs.yml`)
+        - "."           # when run from inside website/
+      check_paths: true
+  - pymdownx.superfences # for code highlighting and admonition boxes
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed: # create tabs
+      alternate_style: true
+  - pymdownx.details  # for admonition boxes
+
+nav:
+  - Home: index.md
+  - Blog:
+     - blog/index.md
+     - blog/tags.md
+  - Learn:
+    - learn/index.md
+    - Data:
+      - learn/data/index.md
+      - learn/data/spacex.md
+    - SpaceX:
+      - learn/spacex/launch_cadence.md
+      - learn/spacex/sandbox.md
+      - learn/spacex/creating_policies.md
+    - Setup:
+      - learn/virtual_environments.md
+  - About: about.md
+  - Newsletter: newsletter.md
+
+not_in_nav: |
+  learn/agent_index.md
+
+extra:
+  # ---- Newsletter (Mailchimp) -------------------------------------------
+  # Change the form here ONCE; it is rendered on every page by
+  # overrides/partials/newsletter.html.
+  # Mailchimp: Audience > Signup forms > Embedded forms > copy the <form action="...">
+  # and the hidden "b_..." field name.
+  newsletter:
+    action: "https://REPLACE-ME.usX.list-manage.com/subscribe/post?u=REPLACE_U&id=REPLACE_ID"
+    honeypot: "b_REPLACE_U_REPLACE_ID"
+    placeholder: true   # set to false once the real Mailchimp URL is in
+  social:
+    - icon: fontawesome/brands/linkedin
+      name: Mark on Linkedin
+      link: https://www.linkedin.com/in/mark-cooper-b8878686
+  analytics:
+    provider: google
+    property: G-QGKGYMC3V5
+  consent:
+    title: Cookie consent
+    description: >-
+      We use cookies to recognise your repeated visits and preferences, and to
+      measure which content is useful. We also use Mailchimp to manage newsletter
+      subscriptions. With your consent, you're helping us make this site better.
+      <a href="/cookie-policy/">Cookie Policy</a>
+    cookies:
+      analytics: Google Analytics
+      mailchimp:
+        name: Mailchimp
+        checked: false
+
+extra_css:
+  - assets/extra.css

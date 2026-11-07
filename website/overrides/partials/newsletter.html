@@ -1,0 +1,15 @@
+{#- Single source for the Mailchimp sign-up form. Config lives in mkdocs.yml (extra.newsletter). -#}
+{% set nl = config.extra.newsletter %}
+<section id="newsletter" class="newsletter-box">
+  <h2>The Agentic Layer</h2>
+  <p>One email a week: what I asked, what broke, and what I'd do differently building with AI in insurance.</p>
+  <form action="{{ nl.action }}" method="post" target="_blank" novalidate>
+    <label for="newsletter-email" class="md-visually-hidden">Email address</label>
+    <input id="newsletter-email" type="email" name="EMAIL" placeholder="you@example.com" required>
+    <div class="newsletter-honeypot" aria-hidden="true">
+      <input type="text" name="{{ nl.honeypot }}" tabindex="-1" value="">
+    </div>
+    <button type="submit" class="md-button md-button--primary">Subscribe, it's free</button>
+  </form>
+  <small>No spam. Unsubscribe any time. See the <a href="{{ 'cookie-policy/' | url }}">cookie policy</a>.</small>
+</section>

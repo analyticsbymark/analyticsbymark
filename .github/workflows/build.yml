@@ -1,4 +1,4 @@
-name: Build & Publish MkDocs Sites
+name: Build & Publish Site
 
 on:
   workflow_dispatch:
@@ -18,105 +18,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: "pip"
-
-      - name: Install Cairo system dependencies
+      - name: Install Cairo system dependencies (social cards)
         run: sudo apt-get update && sudo apt-get install -y libcairo2-dev libffi-dev
 
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.11"
+          enable-cache: true
+
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Write experiment configs
-        env:
-          EXPERIMENT_CONFIG_JSON_DEV: ${{ secrets.EXPERIMENT_CONFIG_JSON_DEV }}
-          EXPERIMENT_CONFIG_JSON_BLOG: ${{ secrets.EXPERIMENT_CONFIG_JSON_BLOG }}
-        run: |
-          node - <<'NODE'
-          const fs = require("fs");
-          const path = require("path");
-
-          function validateConfig(obj) {
-            // Basic validation
-            if (!obj.client?.apiKey) {
-              throw new Error("Missing client.apiKey in config");
-            }
-            if (!obj.experiments) {
-              throw new Error("Missing experiments in config");
-            }
-            console.log("  ✓ Config validation passed");
-            return true;
-          }
-
-          function write(outPath, raw) {
-            if (!raw || !raw.trim()) {
-              console.log(`  ⊘ Skipping ${outPath} (no config provided)`);
-              return;
-            }
-
-            try {
-              // Parse JSON
-              const obj = JSON.parse(raw);
-
-              // Validate config
-              validateConfig(obj);
-
-              // Ensure output directory exists
-              fs.mkdirSync(path.dirname(outPath), { recursive: true });
-
-              // Write config file
-              fs.writeFileSync(
-                outPath,
-                `window.EXPERIMENT_CONFIG = ${JSON.stringify(obj, null, 2)};\n`
-              );
-
-              // Count experiments
-              let experimentCount = 0;
-              if (obj.experiments) {
-                for (const category of Object.values(obj.experiments)) {
-                  if (typeof category === 'object') {
-                    experimentCount += Object.keys(category).length;
-                  }
-                }
-              }
-
-              console.log(`  ✓ Wrote ${outPath}`);
-              console.log(`    Environment: ${obj._meta?.environment || 'unknown'}`);
-              console.log(`    Experiments: ${experimentCount}`);
-            } catch (error) {
-              console.error(`  ✗ Error writing ${outPath}:`, error.message);
-              process.exit(1);
-            }
-          }
-
-          console.log("Writing experiment configs...");
-          write("projects/dev/docs/js/statsig/config/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_DEV);
-          write("projects/blog/docs/js/statsig/config/experiments.config.js", process.env.EXPERIMENT_CONFIG_JSON_BLOG);
-          console.log("Done!");
-          NODE
+        run: uv sync --frozen
 
       - name: Run tests
-        run: python -m pytest projects/ -v
+        run: uv run pytest -v
 
-      - name: Build analyticsbymark.dev
-        run: |
-          mkdir -p "$GITHUB_WORKSPACE/_build"
-          mkdocs build \
-            --config-file "$GITHUB_WORKSPACE/projects/dev/mkdocs.yml" \
-            --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-dev"
-
-      - name: Build analyticsbymark.blog
-        run: |
-          mkdir -p "$GITHUB_WORKSPACE/_build"
-          mkdocs build \
-            --config-file "$GITHUB_WORKSPACE/projects/blog/mkdocs.yml" \
-            --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-blog"
-      
+      - name: Build site
+        run: uv run mkdocs build --strict -f website/mkdocs.yml --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-blog"
 
       - name: Select deploy branch
         id: deploy
@@ -129,23 +47,20 @@ jobs:
             echo "branch=" >> $GITHUB_OUTPUT
           fi
 
-      - name: Publish built sites
+      - name: Block production deploy while the newsletter form is a placeholder
+        if: github.ref_name == 'master' && github.event_name != 'pull_request'
+        run: |
+          if grep -q "placeholder: true" website/mkdocs.yml; then
+            echo "::error::extra.newsletter.placeholder is still true in website/mkdocs.yml. Add the real Mailchimp form URL first."
+            exit 1
+          fi
+
+      - name: Publish built site
         if: steps.deploy.outputs.branch != '' && github.event_name != 'pull_request'
         env:
           DEPLOY_BRANCH: ${{ steps.deploy.outputs.branch }}
         run: |
           set -euo pipefail
-          
-          pwd
-          ls -la "$GITHUB_WORKSPACE"
-          ls -la "$GITHUB_WORKSPACE/_build" || true
-          
-          cd "$GITHUB_WORKSPACE"
-
-
-          echo "Deploying to: $DEPLOY_BRANCH"
-          ls -la _build
-          test -d "_build/analyticsbymark-dev"
           test -d "_build/analyticsbymark-blog"
 
           rm -rf _ghpages
@@ -155,14 +70,12 @@ jobs:
           git init
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-
           git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
 
-          # Create/update branch from scratch
           git checkout --orphan "$DEPLOY_BRANCH"
           rm -rf ./*
 
-          cp -r ../_build/analyticsbymark-dev .
+          # Folder name kept as-is so the existing DigitalOcean source directory keeps working.
           cp -r ../_build/analyticsbymark-blog .
           touch .nojekyll
 
