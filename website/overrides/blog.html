@@ -2,7 +2,11 @@
 {% block container %}
   <div class="md-content abm-blog" data-md-component="content">
     <div class="md-content__inner">
-      <header class="md-typeset">{{ page.content }}</header>
+      <header class="md-typeset{% if page.file.src_uri.startswith('blog/category/') %} abm-listing-header{% endif %}">
+        {{ page.content }}
+        {% if page.file.src_uri.startswith('blog/category/') %}<p>{{ page.posts | length }} posts</p>{% endif %}
+      </header>
+      {% if not page.posts %}<p class="abm-empty">No posts yet.</p>{% endif %}
       {% set newest = (page.posts | sort(attribute="config.date.created", reverse=true) | first) %}
       {% set feature = page.file.src_uri == "blog/index.md" %}
       {% if page.file.src_uri.startswith("blog/archive/") %}

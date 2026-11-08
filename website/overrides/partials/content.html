@@ -23,6 +23,11 @@
   {% include "partials/abm-post-links.html" %}
   {{ parts[2] if parts[1] else page.content }}
   {% include "partials/abm-post-footer.html" %}
+  {% if page.meta.newsletter != false %}
+    <div class="newsletter-wrap abm-post-newsletter">
+      {% include "partials/newsletter.html" %}
+    </div>
+  {% endif %}
 {% else %}
   {% if "\u003ch1" not in page.content %}
     <h1>{{ page.title | d(config.site_name, true)}}</h1>

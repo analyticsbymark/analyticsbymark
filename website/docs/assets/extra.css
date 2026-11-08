@@ -1427,6 +1427,109 @@ small,
   top: 0;
 }
 
+/* ---- Blog empty states, listings and footer ledger --------------------- */
+.md-typeset .abm-empty,
+.abm-blog .abm-empty,
+.abm-listing-header {
+  position: relative;
+  margin: 24px 6px 30px 0;
+  padding: 20px 24px;
+  border: 1px solid var(--abm-line);
+  border-left: 3px solid var(--abm-control);
+  background: var(--abm-surface);
+  color: var(--md-default-fg-color);
+  font: 14px/1.6 var(--md-code-font);
+}
+
+.abm-empty::after,
+.abm-listing-header::after {
+  content: "";
+  position: absolute;
+  right: -7px;
+  top: 6px;
+  bottom: -6px;
+  width: 6px;
+  background: repeating-linear-gradient(-45deg, var(--abm-hatch) 0 1.2px, transparent 1.2px 5px);
+  pointer-events: none;
+}
+
+.abm-listing-header :is(h1, h2, h3) {
+  margin: 0 0 12px;
+}
+
+.abm-listing-header p {
+  margin: 0;
+  color: var(--md-default-fg-color--light);
+}
+
+body:has(.abm-empty) .md-main {
+  flex-grow: 0;
+}
+
+.abm-blog-grid:empty {
+  display: none;
+}
+
+.abm-footer-stats {
+  padding: 24px .8rem 32px;
+  border-top: 1px solid var(--abm-band-line);
+  background-color: var(--abm-hero-bg);
+  background-image:
+    linear-gradient(var(--abm-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--abm-grid) 1px, transparent 1px);
+  background-size: 100% 20px, 40px 100%;
+  color: var(--abm-hero-fg);
+  font: 13px/1.6 var(--md-code-font);
+}
+
+.abm-footer-stats dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 48px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.abm-footer-stats dl > div {
+  padding-left: 16px;
+  border-left: 2px solid var(--abm-mint);
+}
+
+.abm-footer-stats dt {
+  color: var(--abm-hero-sub);
+}
+
+.abm-footer-stats dd {
+  margin: 4px 0 0;
+}
+
+/* Posts share the progress line's mint marker, with readable theme ink. */
+body:has(.abm-post-header) .md-sidebar--secondary .md-nav__link {
+  padding-left: 12px;
+  border-left: 2px solid var(--abm-line);
+}
+
+body:has(.abm-post-header) .md-sidebar--secondary .md-nav__link--active {
+  border-left-color: var(--abm-mint);
+  background: var(--abm-surface);
+  color: var(--md-default-fg-color);
+  font-weight: 700;
+}
+
+/* Keep Material's code actions above, rather than over, the first line. */
+.md-typeset pre:has(> .md-code__nav) {
+  padding-top: 36px;
+  background: var(--md-code-bg-color);
+}
+
+.md-typeset pre:has(> .md-code__nav) > code {
+  border-top: 0;
+}
+
+.md-typeset pre:has(> .md-code__nav) .md-code__nav {
+  top: 2px;
+}
+
 /* ---- Reduced motion: no trace, no crossfade, no smooth scrolling ------- */
 @media (prefers-reduced-motion: reduce) {
   html {
