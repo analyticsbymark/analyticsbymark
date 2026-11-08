@@ -10,6 +10,9 @@
     {% endif %}
     <div class="abm-post-meta">
       <time datetime="{{ page.config.date.created.isoformat() }}">{{ page.config.date.created | date }}</time>
+      {% if page.config.date.updated and page.config.date.updated.date() != page.config.date.created.date() %}
+        <span>Updated <time datetime="{{ page.config.date.updated.isoformat() }}">{{ page.config.date.updated | date }}</time></span>
+      {% endif %}
       {% if page.config.readtime %}
         {% set time = page.config.readtime %}
         <span>{{ lang.t("readtime.one") if time == 1 else lang.t("readtime.other") | replace("#", time) }}</span>
@@ -17,10 +20,12 @@
       {% for author in page.authors %}
         <span>{% if author.url %}<a href="{{ author.url | url }}">{{ author.name }}</a>{% else %}{{ author.name }}{% endif %}</span>
       {% endfor %}
+      {% if abm_markdown_url %}<a href="{{ abm_markdown_url | url }}">View as Markdown</a>{% endif %}
     </div>
     <a href="{{ 'newsletter/' | url }}">Subscribe to The Agentic Layer</a>
   </header>
   {% include "partials/abm-post-links.html" %}
+  {% include "partials/abm-agent-summary.html" %}
   {{ parts[2] if parts[1] else page.content }}
   {% include "partials/abm-post-footer.html" %}
   {% if page.meta.newsletter != false %}

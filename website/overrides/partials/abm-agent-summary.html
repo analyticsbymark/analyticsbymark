@@ -1,0 +1,14 @@
+{% if page.meta.summary or page.meta.key_points or page.meta.prerequisites %}
+  <details class="abm-agent-summary">
+    <summary>Summary for agents</summary>
+    {% if page.meta.summary %}<p>{{ page.meta.summary | e }}</p>{% endif %}
+    {% if page.meta.key_points %}
+      <h2>Key points</h2>
+      <ul>{% for point in page.meta.key_points %}<li>{{ point | e }}</li>{% endfor %}</ul>
+    {% endif %}
+    {% if page.meta.prerequisites %}
+      <h2>Prerequisites</h2>
+      <ul>{% for prerequisite in page.meta.prerequisites %}<li>{{ prerequisite | e }}</li>{% endfor %}</ul>
+    {% endif %}
+  </details>
+{% endif %}

@@ -33,6 +33,11 @@ jobs:
       - name: Run tests
         run: uv run pytest -v
 
+      # Sample posts are allowed locally and on UAT, but never on gh-pages-prod.
+      - name: Reject dummy posts on production
+        if: github.ref_name == 'master' && github.event_name != 'pull_request'
+        run: uv run python scripts/check_no_dummy_posts.py
+
       - name: Build site
         run: uv run mkdocs build --strict -f website/mkdocs.yml --site-dir "$GITHUB_WORKSPACE/_build/analyticsbymark-blog"
 

@@ -55,12 +55,12 @@ plugins:
       cards_layout: default
       cards_layout_dir: layouts
       cards_exclude:
-        - blog/posts/**
+        - blog/**
   - social:
       cards_layout: ledger
       cards_layout_dir: website/layouts
       cards_include:
-        - blog/posts/**
+        - blog/**
   - blog:
       blog_toc: true
       archive_date_format: MMMM yyyy
@@ -86,6 +86,7 @@ plugins:
 
 hooks:
   - ../hooks/socialmedia.py
+  - ../hooks/blog_agents.py
 
 markdown_extensions:
   - admonition # highlighting sections of the page
@@ -132,6 +133,7 @@ not_in_nav: |
   learn/agent_index.md
   showcase.md
   start-here.md
+  blog-authoring-guide.md
 
 extra:
   # ---- Newsletter (Mailchimp) -------------------------------------------

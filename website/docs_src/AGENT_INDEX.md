@@ -4,6 +4,12 @@
 > It provides a single lookup table for all tutorial curiosities across all datasets.
 > Last updated: 2026-02-21
 
+## Blog and site pointers
+
+- [Blog](/blog/): posts, categories, and series.
+- [Site index for agents](/llms.txt): all public pages and post summaries.
+- [Blog JSON index](/blog/index.json): dates, keywords, series, related slugs, and sample-content flags.
+
 ## Curiosities
 
 | Curiosity | Dataset | Data Source | Kirk Chapters | Difficulty | Status | Tutorials | Images | Interactive | Link |

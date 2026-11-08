@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block extrahead %}
+  {{ super() }}
+  {% include "partials/abm-seo.html" %}
+  {% if abm_structured_data %}{% include "partials/abm-agent-styles.html" %}{% endif %}
+{% endblock %}
+
 {% block announce %}
 <span id="announce-cta">Weekly notes on building insurance data models with AI. <a href="{{ 'newsletter/' | url }}"><strong>Get The Agentic Layer, free</strong></a></span>
 {% endblock %}

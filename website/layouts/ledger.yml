@@ -1,13 +1,13 @@
 size: { width: 1200, height: 630 }
 tags:
-  og:type: article
-  og:title: "{{ page.title }}"
+  og:type: "{{ 'article' if page.meta.get('template') == 'blog-post.html' else 'website' }}"
+  og:title: "{{ page.meta.get('abm_card_title', page.title) | e }}"
   og:url: "{{ page.canonical_url }}"
   og:image: "{{ image.url }}"
   og:image:width: "{{ image.width }}"
   og:image:height: "{{ image.height }}"
   twitter:card: summary_large_image
-  twitter:title: "{{ page.title }}"
+  twitter:title: "{{ page.meta.get('abm_card_title', page.title) | e }}"
   twitter:image: "{{ image.url }}"
 layers:
   - background:
@@ -38,17 +38,32 @@ layers:
     offset: { x: 96, y: 168 }
     background:
       color: "#8FD1B5"
-  - size: { width: 944, height: 250 }
+  - size: { width: 944, height: 190 }
     offset: { x: 96, y: 200 }
     typography:
-      content: "{{ page.meta.get('title', page.title) }}"
+      content: "{{ page.meta.get('abm_card_title', page.meta.get('title', page.title)) }}"
       color: "#FFFFFF"
       overflow: shrink
       line: { amount: 3, height: 1.2 }
       font: { family: Roboto Mono, style: Bold }
-  - size: { width: 944, height: 40 }
-    offset: { x: 96, y: 486 }
+  - size: { width: 944, height: 68 }
+    offset: { x: 96, y: 402 }
     typography:
-      content: "{{ page.config.date.created.strftime('%Y-%m-%d') }}{% for author in page.authors %} · {{ author.name }}{% endfor %}"
+      content: "{{ page.meta.get('abm_card_description', page.meta.get('description', '')) }}"
+      color: "#C9D8D2"
+      overflow: shrink
+      line: { amount: 2, height: 1.2 }
+      font: { family: Roboto Mono, style: Regular }
+  - size: { width: 944, height: 28 }
+    offset: { x: 96, y: 482 }
+    typography:
+      content: "{{ page.meta.get('categories', []) | join(' / ') }}"
+      color: "#8FD1B5"
+      overflow: shrink
+      font: { family: Roboto Mono, style: Bold }
+  - size: { width: 944, height: 24 }
+    offset: { x: 96, y: 520 }
+    typography:
+      content: "{% if page.meta.get('template') == 'blog-post.html' %}{{ page.config.date.created.strftime('%Y-%m-%d') }}{% for author in page.authors %} · {{ author.name }}{% endfor %}{% endif %}"
       color: "#C9D8D2"
       font: { family: Roboto Mono, style: Regular }

@@ -3,3 +3,15 @@ authors:
     name: Mark Cooper
     description: Creator
     avatar: https://avatars.githubusercontent.com/u/132222060?v=4
+  sample-rowan:
+    name: Rowan Vale
+    description: "Sample author: fictional data engineer for demo posts"
+    avatar: assets/images/blog/avatar-rowan.svg
+  sample-tess:
+    name: Tess Alder
+    description: "Sample author: fictional analytics writer for demo posts"
+    avatar: assets/images/blog/avatar-tess.svg
+  sample-ellis:
+    name: Ellis Fern
+    description: "Sample author: fictional actuarial and AI writer for demo posts"
+    avatar: assets/images/blog/avatar-ellis.svg
