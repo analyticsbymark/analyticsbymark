@@ -4,13 +4,30 @@
 <span id="announce-cta">Weekly notes on building insurance data models with AI. <a href="{{ 'newsletter/' | url }}"><strong>Get The Agentic Layer, free</strong></a></span>
 {% endblock %}
 
+{#- Home only: wrap the unchanged article so CSS can compose its existing H1 and
+    first H2 with a text-free ledger strip into one hero card. The strip comes
+    after the content in the DOM (reading and focus order are untouched) and is
+    placed visually by flex order. Sidebar, TOC and copy are not affected. -#}
+{% block content %}
+  {% if page and page.is_homepage %}
+    <div class="abm-home">
+      {{ super() }}
+      {% include "partials/abm-ledger.html" %}
+    </div>
+  {% else %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}
+
 {#- Every page gets the same newsletter form above the footer (blog posts and the
     blog index use their own templates, so the footer is the one place that works
     for all of them). Opt out per page with `newsletter: false` in front matter. -#}
 {% block footer %}
   {% if page and page.meta.newsletter != false and page.file.src_uri != "cookie-policy.md" %}
-    <div class="md-grid md-content__inner newsletter-wrap">
-      {% include "partials/newsletter.html" %}
+    <div class="md-grid abm-newsletter-grid">
+      <div class="md-typeset newsletter-wrap">
+        {% include "partials/newsletter.html" %}
+      </div>
     </div>
   {% endif %}
   {{ super() }}

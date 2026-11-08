@@ -1,0 +1,33 @@
+{% set blog = config.plugins.get("material/blog") %}
+{% set related = namespace(posts=[]) %}
+{% if blog %}
+  {% for candidate in blog.blog.posts | sort(attribute="config.date.created", reverse=true) if candidate.url != page.url %}
+    {% set match = namespace(found=false) %}
+    {% for category in candidate.categories %}
+      {% if category in page.categories %}{% set match.found = true %}{% endif %}
+    {% endfor %}
+    {% if match.found %}{% set related.posts = related.posts + [candidate] %}{% endif %}
+  {% endfor %}
+{% endif %}
+{% if related.posts %}
+  <section class="abm-post-related" aria-label="Related posts">
+    <h2>Related posts</h2>
+    <div class="abm-blog-grid">
+      {% for tile in related.posts[:3] %}{% include "partials/abm-tile.html" %}{% endfor %}
+    </div>
+  </section>
+{% endif %}
+{% if page.previous_page or page.next_page %}
+  <nav class="abm-blog-grid abm-post-neighbors" aria-label="Post navigation">
+    {% if page.previous_page %}
+      {% set tile = page.previous_page %}
+      {% set tile_label = "Previous" %}
+      {% include "partials/abm-tile.html" %}
+    {% endif %}
+    {% if page.next_page %}
+      {% set tile = page.next_page %}
+      {% set tile_label = "Next" %}
+      {% include "partials/abm-tile.html" %}
+    {% endif %}
+  </nav>
+{% endif %}

@@ -1,0 +1,34 @@
+{% include "partials/tags.html" %}
+{% include "partials/actions.html" %}
+{% if page.meta.template == "blog-post.html" %}
+  {% set parts = page.content.partition("</h1>") %}
+  <header class="abm-post-header">
+    {% if parts[1] %}
+      {{ parts[0] }}</h1>
+    {% else %}
+      <h1>{{ page.title | d(config.site_name, true) }}</h1>
+    {% endif %}
+    <div class="abm-post-meta">
+      <time datetime="{{ page.config.date.created.isoformat() }}">{{ page.config.date.created | date }}</time>
+      {% if page.config.readtime %}
+        {% set time = page.config.readtime %}
+        <span>{{ lang.t("readtime.one") if time == 1 else lang.t("readtime.other") | replace("#", time) }}</span>
+      {% endif %}
+      {% for author in page.authors %}
+        <span>{% if author.url %}<a href="{{ author.url | url }}">{{ author.name }}</a>{% else %}{{ author.name }}{% endif %}</span>
+      {% endfor %}
+    </div>
+    <a href="{{ 'newsletter/' | url }}">Subscribe to The Agentic Layer</a>
+  </header>
+  {% include "partials/abm-post-links.html" %}
+  {{ parts[2] if parts[1] else page.content }}
+  {% include "partials/abm-post-footer.html" %}
+{% else %}
+  {% if "\u003ch1" not in page.content %}
+    <h1>{{ page.title | d(config.site_name, true)}}</h1>
+  {% endif %}
+  {{ page.content }}
+{% endif %}
+{% include "partials/source-file.html" %}
+{% include "partials/feedback.html" %}
+{% include "partials/comments.html" %}

@@ -1,0 +1,13 @@
+{% set blog = config.plugins.get("material/blog") %}
+{% set all_posts = blog.blog.posts if blog else [] %}
+{% if page.meta.series and page.meta.series_part is defined %}
+  <nav class="abm-series" aria-label="Series">
+    <strong>{{ page.meta.series }}</strong>
+    <span>Part {{ page.meta.series_part }}{% if page.meta.series_total %} of {{ page.meta.series_total }}{% endif %}</span>
+    <ol>
+      {% for part in all_posts | selectattr("meta.series", "defined") | selectattr("meta.series", "equalto", page.meta.series) | selectattr("meta.series_part", "defined") | sort(attribute="meta.series_part") %}
+        <li><a href="{{ part.url | url }}"{% if part.url == page.url %} aria-current="page"{% endif %}>Part {{ part.meta.series_part }}: {{ part.title }}</a></li>
+      {% endfor %}
+    </ol>
+  </nav>
+{% endif %}

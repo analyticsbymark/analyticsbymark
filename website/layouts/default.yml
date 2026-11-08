@@ -12,7 +12,7 @@
 definitions:
 
   - &logo >-
-    docs/assets/logo.png
+    {{ config.docs_dir }}/assets/logo.png
 
   - &page_title >-
     {{ page.meta.get("title", page.title) }}

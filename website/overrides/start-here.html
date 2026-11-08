@@ -1,0 +1,13 @@
+{% extends "main.html" %}
+{% block content %}
+  {{ super() }}
+  {% set blog = config.plugins.get("material/blog") %}
+  {% if blog %}
+    {% set selected = blog.blog.posts | selectattr("meta.start_here", "defined") | selectattr("meta.start_here", "equalto", true) | sort(attribute="config.date.created", reverse=true) | list %}
+    <div class="abm-blog-grid">
+      {% for tile in selected[:3] %}
+        {% include "partials/abm-tile.html" %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

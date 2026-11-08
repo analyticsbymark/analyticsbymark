@@ -1,0 +1,54 @@
+size: { width: 1200, height: 630 }
+tags:
+  og:type: article
+  og:title: "{{ page.title }}"
+  og:url: "{{ page.canonical_url }}"
+  og:image: "{{ image.url }}"
+  og:image:width: "{{ image.width }}"
+  og:image:height: "{{ image.height }}"
+  twitter:card: summary_large_image
+  twitter:title: "{{ page.title }}"
+  twitter:image: "{{ image.url }}"
+layers:
+  - background:
+      color: "#2A3A36"
+  - size: { width: 16, height: 510 }
+    offset: { x: 1140, y: 60 }
+    background:
+      color: "#5C8076"
+  - size: { width: 1060, height: 8 }
+    offset: { x: 80, y: 570 }
+    background:
+      color: "#5C8076"
+  - size: { width: 1060, height: 510 }
+    offset: { x: 64, y: 48 }
+    background:
+      color: "#15201D"
+  - size: { width: 64, height: 64 }
+    offset: { x: 96, y: 80 }
+    background:
+      image: "{{ config.docs_dir }}/assets/logo.png"
+  - size: { width: 900, height: 40 }
+    offset: { x: 184, y: 90 }
+    typography:
+      content: "{{ config.site_name }}"
+      color: "#C9D8D2"
+      font: { family: Roboto Mono, style: Regular }
+  - size: { width: 944, height: 3 }
+    offset: { x: 96, y: 168 }
+    background:
+      color: "#8FD1B5"
+  - size: { width: 944, height: 250 }
+    offset: { x: 96, y: 200 }
+    typography:
+      content: "{{ page.meta.get('title', page.title) }}"
+      color: "#FFFFFF"
+      overflow: shrink
+      line: { amount: 3, height: 1.2 }
+      font: { family: Roboto Mono, style: Bold }
+  - size: { width: 944, height: 40 }
+    offset: { x: 96, y: 486 }
+    typography:
+      content: "{{ page.config.date.created.strftime('%Y-%m-%d') }}{% for author in page.authors %} · {{ author.name }}{% endfor %}"
+      color: "#C9D8D2"
+      font: { family: Roboto Mono, style: Regular }
