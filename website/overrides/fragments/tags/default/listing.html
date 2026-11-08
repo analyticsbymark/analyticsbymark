@@ -1,0 +1,42 @@
+{% import "partials/language.html" as lang with context %}
+{% macro render(listing) %}
+  {% if page.file.src_uri.startswith("blog/") %}
+    {% set matches = namespace(posts=[]) %}
+    {% set blog = config.plugins.get("material/blog") %}
+    {% if blog %}
+      {% for mapping in listing.mappings %}
+        {% if mapping.item in blog.blog.posts %}{% set matches.posts = matches.posts + [mapping.item] %}{% endif %}
+      {% endfor %}
+    {% endif %}
+    <header class="abm-listing-header">
+      {{ listing.content }}
+      <p>{{ matches.posts | length }} posts</p>
+    </header>
+    <div class="abm-blog-grid">
+      {% for entry in matches.posts | sort(attribute="config.date.created", reverse=true) %}
+        <article class="md-post md-post--excerpt abm-post-card">
+          <div class="abm-post-meta">
+            <time datetime="{{ entry.config.date.created.isoformat() }}">{{ entry.config.date.created.strftime("%B %d, %Y") }}</time>
+            {% if entry.config.readtime %}
+              {% set time = entry.config.readtime %}
+              <span>{{ lang.t("readtime.one") if time == 1 else lang.t("readtime.other") | replace("#", time) }}</span>
+            {% endif %}
+          </div>
+          <div class="md-post__content md-typeset">
+            <h2><a href="{{ entry.url | url }}">{{ entry.title }}</a></h2>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+    {% for child in listing %}{{ render(child) }}{% endfor %}
+  {% else %}
+    {{ listing.content }}
+    <ul>
+      {% for mapping in listing.mappings %}
+        <li><a href="{{ mapping.item.url | url }}">{{ mapping.item.title }}</a></li>
+      {% endfor %}
+      {% for child in listing %}<li style="list-style-type:none">{{ render(child) }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}
+{{ render(listing) }}

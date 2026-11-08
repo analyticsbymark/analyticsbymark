@@ -1,0 +1,43 @@
+{% extends "main.html" %}
+{% block container %}
+  <div class="md-content abm-blog" data-md-component="content">
+    <div class="md-content__inner">
+      <header class="md-typeset{% if page.file.src_uri.startswith('blog/category/') %} abm-listing-header{% endif %}">
+        {{ page.content }}
+        {% if page.file.src_uri.startswith('blog/category/') %}<p>{{ page.posts | length }} posts</p>{% endif %}
+      </header>
+      {% if not page.posts %}<p class="abm-empty">No posts yet.</p>{% endif %}
+      {% set newest = (page.posts | sort(attribute="config.date.created", reverse=true) | first) %}
+      {% set feature = page.file.src_uri == "blog/index.md" %}
+      {% if page.file.src_uri.startswith("blog/archive/") %}
+        <div class="abm-timeline">
+          {% set month = namespace(value="") %}
+          {% for post in posts %}
+            {% set current = post.config.date.created.strftime("%Y-%m") %}
+            {% if current != month.value %}
+              {% if not loop.first %}</section>{% endif %}
+              <section class="abm-timeline__month">
+                <h2 class="md-typeset abm-timeline__date">{{ post.config.date.created.strftime("%B %Y") }}</h2>
+              {% set month.value = current %}
+            {% endif %}
+            {% set featured = false %}
+            {% include "partials/abm-post.html" %}
+            {% if loop.last %}</section>{% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="abm-blog-grid">
+          {% for post in posts %}
+            {% set featured = feature and newest and post.url == newest.url %}
+            {% include "partials/abm-post.html" %}
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% if pagination %}
+        {% block pagination %}
+          {% include "partials/pagination.html" %}
+        {% endblock %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

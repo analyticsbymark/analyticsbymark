@@ -1,0 +1,28 @@
+<article class="md-post md-post--excerpt abm-post-card{% if featured %} abm-post-card--featured{% endif %}">
+  <header class="abm-post-meta">
+    <time datetime="{{ post.config.date.created.isoformat() }}">{{ post.config.date.created | date }}</time>
+    {% if post.config.readtime %}
+      {% set time = post.config.readtime %}
+      <span>{{ lang.t("readtime.one") if time == 1 else lang.t("readtime.other") | replace("#", time) }}</span>
+    {% endif %}
+    {% for author in post.authors %}
+      <span>{{ author.name }}</span>
+    {% endfor %}
+    {% if post.config.draft %}<span>{{ lang.t("blog.draft") }}</span>{% endif %}
+  </header>
+  {% if post.categories %}
+    <div class="md-typeset abm-post-categories">
+      {% for category in post.categories %}
+        <a class="md-tag" href="{{ category.url | url }}">{{ category.title }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <div class="md-post__content md-typeset">
+    {{ post.content }}
+    {% if post.more %}
+      <nav class="md-post__action">
+        <a href="{{ post.url | url }}">{{ lang.t("blog.continue") }}</a>
+      </nav>
+    {% endif %}
+  </div>
+</article>

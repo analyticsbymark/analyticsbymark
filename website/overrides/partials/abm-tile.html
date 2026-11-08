@@ -1,0 +1,5 @@
+<a class="abm-tile" href="{{ tile.url | url }}">
+  {% if tile_label %}<span class="abm-tile__label">{{ tile_label }}</span>{% endif %}
+  <strong>{{ tile.title }}</strong>
+  <time datetime="{{ tile.config.date.created.isoformat() }}">{{ tile.config.date.created | date }}</time>
+</a>

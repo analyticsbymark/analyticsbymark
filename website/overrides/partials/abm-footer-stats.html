@@ -1,0 +1,19 @@
+{% set blog = config.plugins.get("material/blog") %}
+{% if blog and blog.blog.posts %}
+  {% set stats = namespace(dates=[], series=[]) %}
+  {% for post in blog.blog.posts %}
+    {% set stats.dates = stats.dates + [post.config.date.created] %}
+    {% if post.config.date.updated %}{% set stats.dates = stats.dates + [post.config.date.updated] %}{% endif %}
+    {% if post.meta.series and post.meta.series not in stats.series %}{% set stats.series = stats.series + [post.meta.series] %}{% endif %}
+  {% endfor %}
+  <div class="abm-footer-stats">
+    <dl class="md-grid">
+      <div><dt>Posts</dt><dd>{{ blog.blog.posts | length }}</dd></div>
+      {% if stats.dates %}
+        {% set updated = stats.dates | sort | last %}
+        <div><dt>Last updated</dt><dd><time datetime="{{ updated.isoformat() }}">{{ updated | date }}</time></dd></div>
+      {% endif %}
+      {% if stats.series %}<div><dt>Series</dt><dd>{{ stats.series | length }}</dd></div>{% endif %}
+    </dl>
+  </div>
+{% endif %}

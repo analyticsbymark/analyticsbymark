@@ -1,0 +1,89 @@
+{#- Decorative ledger strip for the home hero card: geometry only (no text,
+    no links, nothing focusable). main.html renders it inside the home article
+    wrapper; CSS places it visually under the existing H1 and first H2, so the
+    headline, its id and all copy stay exactly as authored.
+    Wide variant: source table -> model grid -> chart -> decision.
+    Compact variant (phones): source table -> model grid -> decision, drawn at
+    a legible size rather than a scaled-down copy of the wide one. -#}
+<div class="abm-hero-geo" aria-hidden="true">
+  <svg class="abm-ledger__defs" width="0" height="0" focusable="false" aria-hidden="true">
+    <defs>
+      <pattern id="abm-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <line x1="0" y1="0" x2="0" y2="6" class="abm-ledger__hatch-line"/>
+      </pattern>
+    </defs>
+  </svg>
+  <svg class="abm-ledger abm-ledger--wide" viewBox="0 0 640 120" focusable="false" aria-hidden="true">
+    <path class="abm-ledger__rule" d="M0 68H24M568 60H640"/>
+    <g class="abm-ledger__shadow">
+      <rect x="30" y="50" width="80" height="48"/>
+      <rect x="174" y="30" width="112" height="72"/>
+      <rect x="350" y="50" width="88" height="52"/>
+      <rect x="518" y="38" width="56" height="56"/>
+    </g>
+    <g class="abm-ledger__node">
+      <rect x="24" y="44" width="80" height="48"/>
+      <path d="M24 56H104M24 68H104M24 80H104M48 44V92"/>
+    </g>
+    <g class="abm-ledger__node">
+      <rect x="168" y="24" width="112" height="72"/>
+      <rect class="abm-ledger__key" x="205" y="48" width="38" height="24"/>
+      <path d="M205 24V96M243 24V96M168 48H280M168 72H280"/>
+    </g>
+    <g class="abm-ledger__node">
+      <rect x="344" y="44" width="88" height="52"/>
+      <path d="M356 86H420"/>
+      <rect class="abm-ledger__bar" x="360" y="74" width="12" height="12"/>
+      <rect class="abm-ledger__bar" x="382" y="64" width="12" height="22"/>
+      <rect class="abm-ledger__bar" x="404" y="54" width="12" height="32"/>
+    </g>
+    <g class="abm-ledger__node">
+      <rect x="512" y="32" width="56" height="56"/>
+      <rect class="abm-ledger__lit" x="527" y="47" width="26" height="26"/>
+    </g>
+    <g class="abm-ledger__trace">
+      <path pathLength="1" d="M104 68H136V60H168"/>
+      <path pathLength="1" d="M280 60H312V70H344"/>
+      <path pathLength="1" d="M432 70H472V60H512"/>
+    </g>
+    <g class="abm-ledger__port">
+      <rect x="101" y="65" width="6" height="6"/>
+      <rect x="165" y="57" width="6" height="6"/>
+      <rect x="277" y="57" width="6" height="6"/>
+      <rect x="341" y="67" width="6" height="6"/>
+      <rect x="429" y="67" width="6" height="6"/>
+      <rect x="509" y="57" width="6" height="6"/>
+    </g>
+  </svg>
+  <svg class="abm-ledger abm-ledger--compact" viewBox="0 0 360 112" focusable="false" aria-hidden="true">
+    <path class="abm-ledger__rule" d="M0 62H12M344 58H360"/>
+    <g class="abm-ledger__shadow">
+      <rect x="18" y="42" width="80" height="52"/>
+      <rect x="138" y="26" width="100" height="72"/>
+      <rect x="286" y="32" width="64" height="64"/>
+    </g>
+    <g class="abm-ledger__node">
+      <rect x="12" y="36" width="80" height="52"/>
+      <path d="M12 49H92M12 62H92M12 75H92M36 36V88"/>
+    </g>
+    <g class="abm-ledger__node">
+      <rect x="132" y="20" width="100" height="72"/>
+      <rect class="abm-ledger__key" x="165" y="44" width="34" height="24"/>
+      <path d="M165 20V92M199 20V92M132 44H232M132 68H232"/>
+    </g>
+    <g class="abm-ledger__node">
+      <rect x="280" y="26" width="64" height="64"/>
+      <rect class="abm-ledger__lit" x="297" y="43" width="30" height="30"/>
+    </g>
+    <g class="abm-ledger__trace">
+      <path pathLength="1" d="M92 62H112V56H132"/>
+      <path pathLength="1" d="M232 56H256V58H280"/>
+    </g>
+    <g class="abm-ledger__port">
+      <rect x="89" y="59" width="6" height="6"/>
+      <rect x="129" y="53" width="6" height="6"/>
+      <rect x="229" y="53" width="6" height="6"/>
+      <rect x="277" y="55" width="6" height="6"/>
+    </g>
+  </svg>
+</div>
