@@ -1,0 +1,1627 @@
+/* ==========================================================================
+   Analytics By Mark: "Ledger" theme layer over Material for MkDocs 9.7
+   Presentation only. Brand greens: Forest #384D48, Sage #5C8076,
+   Deep #2A3A36, Mist #F0F4F3. See docs/redesign-builder-plan.md (rev 2).
+   ========================================================================== */
+
+/* ---- Fonts: JetBrains Mono (OFL, see fonts/OFL.txt), self-hosted -------- */
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/jetbrains-mono-latin-var.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2190-21FF, U+2200-22FF, U+2500-259F, U+25A0-25FF, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("fonts/jetbrains-mono-latin-italic-var.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2190-21FF, U+2200-22FF, U+2500-259F, U+25A0-25FF, U+FEFF, U+FFFD;
+}
+
+:root {
+  --md-text-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --md-code-font: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --md-mermaid-font-family: var(--md-text-font);
+  --abm-mint: #8FD1B5;
+}
+
+/* ---- Registered colour tokens, so the native toggle crossfades ---------- */
+@property --md-default-bg-color { syntax: "<color>"; inherits: true; initial-value: #F6F8F7; }
+@property --md-default-fg-color { syntax: "<color>"; inherits: true; initial-value: #14201D; }
+@property --md-default-fg-color--light { syntax: "<color>"; inherits: true; initial-value: #55665F; }
+@property --md-default-fg-color--lighter { syntax: "<color>"; inherits: true; initial-value: #7A8C85; }
+@property --md-default-fg-color--lightest { syntax: "<color>"; inherits: true; initial-value: #D5DFDB; }
+@property --md-typeset-a-color { syntax: "<color>"; inherits: true; initial-value: #384D48; }
+@property --md-code-bg-color { syntax: "<color>"; inherits: true; initial-value: #EAF0EE; }
+@property --md-code-fg-color { syntax: "<color>"; inherits: true; initial-value: #14201D; }
+@property --md-footer-bg-color { syntax: "<color>"; inherits: true; initial-value: #2A3A36; }
+@property --md-footer-bg-color--dark { syntax: "<color>"; inherits: true; initial-value: #22302C; }
+@property --abm-band { syntax: "<color>"; inherits: true; initial-value: #2A3A36; }
+@property --abm-hero-bg { syntax: "<color>"; inherits: true; initial-value: #2A3A36; }
+@property --abm-surface { syntax: "<color>"; inherits: true; initial-value: #EAF0EE; }
+@property --abm-line { syntax: "<color>"; inherits: true; initial-value: #D5DFDB; }
+@property --abm-off { syntax: "<length>"; inherits: true; initial-value: 6px; }
+
+/* ---- Light scheme ------------------------------------------------------ */
+/* `body[...]` outranks Material's [data-md-color-primary=*] rules, including
+   the indigo palette a returning visitor may still have in localStorage. */
+body[data-md-color-scheme="default"] {
+  --abm-band: #2A3A36;
+  --abm-band-fg: #FFFFFF;
+  --abm-band-muted: #C9D8D2;
+  --abm-band-line: rgba(255, 255, 255, .10);
+  --abm-banner: #22302C;
+  --abm-hero-bg: #2A3A36;
+  --abm-hero-fg: #FFFFFF;
+  --abm-hero-sub: #C9D8D2;
+  --abm-hero-edge: #2A3A36;
+  --abm-hero-line: rgba(201, 216, 210, .14);
+  --abm-surface: #EAF0EE;
+  --abm-line: #D5DFDB;
+  --abm-control: #7A8C85;
+  --abm-focus: #384D48;
+  --abm-hatch: rgba(56, 77, 72, .35);
+  --abm-btn-bg: #384D48;
+  --abm-btn-on: #FFFFFF;
+  --abm-btn-fg: #384D48;
+  --abm-th-bg: #384D48;
+  --abm-th-fg: #FFFFFF;
+  --abm-geo: rgba(228, 236, 233, .62);
+  --abm-geo-soft: rgba(228, 236, 233, .22);
+  --abm-geo-hatch: rgba(143, 209, 181, .55);
+  --abm-grid: rgba(201, 216, 210, .07);
+  --abm-tick: rgba(201, 216, 210, .30);
+  --abm-progress: #2E6650;
+  --abm-progress-h: 3px;
+
+  --abm-adm-note: #384D48;
+  --abm-adm-info: #2E5C8A;
+  --abm-adm-tip: #2E6650;
+  --abm-adm-question: #5A3D8A;
+  --abm-adm-warning: #8A4B00;
+  --abm-adm-danger: #8C2A1A;
+  --abm-adm-quote: #5A6B64;
+
+  --md-primary-fg-color: #384D48;
+  --md-primary-fg-color--light: #5C8076;
+  --md-primary-fg-color--dark: #2A3A36;
+  --md-primary-bg-color: #FFFFFF;
+  --md-primary-bg-color--light: rgba(255, 255, 255, .72);
+  --md-accent-fg-color: #2A3A36;
+  --md-accent-fg-color--transparent: rgba(56, 77, 72, .10);
+  --md-accent-bg-color: #FFFFFF;
+  --md-accent-bg-color--light: rgba(255, 255, 255, .72);
+
+  --md-default-bg-color: #F6F8F7;
+  --md-default-bg-color--light: rgba(246, 248, 247, .72);
+  --md-default-bg-color--lighter: rgba(246, 248, 247, .32);
+  --md-default-bg-color--lightest: rgba(246, 248, 247, .12);
+  --md-default-fg-color: #14201D;
+  --md-default-fg-color--light: #55665F;
+  --md-default-fg-color--lighter: #7A8C85;
+  --md-default-fg-color--lightest: #D5DFDB;
+
+  --md-typeset-color: var(--md-default-fg-color);
+  --md-typeset-a-color: #384D48;
+  --md-typeset-mark-color: rgba(143, 209, 181, .45);
+  --md-typeset-table-color: #D5DFDB;
+  --md-typeset-table-color--light: rgba(56, 77, 72, .05);
+  --md-admonition-fg-color: var(--md-default-fg-color);
+  --md-admonition-bg-color: var(--md-default-bg-color);
+
+  --md-code-fg-color: #14201D;
+  --md-code-bg-color: #EAF0EE;
+  --md-code-hl-color: #384D48;
+  --md-code-hl-color--light: rgba(143, 209, 181, .28);
+  --md-code-hl-number-color: #8C3A1A;
+  --md-code-hl-special-color: #8C3A1A;
+  --md-code-hl-function-color: #5A3D8A;
+  --md-code-hl-constant-color: #2E5C8A;
+  --md-code-hl-keyword-color: #2E6650;
+  --md-code-hl-string-color: #7A4A0E;
+  --md-code-hl-name-color: #14201D;
+  --md-code-hl-operator-color: #4A5A54;
+  --md-code-hl-punctuation-color: #4A5A54;
+  --md-code-hl-comment-color: #4F5F58;
+  --md-code-hl-generic-color: #4A5A54;
+  --md-code-hl-variable-color: #7A4A0E;
+
+  --md-footer-fg-color: #FFFFFF;
+  --md-footer-fg-color--light: #C9D8D2;
+  --md-footer-fg-color--lighter: #C9D8D2;
+  --md-footer-bg-color: #2A3A36;
+  --md-footer-bg-color--dark: #22302C;
+}
+
+/* ---- Dark scheme ------------------------------------------------------- */
+body[data-md-color-scheme="slate"] {
+  --abm-band: #0E1513;
+  --abm-band-fg: #E4ECE9;
+  --abm-band-muted: #93A69F;
+  --abm-band-line: #2A3A36;
+  --abm-banner: #0A0F0D;
+  --abm-hero-bg: #15201D;
+  --abm-hero-fg: #E4ECE9;
+  --abm-hero-sub: #93A69F;
+  --abm-hero-edge: #2A3A36;
+  --abm-hero-line: #2A3A36;
+  --abm-surface: #15201D;
+  --abm-line: #2A3A36;
+  --abm-control: #5C8076;
+  --abm-focus: #8FD1B5;
+  --abm-hatch: rgba(92, 128, 118, .60);
+  --abm-btn-bg: #8FD1B5;
+  --abm-btn-on: #0E1513;
+  --abm-btn-fg: #8FD1B5;
+  --abm-th-bg: #2A3A36;
+  --abm-th-fg: #E4ECE9;
+  --abm-geo: rgba(228, 236, 233, .50);
+  --abm-geo-soft: rgba(228, 236, 233, .16);
+  --abm-geo-hatch: rgba(92, 128, 118, .85);
+  --abm-grid: rgba(92, 128, 118, .12);
+  --abm-tick: rgba(92, 128, 118, .55);
+  --abm-progress: var(--abm-mint);
+  --abm-progress-h: 2px;
+
+  --abm-adm-note: #B5C4BE;
+  --abm-adm-info: #9CC3EE;
+  --abm-adm-tip: #8FD1B5;
+  --abm-adm-question: #C3B3F2;
+  --abm-adm-warning: #E2C08D;
+  --abm-adm-danger: #F2A98A;
+  --abm-adm-quote: #93A69F;
+
+  --md-primary-fg-color: #5C8076;
+  --md-primary-fg-color--light: #8FD1B5;
+  --md-primary-fg-color--dark: #2A3A36;
+  --md-primary-bg-color: #E4ECE9;
+  --md-primary-bg-color--light: rgba(228, 236, 233, .72);
+  --md-accent-fg-color: #B5E4D0;
+  --md-accent-fg-color--transparent: rgba(143, 209, 181, .12);
+  --md-accent-bg-color: #0E1513;
+  --md-accent-bg-color--light: rgba(14, 21, 19, .72);
+
+  --md-default-bg-color: #0E1513;
+  --md-default-bg-color--light: rgba(14, 21, 19, .72);
+  --md-default-bg-color--lighter: rgba(14, 21, 19, .32);
+  --md-default-bg-color--lightest: rgba(14, 21, 19, .12);
+  --md-default-fg-color: #E4ECE9;
+  --md-default-fg-color--light: #93A69F;
+  --md-default-fg-color--lighter: #5C8076;
+  --md-default-fg-color--lightest: #2A3A36;
+
+  --md-typeset-color: var(--md-default-fg-color);
+  --md-typeset-a-color: #8FD1B5;
+  --md-typeset-mark-color: rgba(143, 209, 181, .28);
+  --md-typeset-table-color: #2A3A36;
+  --md-typeset-table-color--light: rgba(143, 209, 181, .05);
+  --md-admonition-fg-color: var(--md-default-fg-color);
+  --md-admonition-bg-color: var(--md-default-bg-color);
+
+  --md-code-fg-color: #E4ECE9;
+  --md-code-bg-color: #15201D;
+  --md-code-hl-color: #8FD1B5;
+  --md-code-hl-color--light: rgba(143, 209, 181, .14);
+  --md-code-hl-number-color: #F2A98A;
+  --md-code-hl-special-color: #F2A98A;
+  --md-code-hl-function-color: #C3B3F2;
+  --md-code-hl-constant-color: #9CC3EE;
+  --md-code-hl-keyword-color: #8FD1B5;
+  --md-code-hl-string-color: #E2C08D;
+  --md-code-hl-name-color: #E4ECE9;
+  --md-code-hl-operator-color: #B5C4BE;
+  --md-code-hl-punctuation-color: #B5C4BE;
+  --md-code-hl-comment-color: #93A69F;
+  --md-code-hl-generic-color: #B5C4BE;
+  --md-code-hl-variable-color: #E2C08D;
+
+  --md-footer-fg-color: #E4ECE9;
+  --md-footer-fg-color--light: #B5C4BE;
+  --md-footer-fg-color--lighter: #93A69F;
+  --md-footer-bg-color: #111A17;
+  --md-footer-bg-color--dark: #0A0F0D;
+}
+
+/* ---- Native toggle crossfade (no JS). Removed under reduced motion. ---- */
+body {
+  transition:
+    --md-default-bg-color .25s ease, --md-default-fg-color .25s ease,
+    --md-default-fg-color--light .25s ease, --md-default-fg-color--lighter .25s ease,
+    --md-default-fg-color--lightest .25s ease, --md-typeset-a-color .25s ease,
+    --md-code-bg-color .25s ease, --md-code-fg-color .25s ease,
+    --md-footer-bg-color .25s ease, --md-footer-bg-color--dark .25s ease,
+    --abm-band .25s ease, --abm-hero-bg .25s ease, --abm-surface .25s ease, --abm-line .25s ease;
+}
+
+::selection {
+  background-color: rgba(143, 209, 181, .40);
+}
+
+/* ---- Focus: 2px ring, mint on the dark band, forest or mint elsewhere -- */
+.md-banner,
+.md-header,
+.md-tabs,
+.md-footer {
+  --abm-focus: var(--abm-mint);
+}
+
+body :focus-visible {
+  outline: 2px solid var(--abm-focus);
+  outline-offset: 2px;
+}
+
+/* Material's accent outline would be band-on-band here, so force mint */
+body :is(.md-banner, .md-header, .md-tabs, .md-footer) :focus-visible {
+  outline: 2px solid var(--abm-mint);
+  outline-offset: 2px;
+}
+
+/* The palette radio is 0x0; show its ring on the visible toggle label */
+body .md-option:is(:focus-visible, .focus-visible) + label {
+  outline: 2px solid var(--abm-mint);
+  outline-offset: 2px;
+}
+
+/* ---- Announcement bar -------------------------------------------------- */
+.md-banner {
+  background-color: var(--abm-banner);
+  color: var(--abm-band-muted);
+  border-bottom: 1px solid var(--abm-band-line);
+}
+
+.md-banner__inner {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.md-banner a,
+.md-banner a:hover {
+  color: var(--abm-mint);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.md-banner__button {
+  color: var(--abm-band-fg);
+}
+
+/* ---- Header and tabs: one deep-forest band ----------------------------- */
+.md-header,
+.md-header--shadow {
+  background-color: var(--abm-band);
+  color: var(--abm-band-fg);
+  box-shadow: 0 1px 0 var(--abm-band-line);
+}
+
+.md-header__title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+
+.md-tabs {
+  background-color: var(--abm-band);
+  color: var(--abm-band-fg);
+}
+
+.md-tabs__link,
+.md-tabs__link:hover {
+  opacity: 1;
+  font-size: 14px;
+}
+
+.md-tabs__link {
+  color: var(--abm-band-muted);
+}
+
+.md-tabs__link:hover,
+.md-tabs__item--active .md-tabs__link {
+  color: var(--abm-band-fg);
+}
+
+.md-tabs__item--active .md-tabs__link {
+  font-weight: 700;
+}
+
+.md-tabs__item--active {
+  box-shadow: inset 0 -2px 0 var(--abm-mint);
+}
+
+/* Desktop: 56px bar + 40px tabs = 96px, the same total Material expects
+   for sticky sidebars (4.8rem) and anchor scroll margins (6rem). */
+@media screen and (min-width: 76.25em) {
+  .md-header__inner {
+    min-height: 2.8rem;
+  }
+
+  .md-tabs__item {
+    height: 2rem;
+  }
+
+  .md-tabs__link {
+    margin-top: .55rem;
+  }
+}
+
+/* Mobile drawer header uses the band, not the primary colour */
+.md-nav--primary .md-nav__title[for="__drawer"] {
+  background-color: var(--abm-band);
+  color: var(--abm-band-fg);
+}
+
+/* ---- Home hero card -----------------------------------------------------
+   One card built from the article's own H1 and first H2 (text and ids as
+   authored) plus the text-free ledger strip from partials/abm-ledger.html.
+   The strip follows the content in the DOM and is lifted under the subtitle
+   with flex order, so reading and focus order stay untouched. */
+.md-typeset .abm-home {
+  display: flex;
+  flex-direction: column;
+}
+
+/* flex items do not collapse margins, so the home rhythm is set explicitly:
+   1em between blocks, 48px before a section heading (16 + 32) */
+.md-typeset .abm-home > * {
+  order: 3;
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.md-typeset .abm-home > :is(p, ul, ol, dl, blockquote, h3, h4),
+.md-typeset .abm-home > h2:not(h1 + h2) {
+  max-width: 68ch;
+}
+
+.md-typeset .abm-home > h2:not(h1 + h2) {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.md-typeset .abm-home > h1,
+.md-typeset .abm-home > h1 + h2,
+.md-typeset .abm-home > .abm-hero-geo {
+  --abm-off: 6px;
+  order: 1;
+  position: relative;
+  margin: 0;
+  border: 1px solid var(--abm-hero-edge);
+  background-color: var(--abm-hero-bg);
+  color: var(--abm-hero-fg);
+}
+
+.md-typeset .abm-home > h1 {
+  padding: 36px 32px 14px;
+  border-bottom: 0;
+  border-radius: 2px 2px 0 0;
+  font-size: clamp(30px, 18px + 1.6vw, 42px);
+  line-height: 1.12;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+/* a short mint rule above the headline: the card's only accent */
+.md-typeset .abm-home > h1::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  margin-bottom: 22px;
+  background-color: var(--abm-mint);
+}
+
+.md-typeset .abm-home > h1 + h2 {
+  padding: 0 32px 22px;
+  border-top: 0;
+  border-bottom: 0;
+  color: var(--abm-hero-sub);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.md-typeset .abm-home > h1 + h2 .headerlink {
+  color: var(--abm-hero-sub);
+}
+
+.md-typeset .abm-home > .abm-hero-geo {
+  order: 2;
+  margin-bottom: 14px;
+  padding: 6px 32px 26px;
+  border-top: 1px solid var(--abm-hero-line);
+  border-radius: 0 0 2px 2px;
+  background-image:
+    linear-gradient(var(--abm-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--abm-grid) 1px, transparent 1px);
+  background-size: 100% 20px, 40px 100%;
+  background-position: 0 -1px, -1px 0;
+}
+
+/* ruler ticks along the card's bottom edge: short every 10px, long every 40px */
+.md-typeset .abm-home > .abm-hero-geo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 12px;
+  background-image:
+    linear-gradient(90deg, var(--abm-tick) 1px, transparent 1px),
+    linear-gradient(90deg, var(--abm-tick) 1px, transparent 1px);
+  background-size: 10px 5px, 40px 12px;
+  background-position: -1px bottom, -1px bottom;
+  background-repeat: repeat-x;
+  pointer-events: none;
+}
+
+/* hatched ledger shadow down the card's right edge and under its base */
+.md-typeset .abm-home > h1::after,
+.md-typeset .abm-home > h1 + h2::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  right: calc(-1px - var(--abm-off));
+  width: var(--abm-off);
+  transform: translateY(var(--abm-off));
+  background-image: repeating-linear-gradient(-45deg, var(--abm-hatch) 0 1.2px, transparent 1.2px 5px);
+  pointer-events: none;
+}
+
+.md-typeset .abm-home > .abm-hero-geo::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  transform: translate(var(--abm-off), var(--abm-off));
+  background-image: repeating-linear-gradient(-45deg, var(--abm-hatch) 0 1.2px, transparent 1.2px 5px);
+  clip-path: polygon(
+    calc(100% - var(--abm-off)) 0, 100% 0, 100% 100%, 0 100%,
+    0 calc(100% - var(--abm-off)), calc(100% - var(--abm-off)) calc(100% - var(--abm-off))
+  );
+  pointer-events: none;
+}
+
+.abm-ledger__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.abm-ledger {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.abm-ledger--compact {
+  display: none;
+}
+
+/* Below 960px the card runs edge to edge as the page's opening block */
+@media screen and (max-width: 59.984375em) {
+  .md-typeset .abm-home > h1,
+  .md-typeset .abm-home > h1 + h2,
+  .md-typeset .abm-home > .abm-hero-geo {
+    margin-left: -.8rem;
+    margin-right: -.8rem;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+
+  .md-typeset .abm-home > h1::after,
+  .md-typeset .abm-home > h1 + h2::after,
+  .md-typeset .abm-home > .abm-hero-geo::before {
+    display: none;
+  }
+
+  .md-typeset .abm-home > .abm-hero-geo {
+    margin-bottom: 8px;
+  }
+
+  /* open the page with the card: cancel Material's main/article top offsets
+     (measured 50px) so it sits directly under the header */
+  .md-typeset .abm-home > h1 {
+    margin-top: -2.5rem;
+  }
+}
+
+/* Phones: tighter type and the compact three-node strip at legible size */
+@media screen and (max-width: 37.484375em) {
+  .md-typeset .abm-home > h1 {
+    padding: 28px 16px 10px;
+    font-size: 28px;
+    line-height: 34px;
+  }
+
+  .md-typeset .abm-home > h1::before {
+    margin-bottom: 18px;
+  }
+
+  .md-typeset .abm-home > h1 + h2 {
+    padding: 0 16px 18px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .md-typeset .abm-home > .abm-hero-geo {
+    padding: 4px 16px 22px;
+  }
+
+  .abm-ledger--wide {
+    display: none;
+  }
+
+  .abm-ledger--compact {
+    display: block;
+  }
+}
+
+.abm-ledger__rule {
+  fill: none;
+  stroke: var(--abm-geo);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 6;
+}
+
+.abm-ledger__hatch-line {
+  stroke: var(--abm-geo-hatch);
+  stroke-width: 2;
+}
+
+.abm-ledger__shadow rect,
+.abm-ledger__key {
+  fill: url(#abm-hatch);
+}
+
+.abm-ledger__node rect,
+.abm-ledger__node path {
+  stroke: var(--abm-geo);
+  stroke-width: 1.5;
+}
+
+.abm-ledger__node > rect:first-child {
+  fill: var(--abm-hero-bg);
+}
+
+.abm-ledger__node path {
+  fill: none;
+}
+
+.abm-ledger__node .abm-ledger__key {
+  stroke: none;
+}
+
+.abm-ledger__node .abm-ledger__bar {
+  fill: var(--abm-geo-soft);
+}
+
+.abm-ledger__node .abm-ledger__lit {
+  fill: var(--abm-mint);
+  stroke: none;
+  animation: abm-lit .3s ease-out .9s backwards;
+}
+
+.abm-ledger__port rect {
+  fill: var(--abm-band-fg);
+}
+
+/* One-shot trace: three segments, 0.4s each, done at 1.2s. The resting
+   style is the drawn state, so without animation nothing is missing. */
+.abm-ledger__trace path {
+  fill: none;
+  stroke: var(--abm-mint);
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: abm-trace .4s cubic-bezier(.4, 0, .2, 1) backwards;
+}
+
+.abm-ledger__trace path:nth-child(2) {
+  animation-delay: .4s;
+}
+
+.abm-ledger__trace path:nth-child(3) {
+  animation-delay: .8s;
+}
+
+@keyframes abm-trace {
+  from { stroke-dashoffset: 1; }
+}
+
+@keyframes abm-lit {
+  from { opacity: .15; }
+}
+
+/* ---- Sidebars, navigation and TOC -------------------------------------- */
+.md-nav__link--active,
+.md-nav__item .md-nav__link--active {
+  font-weight: 700;
+}
+
+@media screen and (min-width: 60em) {
+  .md-sidebar--secondary .md-nav__title {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--md-default-fg-color--light);
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+.md-path {
+  font-size: 13px;
+}
+
+/* ---- Typeset: rhythm and hierarchy ------------------------------------- */
+.md-typeset {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.md-typeset h1 {
+  margin: 0 0 24px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 36px;
+  letter-spacing: -.01em;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h2 {
+  margin: 48px 0 16px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: -.005em;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h3 {
+  margin: 32px 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  font-weight: 700;
+  color: var(--md-default-fg-color);
+}
+
+/* intentional prose measure; code, tables and media keep the full column */
+.md-content__inner > :is(p, ul, ol, dl, blockquote, h1, h2, h3, h4) {
+  max-width: 68ch;
+}
+
+.md-typeset hr {
+  border-bottom-color: var(--abm-line);
+}
+
+/* Links in prose carry an underline as well as colour */
+.md-typeset a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+
+.md-typeset a:hover,
+.md-typeset a:focus-visible {
+  text-decoration-color: currentColor;
+}
+
+.md-typeset :is(h1, h2, h3, h4, h5, h6) a,
+.md-typeset a.md-button,
+.md-typeset a.headerlink,
+.md-typeset a.md-tag,
+.md-typeset .md-post__meta a,
+.md-typeset .md-annotation a,
+.md-typeset .tabbed-labels a {
+  text-decoration: none;
+}
+
+/* Inline code and code blocks */
+.md-typeset code {
+  border-radius: 2px;
+}
+
+.md-typeset :not(pre) > code {
+  box-shadow: inset 0 0 0 1px var(--abm-line);
+}
+
+.md-typeset pre > code {
+  border: 1px solid var(--abm-line);
+  border-radius: 2px;
+}
+
+/* Code actions (content.code.select): Material paints the resting icon with
+   the hairline token (1.18:1 light, 1.40:1 dark). Muted ink clears 3:1 at
+   rest; hover/focus use the accent, selected uses full ink. */
+body .md-code__nav {
+  background-color: var(--md-code-bg-color);
+}
+
+body .md-code__button,
+body :hover > * > .md-code__button {
+  color: var(--md-default-fg-color);
+}
+
+body .md-code__button:is(:hover, :focus-visible, .focus-visible) {
+  color: var(--md-accent-fg-color);
+}
+
+body .md-code__button--active {
+  color: var(--md-default-fg-color) !important;
+}
+
+/* Plain tables */
+.md-typeset table:not([class]) {
+  border: 1px solid var(--abm-line);
+  border-radius: 2px;
+  font-size: 14px;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--abm-surface);
+  color: var(--md-default-fg-color);
+  font-weight: 700;
+}
+
+.md-typeset table:not([class]) td {
+  border-top-color: var(--abm-line);
+}
+
+/* Content tabs */
+.md-typeset .tabbed-labels > label {
+  font-size: 14px;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .tabbed-labels > label:hover {
+  color: var(--md-default-fg-color);
+}
+
+/* Images */
+.md-typeset img {
+  border-radius: 2px;
+}
+
+/* Tags */
+.md-typeset .md-tag {
+  border: 1px solid var(--abm-control);
+  border-radius: 2px;
+  background-color: transparent;
+  color: var(--md-default-fg-color);
+  font-size: 12px;
+}
+
+.md-typeset .md-tag:is(:hover, :focus-visible) {
+  background-color: var(--abm-surface);
+  color: var(--md-default-fg-color);
+}
+
+/* ---- Buttons ----------------------------------------------------------- */
+.md-typeset .md-button {
+  position: relative;
+  padding: 10px 20px;
+  border: 1px solid var(--abm-control);
+  border-radius: 2px;
+  background-color: transparent;
+  color: var(--abm-btn-fg);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  transition: background-color .12s, color .12s, border-color .12s, transform .12s, --abm-off .12s;
+}
+
+.md-typeset .md-button:is(:hover, :focus) {
+  background-color: var(--abm-surface);
+  border-color: var(--md-default-fg-color);
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset .md-button--primary,
+.md-typeset .md-button--primary:is(:hover, :focus) {
+  background-color: var(--abm-btn-bg);
+  border-color: var(--abm-btn-bg);
+  color: var(--abm-btn-on);
+}
+
+.md-typeset .md-button--primary:is(:hover, :focus-visible) {
+  --abm-off: 4px;
+  transform: translate(2px, 2px);
+}
+
+/* ---- Ledger shadow: 45deg hatching offset down-right ------------------- */
+/* The clip-path keeps only the L-shaped strip outside the element, so the
+   hatch never sits over the element's own background or content. */
+.md-typeset .md-button--primary,
+.md-typeset .admonition,
+.md-typeset details,
+.newsletter-box {
+  --abm-off: 6px;
+  position: relative;
+}
+
+.md-typeset .md-button--primary::after,
+.md-typeset .admonition::after,
+.md-typeset details::after,
+.newsletter-box::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  transform: translate(var(--abm-off), var(--abm-off));
+  background-image: repeating-linear-gradient(-45deg, var(--abm-hatch) 0 1.2px, transparent 1.2px 5px);
+  clip-path: polygon(
+    calc(100% - var(--abm-off)) 0, 100% 0, 100% 100%, 0 100%,
+    0 calc(100% - var(--abm-off)), calc(100% - var(--abm-off)) calc(100% - var(--abm-off))
+  );
+  pointer-events: none;
+}
+
+/* One pass of the shadow's hatch on a primary #newsletter CTA the first time
+   it is seen (assets/javascripts/newsletter-cta.js adds and removes the class). */
+@media (prefers-reduced-motion: no-preference) {
+  .md-typeset .md-button--primary.abm-cta-emphasis::after {
+    animation: abm-cta-hatch .9s cubic-bezier(.4, 0, .2, 1) 1;
+  }
+}
+
+@keyframes abm-cta-hatch {
+  0% { --abm-off: 6px; background-position: 0 0; }
+  45% { --abm-off: 10px; }
+  100% { --abm-off: 6px; background-position: 14.14px 0; }
+}
+
+/* ---- Admonitions: square, readable size, brand-coherent type colours ---- */
+.md-typeset .admonition,
+.md-typeset details {
+  --abm-adm: var(--abm-adm-note);
+  margin: 24px 6px 30px 0;
+  border: 1px solid var(--abm-adm);
+  border-left-width: 3px;
+  border-radius: 2px;
+  box-shadow: none;
+  background-color: var(--abm-surface);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.md-typeset :is(.admonition, details):is(.note) { --abm-adm: var(--abm-adm-note); }
+.md-typeset :is(.admonition, details):is(.abstract, .summary, .tldr, .info, .todo) { --abm-adm: var(--abm-adm-info); }
+.md-typeset :is(.admonition, details):is(.tip, .hint, .important, .success, .check, .done) { --abm-adm: var(--abm-adm-tip); }
+.md-typeset :is(.admonition, details):is(.question, .help, .faq, .example) { --abm-adm: var(--abm-adm-question); }
+.md-typeset :is(.admonition, details):is(.warning, .caution, .attention) { --abm-adm: var(--abm-adm-warning); }
+.md-typeset :is(.admonition, details):is(.failure, .fail, .missing, .danger, .error, .bug) { --abm-adm: var(--abm-adm-danger); }
+.md-typeset :is(.admonition, details):is(.quote, .cite) { --abm-adm: var(--abm-adm-quote); }
+
+/* [class] lifts these to (0,3,0) so they follow Material's per-type rules */
+.md-typeset :is(.admonition, details)[class] {
+  border-color: var(--abm-adm);
+}
+
+.md-typeset :is(.admonition, details)[class] > :is(.admonition-title, summary) {
+  background-color: color-mix(in srgb, var(--abm-adm) 12%, transparent);
+  color: var(--md-default-fg-color);
+  font-weight: 700;
+}
+
+.md-typeset :is(.admonition, details)[class] > :is(.admonition-title, summary)::before {
+  background-color: var(--abm-adm);
+}
+
+.md-typeset :is(.admonition, details) > :is(.admonition-title, summary)::after {
+  color: var(--md-default-fg-color--light);
+}
+
+/* ---- Existing content hooks (kept) ------------------------------------- */
+#hero-subtitle {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--md-default-fg-color--light);
+  margin-bottom: 1rem;
+}
+
+/* Profile photo: hatched ring */
+.circular,
+.md-typeset img.circular {
+  border-radius: 50%;
+  padding: 6px;
+  background-image: repeating-linear-gradient(-45deg, var(--abm-hatch) 0 1.2px, transparent 1.2px 5px);
+}
+
+/* Data tables */
+.data-table table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: .8rem;
+}
+
+.data-table th {
+  background-color: var(--abm-th-bg);
+  color: var(--abm-th-fg);
+  font-weight: 600;
+  text-align: left;
+  padding: .6rem .8rem;
+}
+
+.data-table td {
+  padding: .5rem .8rem;
+  border-bottom: 1px solid var(--abm-line);
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: var(--md-typeset-table-color--light);
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--md-accent-fg-color--transparent);
+}
+
+.purple-icon {
+  color: purple;
+}
+
+.red-icon {
+  color: red;
+}
+
+.gold-icon {
+  color: gold;
+}
+
+/* ---- Newsletter (overrides/partials/newsletter.html) ------------------- */
+/* The wrapper sits outside Material's content grid, so it mirrors the
+   article column: sidebars are 12.1rem, content margins .8rem / 1.2rem. */
+.abm-newsletter-grid {
+  min-width: 0; /* flex item of .md-container: never widen past the viewport */
+  padding: 0 .8rem;
+}
+
+.newsletter-box form > * {
+  min-width: 0;
+}
+
+@media screen and (min-width: 60em) {
+  .abm-newsletter-grid {
+    padding: 0 12.9rem 0 .8rem;
+  }
+}
+
+@media screen and (min-width: 76.25em) {
+  .abm-newsletter-grid {
+    padding: 0 13.3rem;
+  }
+}
+
+.newsletter-wrap {
+  padding: 8px 6px 48px 0;
+}
+
+.newsletter-box {
+  margin: 0;
+  padding: 24px;
+  border: 1px solid var(--abm-line);
+  border-radius: 2px;
+  background-color: var(--abm-surface);
+}
+
+.md-typeset .newsletter-box h2 {
+  margin: 0 0 8px;
+}
+
+.md-typeset .newsletter-box p {
+  margin: 0;
+  max-width: 68ch;
+}
+
+.newsletter-box form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 8px 12px;
+  margin: 20px 0 12px;
+}
+
+.newsletter-box label[for="newsletter-email"] {
+  flex: 1 0 100%;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+}
+
+.newsletter-box input[type="email"] {
+  flex: 1 1 16rem;
+  width: 100%; /* compressible: no intrinsic min-width at 320px */
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--abm-control);
+  border-radius: 2px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font: inherit;
+  font-size: 15px;
+}
+
+.newsletter-box input[type="email"]::placeholder {
+  color: var(--md-default-fg-color--light);
+  opacity: 1;
+}
+
+.newsletter-box .md-button {
+  min-height: 44px;
+  margin: 0;
+}
+
+.md-typeset .newsletter-box small {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--md-default-fg-color--light);
+  opacity: 1;
+}
+
+/* Material paints these with the hairline token as background; muted text
+   on it is 4.46:1 in light mode, so they sit on the surface tone instead. */
+.md-search-result__meta,
+.md-nav--primary .md-nav__title,
+.md-pagination__current {
+  background-color: var(--abm-surface);
+}
+
+.newsletter-honeypot {
+  position: absolute;
+  left: -5000px;
+}
+
+/* ---- Footer ------------------------------------------------------------ */
+.md-footer {
+  border-top: 1px solid var(--abm-band-line);
+}
+
+small,
+.md-typeset small,
+.md-footer__link,
+.md-source__fact {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.md-copyright {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.md-copyright a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* ---- Floating UI: back-to-top, consent, dialogs ------------------------ */
+.md-top {
+  border: 1px solid var(--abm-control);
+  border-radius: 2px;
+  background-color: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  box-shadow: none;
+}
+
+.md-top:is(:hover, :focus) {
+  background-color: var(--abm-surface);
+  color: var(--md-default-fg-color);
+}
+
+/* Material hides back-to-top (opacity 0) until the reader scrolls up, yet it
+   stays in the tab order; reveal it while it holds keyboard focus. */
+.md-top[hidden]:is(:focus-visible, .focus-visible),
+.md-top:is(:focus-visible, .focus-visible) {
+  z-index: 5; /* above the sticky header (4) while focused */
+}
+
+.md-top[hidden]:is(:focus-visible, .focus-visible) {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.md-consent__inner {
+  border-top: 1px solid var(--abm-control);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.md-dialog {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+/* ---- Blog ledger ------------------------------------------------------- */
+.abm-blog-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 30px 24px;
+  margin: 24px 6px 36px 0;
+}
+
+.abm-post-card,
+.md-typeset .abm-post-header {
+  --abm-off: 6px;
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding: 24px;
+  border: 1px solid var(--abm-line);
+  border-radius: 2px;
+  background: var(--abm-surface);
+  color: var(--md-default-fg-color);
+  overflow-wrap: anywhere;
+}
+
+.abm-post-card::after,
+.abm-post-header::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  transform: translate(var(--abm-off), var(--abm-off));
+  background-image: repeating-linear-gradient(-45deg, var(--abm-hatch) 0 1.2px, transparent 1.2px 5px);
+  clip-path: polygon(
+    calc(100% - var(--abm-off)) 0, 100% 0, 100% 100%, 0 100%,
+    0 calc(100% - var(--abm-off)), calc(100% - var(--abm-off)) calc(100% - var(--abm-off))
+  );
+  pointer-events: none;
+}
+
+.abm-post-card::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 2px;
+  margin-bottom: 20px;
+  background: var(--abm-mint);
+  transition: width .2s ease;
+}
+
+.abm-post-card:is(:hover, :focus-within)::before {
+  width: 100%;
+}
+
+.abm-post-card--featured {
+  --abm-focus: var(--abm-mint);
+  grid-column: 1 / -1;
+  order: -1;
+  padding: 32px;
+  background: var(--abm-hero-bg);
+  color: var(--abm-hero-fg);
+  border-color: var(--abm-hero-edge);
+}
+
+.abm-post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font-family: var(--md-code-font);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--md-default-fg-color--light);
+}
+
+.abm-post-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.abm-post-categories .md-tag {
+  display: inline-block;
+  padding: 2px 8px;
+}
+
+.abm-post-card .md-post__content {
+  margin: 0;
+  padding: 0;
+}
+
+.abm-post-card .md-post__content h2 {
+  margin: 20px 0 16px;
+}
+
+.abm-post-card .md-post__content > :last-child {
+  margin-bottom: 0;
+}
+
+.abm-post-card--featured .md-post__content,
+.abm-post-card--featured .md-post__content :is(h1, h2, h3) {
+  color: var(--abm-hero-fg);
+}
+
+.abm-post-card--featured .abm-post-meta {
+  color: var(--abm-hero-sub);
+}
+
+.abm-post-card--featured .md-post__content a,
+.abm-post-card--featured .md-tag,
+.abm-post-card--featured .md-tag:is(:hover, :focus-visible) {
+  color: var(--abm-mint);
+  background: transparent;
+}
+
+.md-typeset .abm-post-header {
+  margin: 0 6px 32px 0;
+}
+
+.md-typeset .abm-post-header h1 {
+  margin-bottom: 16px;
+}
+
+.abm-post-header > a {
+  display: inline-block;
+  margin-top: 16px;
+}
+
+@media screen and (max-width: 44.984375em) {
+  .abm-blog-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .abm-post-card,
+  .md-typeset .abm-post-header {
+    padding: 20px;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media screen and (prefers-reduced-motion: no-preference) {
+    body:has(.abm-post-header) .md-header::after {
+      content: "";
+      position: absolute;
+      bottom: calc(-1 * var(--abm-progress-h));
+      left: 0;
+      width: 100%;
+      height: var(--abm-progress-h);
+      background: var(--abm-progress);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: abm-reading-progress linear both;
+      animation-timeline: scroll();
+      pointer-events: none;
+    }
+  }
+}
+
+@keyframes abm-reading-progress {
+  to { transform: scaleX(1); }
+}
+
+.md-content--post .md-post__meta {
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.abm-tile,
+.md-typeset .abm-series,
+.abm-copy-controls {
+  --abm-off: 6px;
+  position: relative;
+  border: 1px solid var(--abm-line);
+  border-radius: 2px;
+  background: var(--abm-surface);
+  color: var(--md-default-fg-color);
+}
+
+.abm-tile::after,
+.abm-series::after,
+.abm-copy-controls::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  transform: translate(var(--abm-off), var(--abm-off));
+  background: repeating-linear-gradient(-45deg, var(--abm-hatch) 0 1.2px, transparent 1.2px 5px);
+  clip-path: polygon(calc(100% - var(--abm-off)) 0, 100% 0, 100% 100%, 0 100%, 0 calc(100% - var(--abm-off)), calc(100% - var(--abm-off)) calc(100% - var(--abm-off)));
+  pointer-events: none;
+}
+
+.md-typeset .abm-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.abm-tile:is(:hover, :focus-visible) {
+  border-color: var(--abm-control);
+}
+
+.abm-tile time,
+.abm-tile__label {
+  font-size: 12px;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .abm-series {
+  margin: 24px 6px 32px 0;
+  padding: 20px;
+  border-left: 3px solid var(--abm-control);
+}
+
+.abm-series > span {
+  display: block;
+  font-size: 13px;
+}
+
+.abm-series a[aria-current] {
+  font-weight: 700;
+}
+
+.abm-timeline {
+  margin: 24px 6px 36px 0;
+  padding-left: 24px;
+  border-left: 1px solid var(--abm-control);
+  background: repeating-linear-gradient(to bottom, var(--abm-control) 0 1px, transparent 1px 10px) left top / 6px 100% no-repeat;
+}
+
+.abm-timeline__month {
+  position: relative;
+  margin-bottom: 36px;
+}
+
+.abm-timeline__date {
+  margin: 0 0 20px;
+  color: var(--md-default-fg-color);
+  font-size: 18px;
+}
+
+.abm-timeline__date::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 12px;
+  width: 16px;
+  border-top: 2px solid var(--abm-control);
+}
+
+.abm-timeline .abm-post-card + .abm-post-card {
+  margin-top: 24px;
+}
+
+.abm-copy-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 6px 24px 0;
+  padding: 12px;
+  font: 12px/1.6 var(--md-code-font);
+}
+
+.abm-copy-controls button {
+  padding: 8px 12px;
+  min-height: 44px;
+  border: 1px solid var(--abm-control);
+  border-radius: 2px;
+  color: var(--abm-btn-fg);
+  background: var(--md-default-bg-color);
+  font: inherit;
+  cursor: pointer;
+}
+
+.abm-copy-controls button:hover {
+  color: var(--md-default-fg-color);
+  border-color: currentColor;
+}
+
+.abm-copy-status {
+  color: var(--md-default-fg-color--light);
+}
+
+.abm-copy-fallback {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+}
+
+/* ---- Blog empty states, listings and footer ledger --------------------- */
+.md-typeset .abm-empty,
+.abm-blog .abm-empty,
+.abm-listing-header {
+  position: relative;
+  margin: 24px 6px 30px 0;
+  padding: 20px 24px;
+  border: 1px solid var(--abm-line);
+  border-left: 3px solid var(--abm-control);
+  background: var(--abm-surface);
+  color: var(--md-default-fg-color);
+  font: 14px/1.6 var(--md-code-font);
+}
+
+.abm-empty::after,
+.abm-listing-header::after {
+  content: "";
+  position: absolute;
+  right: -7px;
+  top: 6px;
+  bottom: -6px;
+  width: 6px;
+  background: repeating-linear-gradient(-45deg, var(--abm-hatch) 0 1.2px, transparent 1.2px 5px);
+  pointer-events: none;
+}
+
+.abm-listing-header :is(h1, h2, h3) {
+  margin: 0 0 12px;
+}
+
+.abm-listing-header p {
+  margin: 0;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Tag index, light: the tag header is an open divider with a filled chip,
+   so the raised, hatched cards below it read as its posts. */
+body[data-md-color-scheme="default"] .abm-listing-header--tag {
+  margin-bottom: 16px;
+  padding: 4px 0 12px 16px;
+  border: 0;
+  border-left: 3px solid var(--abm-th-bg);
+  border-bottom: 1px solid var(--abm-control);
+  background: transparent;
+}
+
+body[data-md-color-scheme="default"] .abm-listing-header--tag::after {
+  content: none;
+}
+
+body[data-md-color-scheme="default"] .abm-listing-header--tag .md-tag,
+body[data-md-color-scheme="default"] .abm-listing-header--tag .md-tag:is(:hover, :focus-visible) {
+  border-color: var(--abm-th-bg);
+  background-color: var(--abm-th-bg);
+  color: var(--abm-th-fg);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+body[data-md-color-scheme="default"] .abm-listing-header--tag + .abm-blog-grid {
+  margin-top: 16px;
+}
+
+body:has(.abm-empty) .md-main {
+  flex-grow: 0;
+}
+
+.abm-blog-grid:empty {
+  display: none;
+}
+
+.abm-footer-stats {
+  --abm-focus: var(--abm-mint);
+  padding: 24px .8rem 32px;
+  border-top: 1px solid var(--abm-band-line);
+  background-color: var(--abm-hero-bg);
+  background-image:
+    linear-gradient(var(--abm-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--abm-grid) 1px, transparent 1px);
+  background-size: 100% 20px, 40px 100%;
+  color: var(--abm-hero-fg);
+  font: 13px/1.6 var(--md-code-font);
+}
+
+.abm-footer-stats dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 48px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.abm-footer-stats dl > div {
+  padding-left: 16px;
+  border-left: 2px solid var(--abm-mint);
+}
+
+.abm-footer-stats dt {
+  color: var(--abm-hero-sub);
+}
+
+.abm-footer-stats dd {
+  margin: 4px 0 0;
+}
+
+.abm-footer-stats__label {
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+
+.abm-footer-stats__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  margin: 16px 0 0;
+}
+
+.abm-footer-stats__links a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 24px;
+  color: var(--abm-mint);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+/* Posts share the progress line's mint marker, with readable theme ink. */
+body:has(.abm-post-header) .md-sidebar--secondary .md-nav__link {
+  padding-left: 12px;
+  border-left: 2px solid var(--abm-line);
+}
+
+body:has(.abm-post-header) .md-sidebar--secondary .md-nav__link--active {
+  border-left-color: var(--abm-mint);
+  background: var(--abm-surface);
+  color: var(--md-default-fg-color);
+  font-weight: 700;
+}
+
+/* Keep Material's code actions above, rather than over, the first line. */
+.md-typeset pre:has(> .md-code__nav) {
+  padding-top: 36px;
+  background: var(--md-code-bg-color);
+}
+
+.md-typeset pre:has(> .md-code__nav) > code {
+  border-top: 0;
+}
+
+.md-typeset pre:has(> .md-code__nav) .md-code__nav {
+  top: 2px;
+}
+
+/* ---- Reduced motion: no trace, no crossfade, no smooth scrolling ------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .abm-ledger * {
+    animation: none !important;
+  }
+
+  body {
+    transition: none !important;
+  }
+}
