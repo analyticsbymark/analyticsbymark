@@ -6,8 +6,11 @@
     {% if post.config.date.updated %}{% set stats.dates = stats.dates + [post.config.date.updated] %}{% endif %}
     {% if post.meta.series and post.meta.series not in stats.series %}{% set stats.series = stats.series + [post.meta.series] %}{% endif %}
   {% endfor %}
+  {% set latest = blog.blog.posts | first %}
   <div class="abm-footer-stats">
-    <dl class="md-grid">
+    <div class="md-grid">
+    <p class="abm-footer-stats__label">From the blog</p>
+    <dl>
       <div><dt>Posts</dt><dd>{{ blog.blog.posts | length }}</dd></div>
       {% if stats.dates %}
         {% set updated = stats.dates | sort | last %}
@@ -15,5 +18,10 @@
       {% endif %}
       {% if stats.series %}<div><dt>Series</dt><dd>{{ stats.series | length }}</dd></div>{% endif %}
     </dl>
+    <p class="abm-footer-stats__links">
+      <a href="{{ 'blog/' | url }}">Browse all posts</a>
+      {% if latest.url != page.url %}<a href="{{ latest.url | url }}">Read the latest: {{ latest.title }}</a>{% endif %}
+    </p>
+    </div>
   </div>
 {% endif %}

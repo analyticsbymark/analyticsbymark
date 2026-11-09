@@ -8,9 +8,9 @@
         {% if mapping.item in blog.blog.posts %}{% set matches.posts = matches.posts + [mapping.item] %}{% endif %}
       {% endfor %}
     {% endif %}
-    <header class="abm-listing-header">
+    <header class="abm-listing-header abm-listing-header--tag">
       {{ listing.content }}
-      <p>{{ matches.posts | length }} posts</p>
+      <p>{{ matches.posts | length }} {{ "post" if matches.posts | length == 1 else "posts" }}</p>
     </header>
     <div class="abm-blog-grid">
       {% for entry in matches.posts | sort(attribute="config.date.created", reverse=true) %}
